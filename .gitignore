@@ -1,3 +1,4 @@
 /AskFtpSiteDeployer.xml
 /application/config/production/database.php
 /application/migrations/
+/application/logs/

@@ -1,0 +1,29 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:46 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48
+ERROR - 2015-11-27 14:58:47 --> Severity: Notice --> Undefined variable: popup C:\xampp\htdocs\agritoday-new.dev\application\modules\locations\views\index.php 48

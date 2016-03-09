@@ -20,6 +20,9 @@
                     <?php echo $group; ?>
                 </div>
             </div>
+        <div class="form-group">
+                <?php echo $go; ?>
+            </div>
             <div class="form-group">
                 <?php echo $province; ?>
             </div>

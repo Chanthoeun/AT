@@ -768,7 +768,16 @@ class Products extends Admin_Controller {
                     'start_date'=> $this->input->post('start'),
                     'end_date'  => $this->input->post('end')
                 );
-                Modules::run('product_discounts/update', $price->discount_id, $discount, TRUE);
+                if($price->discount_id != FALSE)
+                {
+                    Modules::run('product_discounts/update', $price->discount_id, $discount, TRUE);
+                }
+                else
+                {
+                    $discount['product_price_id'] = $price->id;
+                    Modules::run('product_discounts/insert', $discount, TRUE);
+                }
+                
                 
                 $this->session->set_flashdata('message', $this->lang->line('view_update_price_success_lable'));
                 redirect('products/view/'.$this->data['product']->id, 'refresh');

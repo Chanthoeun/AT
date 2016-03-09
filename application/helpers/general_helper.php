@@ -219,7 +219,7 @@ if(!function_exists('send_email')){
     * @param string $cc description email address want to send with cc option
     * @return boolean TRUE if mail send succesfully
     */
-    function send_email($from, $name, $to, $subject, $body, $attach = FALSE, $cc = FALSE) {
+    function send_email($from, $name, $to, $subject, $body, $attach = FALSE, $cc = FALSE, $bcc = FALSE) {
         $CI =& get_instance();
         $CI->load->library('email');
         
@@ -234,9 +234,16 @@ if(!function_exists('send_email')){
         $CI->email->set_newline("\r\n");
         $CI->email->from($from, $name); // change it to yours
         $CI->email->to($to); // change it to yours
-        if ($cc == TRUE) {
+        //cc
+        if ($cc != FALSE) {
             $CI->email->cc($cc);
         }
+        //bcc
+        if($bcc != FALSE)
+        {
+            $CI->email->bcc($bcc);
+        }
+        
         $CI->email->subject($subject);
         if ($attach == TRUE) {
             $CI->email->attach($attach);
@@ -791,6 +798,37 @@ if(!function_exists('array_to_string'))
             }
         }
         return $result;
+    }
+}
+
+// get source
+if(!function_exists('get_source'))
+{
+    function get_source($text, $target = '_blank')
+    {
+        $source = explode(', ', utf8_decode($text));
+        if(array_count_values($source) == 1)
+        {
+            return $source[0];
+        }
+        else
+        {
+            return anchor(prep_url(trim($source[1])), $source[0], array('target' => $target));
+        }
+    }
+}
+
+
+// get rent or sale
+if(!function_exists('rent_or_sale'))
+{
+    function rent_or_sale($type)
+    {
+        if($type % 2 == 0)
+        {
+            return 'សម្រាប់​ជួល';
+        }
+        return 'សម្រាប់​លក់';
     }
 }
 

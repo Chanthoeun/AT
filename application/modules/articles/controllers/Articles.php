@@ -499,32 +499,34 @@ class Articles extends Admin_Controller {
         $this->data['people'] = Modules::run('article_people/get_all_records', array('article_id' => $this->data['article']->id));
         $this->data['abs'] = Modules::run('article_agribooks/get_all_records', array('article_id' => $this->data['article']->id));
         
-        $getLoc = explode('/', $article->location_id);
-        
-        switch (count($getLoc))
-        {
-            case 1:
-                $province = Modules::run('locations/get',$getLoc[0])->caption;
-                $this->data['location'] = $province;
-                break;
-            case 2:
-                $province = Modules::run('locations/get',$getLoc[0])->caption;
-                $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                $this->data['location'] = $khan.' / '.$province;
-                break;
-            case 3:
-                $province = Modules::run('locations/get',$getLoc[0])->caption;
-                $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
-                $this->data['location'] = $sangkat.' / '.$khan.' / '.$province;
-                break;
-            default:
-                $province = Modules::run('locations/get',$getLoc[0])->caption;
-                $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
-                $phum = Modules::run('locations/get',$getLoc[3])->caption;
-                $this->data['location'] = $phum.' / '.$sangkat.' / '.$khan.' / '.$province;
-                break;
+        if($article->location_id != FALSE){
+            $getLoc = explode('/', $article->location_id);
+
+            switch (count($getLoc))
+            {
+                case 1:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $this->data['location'] = $province;
+                    break;
+                case 2:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $this->data['location'] = $khan.' / '.$province;
+                    break;
+                case 3:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                    $this->data['location'] = $sangkat.' / '.$khan.' / '.$province;
+                    break;
+                default:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                    $phum = Modules::run('locations/get',$getLoc[3])->caption;
+                    $this->data['location'] = $phum.' / '.$sangkat.' / '.$khan.' / '.$province;
+                    break;
+            }
         }
         
         // process template
@@ -908,6 +910,7 @@ class Articles extends Admin_Controller {
         $search = FALSE;
         
         $this->form_validation->set_rules('group', $this->lang->line('search_caption_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('go', $this->lang->line('form_people_validation_go_label'), 'trim|xss_clean');
         $this->form_validation->set_rules('province', $this->lang->line('form_agribook_validation_province_label'), 'trim|xss_clean') ;
         $this->form_validation->set_rules('khan', $this->lang->line('form_agribook_validation_khan_label'), 'trim|xss_clean');
         $this->form_validation->set_rules('sangkat', $this->lang->line('form_agribook_validation_sangkat_label'), 'trim|xss_clean');
@@ -915,6 +918,7 @@ class Articles extends Admin_Controller {
         if($this->form_validation->run() == TRUE)
         {
             $search = trim($this->input->post('group'));
+            $go = trim($this->input->post('go'));
             $province = trim($this->input->post('province'));
             $khan = trim($this->input->post('khan'));
             $sangkat = trim($this->input->post('sangkat'));
@@ -943,7 +947,7 @@ class Articles extends Admin_Controller {
             
             if($search != FALSE && $getLoc == FALSE)
             {
-                $this->data['people'] = Modules::run('people/get_all_records', array('people_group_id' => $search));
+                $this->data['people'] = Modules::run('people/get_all_records', array('people_group_id' => $search, 'go_id' => $go));
             }
             else if($search == FALSE && $getLoc != FALSE)
             {
@@ -960,11 +964,11 @@ class Articles extends Admin_Controller {
             {
                 if(strlen($getLoc) > 2)
                 {
-                    $this->data['people'] = Modules::run('people/get_like', array('location_id' => $getLoc), array('people_group_id' => $search), 'after');
+                    $this->data['people'] = Modules::run('people/get_like', array('location_id' => $getLoc), array('people_group_id' => $search, 'go_id' => $go), 'after');
                 }
                 else
                 {
-                    $this->data['people'] = Modules::run('people/get_all_records', array('people_group_id' => $search ,'location_id' => $getLoc));
+                    $this->data['people'] = Modules::run('people/get_all_records', array('people_group_id' => $search, 'go_id' => $go, 'location_id' => $getLoc));
                 }
             }
             
@@ -972,6 +976,8 @@ class Articles extends Admin_Controller {
         
         // message error
         $this->data['group'] = form_dropdown('group', Modules::run('people_groups/dropdown', 'id','caption', 'ជ្រើស​ក្រុម'), set_value('group'), 'class="form-control" id="group"');
+        $gos = get_dropdown(prepareList(Modules::run('government_organization/get_dropdown')), 'ជ្រើស​'.$this->lang->line('government_organization_menu_label'));
+        $this->data['go'] = form_dropdown('go', $gos, set_value('go'), 'class="form-control" id="go"');
         
         if(isset($province) && $province != FALSE)
         {

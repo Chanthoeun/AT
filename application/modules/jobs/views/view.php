@@ -29,14 +29,7 @@
     <div class="col-lg-2">
         <?php 
             $logo = get_uploaded_file($job->logo);
-            if($logo == NULL)
-            {
-                echo anchor('jobs/edit/'.$job->id, img(array('src' => get_image('no-image.png'), 'class' => 'img-thumbnail img-responsive')), 'title="Upload image"');
-            }
-            else{
-                echo anchor(base_url($logo), image_thumb($logo, 200, 200, array('class' => 'thumbnail', 'alt' => $job->title)), 'class="color-box"');
-            }
-            
+            echo anchor(base_url($logo), image_thumb($logo, 200, 200, array('class' => 'thumbnail', 'alt' => $job->title, 'onerror' => "this.src='".  get_image('no-image.png')."'")), 'class="color-box"');
         ?>
     </div>
     <!-- /.col-lg-2 -->

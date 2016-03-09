@@ -637,6 +637,148 @@ class People extends Admin_Controller {
         generate_template($this->data, $layout_property); 
     }
     
+    public function filter_by_location()
+    {
+        parent::check_login();
+        $this->form_validation->set_rules('province', $this->lang->line('form_agribook_validation_province_label'), 'trim|required|xss_clean', array('required' => '%s តម្រូវឲ្យ​មាន')) ;
+        $this->form_validation->set_rules('khan', $this->lang->line('form_agribook_validation_khan_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('sangkat', $this->lang->line('form_agribook_validation_sangkat_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('phum', $this->lang->line('form_agribook_validation_phum_label'), 'trim|xss_clean');
+        if($this->form_validation->run() == TRUE)
+        {
+            $province = trim($this->input->post('province'));
+            $khan = trim($this->input->post('khan'));
+            $sangkat = trim($this->input->post('sangkat'));
+            $phum = trim($this->input->post('phum'));
+
+            if($province != FALSE)
+            {
+                $getLoc = $province;
+                if($khan != FALSE)
+                {
+                    $getLoc .= '/'.$khan;
+                    if($sangkat != FALSE)
+                    {
+                        $getLoc .= '/'.$sangkat;
+                        if($phum != FALSE)
+                        {
+                            $getLoc .= '/'.$phum;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $getLoc = FALSE;
+            }
+            
+            if(strlen($getLoc) > 2)
+            {
+                $this->data['ps'] = $this->get_like(array('location_id' => $getLoc),FALSE, 'after'); 
+            }
+            else
+            {
+                $this->data['ps'] = $this->get_all_records(array('location_id' => $getLoc)); 
+            }
+        }
+        
+        // message error
+        $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+        
+        if(isset($province) && $province != FALSE)
+        {
+            $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), set_value('province'), array('class' => 'form-control', 'id' => 'province'));
+
+            $this->data['khan'] = form_dropdown('khan', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('khan_label'), array('parent_id' => $province)), set_value('khan'), array('class' => 'form-control', 'id' => 'khan'));
+
+            $this->data['sangkat'] = form_dropdown('sangkat', array('ជ្រើស'.$this->lang->line('sangkat_label')), set_value('sangkat'), array('class' => 'form-control', 'id' => 'sangkat'));
+
+            $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), set_value('phum'), array('class' => 'form-control', 'id' => 'phum'));
+            
+            if(isset($khan) && $khan != FALSE)
+            {
+                $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), set_value('province'), array('class' => 'form-control', 'id' => 'province'));
+
+                $this->data['khan'] = form_dropdown('khan', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => $province)), set_value('khan'), array('class' => 'form-control', 'id' => 'khan'));
+
+                $this->data['sangkat'] = form_dropdown('sangkat', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('sangkat_label'), array('parent_id' => $khan)), set_value('sangkat'), array('class' => 'form-control', 'id' => 'sangkat'));
+
+                $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), set_value('phum'), array('class' => 'form-control', 'id' => 'phum'));
+                
+                if(isset($sangkat) && $sangkat != FALSE)
+                {
+                    $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), set_value('province'), array('class' => 'form-control', 'id' => 'province'));
+
+                    $this->data['khan'] = form_dropdown('khan', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => $province)), set_value('khan'), array('class' => 'form-control', 'id' => 'khan'));
+
+                    $this->data['sangkat'] = form_dropdown('sangkat', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => $khan)), set_value('sangkat'), array('class' => 'form-control', 'id' => 'sangkat'));
+
+                    $this->data['phum'] = form_dropdown('phum', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('phum_label'), array('parent_id' => $sangkat)), set_value('phum'), array('class' => 'form-control', 'id' => 'phum'));
+                }
+            }
+        }
+        else
+        {
+            $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), set_value('province'), array('class' => 'form-control', 'id' => 'province'));
+              
+            $this->data['khan'] = form_dropdown('khan', array('ជ្រើស'.$this->lang->line('khan_label')), set_value('khan'), array('class' => 'form-control', 'id' => 'khan'));
+
+            $this->data['sangkat'] = form_dropdown('sangkat', array('ជ្រើស'.$this->lang->line('sangkat_label')), set_value('sangkat'), array('class' => 'form-control', 'id' => 'sangkat'));
+
+            $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), set_value('phum'), array('class' => 'form-control', 'id' => 'phum'));
+        }
+     
+        // process template
+        $title = $this->lang->line('people_fillter_by_location_menu_label');
+        $this->data['title'] = $title;
+        
+        $layout_property = parent::load_index_script();
+        
+        $layout_property['breadcrumb'] = array('people' => $this->lang->line('index_people_heading'), $title);
+        
+        $layout_property['content']  = 'filter_location';
+        
+        // menu
+        $this->data['people_group_menu'] = TRUE; $this->data['people_filter_location_menu'] = TRUE;
+        generate_template($this->data, $layout_property); 
+    }
+    
+    public function filter_by_group()
+    {
+        parent::check_login();
+        $this->form_validation->set_rules('group', $this->lang->line('form_people_validation_group_label'), 'trim|required|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន'));
+        $this->form_validation->set_rules('go', $this->lang->line('form_people_validation_go_label'), 'trim|xss_clean');
+        if($this->form_validation->run() == TRUE)
+        {
+            $group = trim($this->input->post('group'));
+            $go = trim($this->input->post('go'));
+            $this->data['ps'] = $this->get_all_records(array('people_group_id' => $group, 'go_id' => $go));
+        }
+        
+        // message error
+        $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+        
+        
+        $this->data['group'] = form_dropdown('group', Modules::run('people_groups/dropdown', 'id', 'caption', 'ជ្រើស​ក្រុម'), set_value('group'), 'class="form-control" id="group"');
+        
+        $gos = get_dropdown(prepareList(Modules::run('government_organization/get_dropdown')), 'ជ្រើស​'.$this->lang->line('government_organization_menu_label'));
+        $this->data['go'] = form_dropdown('go', $gos, set_value('go'), 'class="form-control" id="go"');
+        
+        // process template
+        $title = $this->lang->line('people_filter_by_group_menu_label');
+        $this->data['title'] = $title;
+        
+        $layout_property = parent::load_index_script();
+        
+        $layout_property['breadcrumb'] = array('people' => $this->lang->line('index_people_heading'), $title);
+        
+        $layout_property['content']  = 'filter_group';
+        
+        // menu
+        $this->data['people_group_menu'] = TRUE; $this->data['people_filter_group_menu'] = TRUE;
+        generate_template($this->data, $layout_property);
+    }
+    
     public function get($id, $array = FALSE)
     {
         if($array == TRUE){

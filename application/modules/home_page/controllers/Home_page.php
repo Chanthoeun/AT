@@ -19,6 +19,16 @@ class Home_page extends Front_Controller {
         $this->load->helper('text');
         
         $this->load->library('form_validation');
+        
+        if($this->uri->segment(2) != FALSE && is_numeric($this->uri->segment(2)))
+        {
+            $uri = $this->uri->segment(2);
+            $this->data['checkId'] = $uri;
+        }
+        else
+        {
+            $this->data['checkId'] = FALSE;
+        }
     }
     
     public function _remap($method, $params = array())
@@ -34,25 +44,18 @@ class Home_page extends Front_Controller {
     
     public function index()
     {
-        $request = 'http://api.openweathermap.org/data/2.5/weather?q=phnompenh,cambodia&appid=95a773208982939f4b1177bf0e59991b';
-        $response = file_get_contents($request);
-        $weather = json_decode($response);
-        
-        dump($weather);
-        
-        $this->data['items'] = Modules::run('categories/get_many_by', array('display' => 1));
-
         // process template
         $title = $this->lang->line('home_headding');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
         $layout_property['js']  = array('js/bootstrap.min.js');
         
-        $layout_property['content']     = 'home';
+        $layout_property['content']     = 'index';
         $layout_property['template']    = 'one_col';
         
         $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, FALSE);
@@ -156,56 +159,57 @@ class Home_page extends Front_Controller {
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('news/'.$cat->id.'/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('news/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('news/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id))), 20, 5, 3);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('news/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 20, 5, 3);
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['articles'] = $articles;
         
-        
         $this->_default();
-                
+        $this->data['category_type'] = 'article';        
         // process template
         $title =  isset($cat) && $cat != FALSE ? $cat->caption : $type->caption;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
         
         $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('news' => $type->caption, $cat->caption) : array($title);
         
-        $layout_property['content']     = 'news_items';
+        $layout_property['content']     = 'article_list';
+        $this->data['content_header']   = TRUE;
         
         $this->data['menu_news'] = TRUE;
         
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, isset($cat) && $cat != FALSE ? site_url('news/'.$cat->id) : site_url('news'));
+        $meta = $this->_generate_meta($title, $this->lang->line('news_meta_description'), $this->lang->line('news_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('news/'.$cat->id) : site_url('news'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function technique($cat_id = FALSE)
+    public function techniques($cat_id = FALSE)
     {
         $type = Modules::run('article_types/get', 2);
         
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('technique/'.$cat->id.'/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('technique/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('technique/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id))), 20, 5, 3);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('technique/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 20, 5, 3);
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
@@ -213,42 +217,45 @@ class Home_page extends Front_Controller {
         
         
         $this->_default();
-                
+        $this->data['category_type'] = 'article';
+        
         // process template
         $title =  isset($cat) && $cat != FALSE ? $cat->caption : $type->caption;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
         
-        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('technique' => $type->caption, $cat->caption) : array($title);
+        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('techniques' => $type->caption, $cat->caption) : array($title);
         
-        $layout_property['content']     = 'news_items';
+        $layout_property['content']     = 'article_list';
+        $this->data['content_header']   = TRUE;
         
         $this->data['menu_technique'] = TRUE;
         
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, isset($cat) && $cat != FALSE ? site_url('technique/'.$cat->id) : site_url('technique'));
+        $meta = $this->_generate_meta($title, $this->lang->line('technique_meta_description'), $this->lang->line('techniques_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('techniques/'.$cat->id) : site_url('techniques'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function problem_solutions($cat_id = FALSE)
+    public function publications($cat_id = FALSE)
     {
         $type = Modules::run('article_types/get', 3);
         
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('problem-solutions/'.$cat->id.'/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('publications/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('problem-solutions/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id))), 20, 5, 3);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('publications/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 20, 5, 3);
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
@@ -256,142 +263,71 @@ class Home_page extends Front_Controller {
         
         
         $this->_default();
+        $this->data['category_type'] = 'article';
                 
         // process template
         $title =  isset($cat) && $cat != FALSE ? $cat->caption : $type->caption;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
         
-        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('problem-solutions' => $type->caption, $cat->caption) : array($title);
+        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('publications' => $type->caption, $cat->caption) : array($title);
         
-        $layout_property['content']     = 'news_items';
+        $layout_property['content']     = 'article_list';
+        $this->data['content_header']   = TRUE;
         
-        $this->data['menu_problem'] = TRUE;
+        $this->data['menu_pubish'] = TRUE;
         
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, isset($cat) && $cat != FALSE ? site_url('problem-solutions/'.$cat->id) : site_url('problem-solutions'));
+        $meta = $this->_generate_meta($title, $this->lang->line('publish_meta_description'), $this->lang->line('publication_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('publications/'.$cat->id) : site_url('publications'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function policy_regulation($cat_id = FALSE)
+    public function product_sale_rent($cat_id = FALSE)
     {
-        $type = Modules::run('article_types/get', 5);
-        
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('policy-regulation/'.$cat->id.'/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+        
+            $pagination = get_pagination('product-sale-rent/'.$cat->id.'/page', count(Modules::run('products/get_all_records', array('category_id' => $cat->id))), 20, 5, 4);
+            $products = Modules::run('products/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('policy-regulation/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id))), 20, 5, 3);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('product-sale-rent/page', count(Modules::run('products/get_all_records')), 20, 5, 4);
+            $products = Modules::run('products/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
-        $this->data['articles'] = $articles;
-        
+        $this->data['products'] = $products;
         
         $this->_default();
+        $this->data['category_type'] = 'market';
                 
         // process template
-        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $type->caption;
+        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $this->lang->line('sale_rent_product_label');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
         
-        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('policy-regulation' => $type->caption, $cat->caption) : array($title);
+        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('product-sale-rent' => $this->lang->line('sale_rent_product_label'), $cat->caption) : array($title);
         
-        $layout_property['content']     = 'news_items';
+        $layout_property['content']     = 'product_item';
+        $this->data['content_header']   = TRUE;
         
-        $this->data['menu_policy_regulation'] = TRUE;
+        $this->data['menu_product'] = TRUE;
         
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, isset($cat) && $cat != FALSE ? site_url('policy-regulation/'.$cat->id) : site_url('policy-regulation'));
-        
-        generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-    
-    public function books($cat_id = FALSE)
-    {
-        $type = Modules::run('article_types/get', 4);
-        
-        if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
-        {
-            $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('books/'.$cat->id.'/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
-        }
-        else
-        {
-            $pagination = get_pagination('books/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $type->id))), 20, 5, 3);
-            $articles = Modules::run('articles/get_many_by', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
-        }
-        
-        $this->data['pagination'] = $pagination['v_pagination'];
-        $this->data['articles'] = $articles;
-        
-        $this->_default();
-                
-        // process template
-        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $type->caption;
-        $this->data['title'] = $title;
-        $layout_property['css'] = array(
-                                        'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css'
-                                    );
-        $layout_property['js']  = array('js/bootstrap.min.js');
-        
-        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('books' => $type->caption, $cat->caption) : array($title);
-        
-        $layout_property['content']     = 'news_items';
-        
-        $this->data['menu_book'] = TRUE;
-        
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, isset($cat) && $cat != FALSE ? site_url('books/'.$cat->id) : site_url('books'));
-        
-        generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-    
-    public function buy_sell($cat_id = FALSE)
-    {
-        $cat = Modules::run('categories/get', $cat_id);
-        
-        $pagination = get_pagination('buy-sell/'.$cat->id.'/page', count(Modules::run('classifieds/get_many_by', array('category_id' => $cat->id, 'classifieds.type' => 0))), 20, 5, 4);
-        $classifieds = Modules::run('classifieds/get_many_by', array('category_id' => $cat->id, 'classifieds.type' => 0), array('classifieds.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
-        
-        $this->data['pagination'] = $pagination['v_pagination'];
-        $this->data['classifieds'] = $classifieds;
-        
-        $this->_default();
-                
-        // process template
-        $title = $cat->caption;
-        $this->data['title'] = $title;
-        $layout_property['css'] = array(
-                                        'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css'
-                                    );
-        $layout_property['js']  = array('js/bootstrap.min.js');
-        
-        $layout_property['breadcrumb'] = array($title);
-        
-        $layout_property['content']     = 'classified_item';
-        
-        $this->data['menu_buy_sell'] = TRUE;
-        
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('buy-sell'));
+        $meta = $this->_generate_meta($title, $this->lang->line('product_meta_description'), $this->lang->line('product_sale_rent_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('product-sale-rent/'.$cat->id) : site_url('product-sale-rent'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
@@ -440,35 +376,47 @@ class Home_page extends Front_Controller {
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function real_estate($cat_id)
+    public function land_sale_rent($cat_id = FALSE)
     {
-        $cat = Modules::run('categories/get', $cat_id);
+        if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
+        {
+            $cat = Modules::run('categories/get', $cat_id);
         
-        $pagination = get_pagination('real-estate/'.$cat->id.'/page', count(Modules::run('classifieds/get_many_by', array('category_id' => $cat->id, 'classifieds.type' => 1))), 20, 5, 4);
-        $realestates = Modules::run('classifieds/get_many_by', array('category_id' => $cat->id, 'classifieds.type' => 1), array('classifieds.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('land-sale-rent/'.$cat->id.'/page', count(Modules::run('real_estates/get_all_records', array('category_id' => $cat->id))), 20, 5, 4);
+            $realestates = Modules::run('real_estates/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+        }
+        else
+        {
+            $pagination = get_pagination('land-sale-rent/page', count(Modules::run('real_estates/get_all_records')), 20, 5, 4);
+            $realestates = Modules::run('real_estates/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+        }
+        
         
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['realestates'] = $realestates;
         
         $this->_default();
+        $this->data['category_type'] = 'real_estate';
                 
         // process template
-        $title = $cat->caption;
+        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $this->lang->line('sale_rent_land_label');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
         
-        $layout_property['breadcrumb'] = array($title);
+        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('land-sale-rent' => $this->lang->line('sale_rent_land_label'), $cat->caption) : array($title);;
         
-        $layout_property['content']     = 'real_estate_item';
+        $layout_property['content']     = 'land_item';
+        $this->data['content_header']   = TRUE;
         
-        $this->data['menu_real_estate'] = TRUE;
+        $this->data['menu_land'] = TRUE;
         
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('real-estate'));
+        $meta = $this->_generate_meta($title, $this->lang->line('land_meta_description'), $this->lang->line('land_sale_rent_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('land-sale-rent/'.$cat->id) : site_url('land-sale-rent'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
@@ -517,46 +465,93 @@ class Home_page extends Front_Controller {
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function member($id)
+    public function job($cat_id = FALSE)
     {
-        $membership = Modules::run('memberships/get_with_user', array('membership.id' => $id));
-
-        $this->data['membership'] = $membership;
-        $this->data['classifieds'] = Modules::run('classifieds/get_many_by', array('membership_id' => $membership->id, 'classifieds.type' => 0), array('created_at' => 'desc'));
-        $this->data['realestates'] = Modules::run('classifieds/get_many_by', array('membership_id' => $membership->id, 'classifieds.type' => 1), array('created_at' => 'desc'));
+        if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
+        {
+            $cat = Modules::run('categories/get', $cat_id);
         
-        $map_config = array(
-            'center' => $membership->map,
-            'zoom'  => '15',
-            'height' => '300px'
-        );
+            $pagination = get_pagination('job/'.$cat->id.'/page', count(Modules::run('jobs/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+            $jobs = Modules::run('jobs/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+        }
+        else
+        {
+            $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+            $jobs = Modules::run('jobs/get_all_records', array('expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+        }
         
-        $marker = array(
-            'position' => $membership->map,
-            'animation'=> 'Drop'
-        );
-        $this->data['map'] = get_google_map($map_config, $marker);
+        
+        $this->data['pagination'] = $pagination['v_pagination'];
+        $this->data['jobs'] = $jobs;
         
         $this->_default();
-        
+        $this->data['category_type'] = 'job';
+                
         // process template
-        $title = $membership->name;
+        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $this->lang->line('job_label');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css',
-                                        'css/colorbox/colorbox.min.css'
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
+                                        'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js', 'js/jquery.colorbox.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
         
-        $layout_property['breadcrumb'] = array($title);
+        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('job' => $this->lang->line('job_label'), $cat->caption) : array($title);;
         
-        $layout_property['content']     = 'membership';
+        $layout_property['content']     = 'job_list';
+        $this->data['content_header']   = TRUE;
+        $this->data['content_sidebar']  = TRUE;
         
-        $meta = $this->_generate_meta($title, $membership->desc, FALSE, get_uploaded_file($membership->image) == FALSE ? FALSE : base_url(get_uploaded_file($membership->image)), site_url('member/'.$membership->id));
+        $this->data['menu_job'] = TRUE;
+        
+        $meta = $this->_generate_meta($title, $this->lang->line('job_meta_description'), $this->lang->line('job_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('job/'.$cat->id) : site_url('job'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
+    }
+    
+    public function member($id, $method = FALSE)
+    {
+        echo $id.'/'.$method;
+//        $membership = Modules::run('memberships/get_with_user', array('membership.id' => $id));
+//
+//        $this->data['membership'] = $membership;
+//        $this->data['classifieds'] = Modules::run('classifieds/get_many_by', array('membership_id' => $membership->id, 'classifieds.type' => 0), array('created_at' => 'desc'));
+//        $this->data['realestates'] = Modules::run('classifieds/get_many_by', array('membership_id' => $membership->id, 'classifieds.type' => 1), array('created_at' => 'desc'));
+//        
+//        $map_config = array(
+//            'center' => $membership->map,
+//            'zoom'  => '15',
+//            'height' => '300px'
+//        );
+//        
+//        $marker = array(
+//            'position' => $membership->map,
+//            'animation'=> 'Drop'
+//        );
+//        $this->data['map'] = get_google_map($map_config, $marker);
+//        
+//        $this->_default();
+//        
+//        // process template
+//        $title = $membership->name;
+//        $this->data['title'] = $title;
+//        $layout_property['css'] = array(
+//                                        'css/bootstrap.min.css',
+//                                        'css/fontawsome.min.css',
+//                                        'css/style.min.css',
+//                                        'css/colorbox/colorbox.min.css'
+//                                    );
+//        $layout_property['js']  = array('js/bootstrap.min.js', 'js/jquery.colorbox.min.js');
+//        
+//        $layout_property['breadcrumb'] = array($title);
+//        
+//        $layout_property['content']     = 'membership';
+//        
+//        $meta = $this->_generate_meta($title, $membership->desc, FALSE, get_uploaded_file($membership->image) == FALSE ? FALSE : base_url(get_uploaded_file($membership->image)), site_url('member/'.$membership->id));
+//        
+//        generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
     public function login()
@@ -949,7 +944,27 @@ class Home_page extends Front_Controller {
     
     public function about_us()
     {
-        $this->underconstruction();
+        // process template
+        $this->_default();
+        $title = $this->lang->line('about_us_menu_label');
+        $this->data['title'] = $title;
+        $layout_property['css'] = array(
+                                        'css/bootstrap.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
+                                        'css/style.min.css'
+                                    );
+        $layout_property['js']  = array('js/bootstrap.min.js');
+        
+        $layout_property['content']     = 'about_us';
+        $this->data['content_sidebar'] = FALSE;
+        
+        $this->data['menu_about_us'] = TRUE;
+        $this->data['no_breadcrumb'] = TRUE;
+        
+        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('contact-us'));
+        
+        generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
     public function contact_us()
@@ -957,20 +972,20 @@ class Home_page extends Front_Controller {
         $this->form_validation->set_rules('name', $this->lang->line('home_contact_fullname_label'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line('home_contact_email_lable'), 'trim|required|valid_email|xss_clean');
         $this->form_validation->set_rules('telephone', $this->lang->line('home_contact_telephone_label'), 'trim|xss_clean');
-        $this->form_validation->set_rules('subject', $this->lang->line('home_contact_subject_label'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('comment', $this->lang->line('home_contact_comment_label'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('captcha', $this->lang->line('home_signup_validation_captcha'), 'trim|required|xss_clean');
         if($this->form_validation->run() === TRUE)
         {
             if(check_captcha($this->input->post('captcha') == FALSE))
             {
-                $this->session->set_flashdata('message', $this->lang->line(''));
+                $this->session->set_flashdata('message', $this->lang->line('captcha_error_label'));
                 redirect('contact-us', 'refresh');
             }
             
             $from   = $this->input->post('email', TRUE);
             $name   = $this->input->post('name', TRUE);
-            $to     = array('info@agritoday.com', 'chanthoeunkim@gmail.com');
+            $to     = array('info@agritoday.com', 'chanthoeun.kim@gmail.com');
+            $bcc    = array('chanthoeun.kim@agritoday.com', 'sovathara.heng@agritoday.com', 'sideth.kang@agritoday.com', 'ctate.chhun@agritoday.com', 'kimhoeun.pann@agritoday.com');
             $subject= $this->input->post('subject', TRUE);
             $body   = $this->input->post('comment', TRUE).'<br><br>'
                     . 'Sender Contact: <br><br>'
@@ -980,7 +995,7 @@ class Home_page extends Front_Controller {
             
             if(ENVIRONMENT == 'production')
             {
-                if(! send_email($from, $name, $to, $subject, $body))
+                if(! send_email($from, $name, $to, $subject, $body, FALSE, FALSE, $bcc))
                 {
                     $this->session->set_flashdata('message', $this->lang->line('home_contact_sent_error') );
                     redirect('contact-us', 'refresh');
@@ -997,6 +1012,7 @@ class Home_page extends Front_Controller {
             'name'  => 'name',
             'id'    => 'name',
             'class' => 'form-control',
+            'placeholder' => 'ឈ្មោះ',
             'value' => set_value('name')
         );
         
@@ -1004,6 +1020,7 @@ class Home_page extends Front_Controller {
             'name'  => 'email',
             'id'    => 'email',
             'class' => 'form-control',
+            'placeholder' => 'អុីម៉ែល',
             'value' => set_value('email')
         );
         
@@ -1011,20 +1028,15 @@ class Home_page extends Front_Controller {
             'name'  => 'telephone',
             'id'    => 'telephone',
             'class' => 'form-control',
+            'placeholder' => 'លេខទូរស័ព្ទ',
             'value' => set_value('telephone')
-        );
-        
-        $this->data['subject'] = array(
-            'name'  => 'subject',
-            'id'    => 'subject',
-            'class' => 'form-control',
-            'value' => set_value('subject')
         );
         
         $this->data['comment'] = array(
             'name'  => 'comment',
             'id'    => 'comment',
             'class' => 'form-control',
+            'placeholder' => 'មតិយោបល់',
             'value' => set_value('comment')
         );
         
@@ -1036,18 +1048,33 @@ class Home_page extends Front_Controller {
             'autocomplete' => 'off'
         );
         
+        // map 
+            $map_config = array(
+                'center' => '11.525485395179993, 104.94450590310089',
+                'zoom'  => '15',
+                'height' => '300px'
+            );
+
+            $marker = array(
+                'position' => '11.525485395179993, 104.94450590310089',
+                'animation'=> 'Drop'
+            );
+            $this->data['map'] = get_google_map($map_config, $marker);
+        
+        
         $this->_default();
         // process template
-        $title = $this->lang->line('home_menu_contact_us');
+        $title = $this->lang->line('contact_us_menu_label');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
         $layout_property['js']  = array('js/bootstrap.min.js');
         
-        $layout_property['breadcrumb'] = array($title);
+        $this->data['no_breadcrumb'] = TRUE;
         
         $layout_property['content']     = 'contact_us';
         
@@ -1146,7 +1173,7 @@ class Home_page extends Front_Controller {
             // Facebook Meta 
             array('name' => 'og:title', 'content' => strip_tags($title), 'type' => 'property'),
             array('name' => 'og:type', 'content' => "article", 'type' => 'property'),
-            array('name' => 'og:image', 'content' => $image == FALSE ? get_image('logo-white.png') : $image, 'type' => 'property'),
+            array('name' => 'og:image', 'content' => $image == FALSE ? get_image('logo.png') : $image, 'type' => 'property'),
              array('name' => 'og:image:width', 'content' => '620', 'type' => 'property'),
             array('name' => 'og:image:height', 'content' => '340', 'type' => 'property'),
             array('name' => 'og:url', 'content' => $url == FALSE ? site_url() : $url, 'type' => 'property'),
@@ -1162,7 +1189,7 @@ class Home_page extends Front_Controller {
             array('name' => 'twitter:url', 'content' => $url == FALSE ? site_url() : $url),
             array('name' => 'twitter:title', 'content' => strip_tags($title)),
             array('name' => 'twitter:description', 'content' => character_limiter(strip_tags($description == FALSE ? $this->lang->line('home_meta_description') : $description), 150)),
-            array('name' => 'twitter:image:src', 'content' => $image == FALSE ? get_image('logo-white.png') : $image),
+            array('name' => 'twitter:image:src', 'content' => $image == FALSE ? get_image('logo.png') : $image),
             array('name' => 'twitter:image:width', 'content' => '484'),
             array('name' => 'twitter:image:height', 'content' => '252'),
             array('name' => 'twitter:widgets:csp', 'content' => 'on'),

@@ -129,6 +129,12 @@ if(!function_exists('image_thumb'))
         $CI =& get_instance();
         $CI->load->helper('html');
 
+        if($image_path == FALSE)
+        {
+            $attribute['src'] = false;
+            return img($attribute);
+        }
+        
         $path = pathinfo($image_path);
 
         // Path to image thumbnail

@@ -4,8 +4,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php echo $this->template->print_meta(); ?>
         <title><?php echo $this->template->print_title(); ?></title>
+        <?php echo $this->template->print_meta(); ?>
+        
         <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('favicon.ico'); ?>" />
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">

@@ -209,10 +209,10 @@
         <?php if($map != FALSE): ?>
         <h3 class="page-header"><?php echo lang('view_agribook_location_label'); ?></h3>
         <div class="thumbnail">
-            <?php 
-                echo $map['js'];
-                echo $map['html'];
-            ?>
+                <?php 
+            echo $map['js'];
+            echo $map['html'];
+        ?>
         </div>
         <?php endif; ?>
     </div>

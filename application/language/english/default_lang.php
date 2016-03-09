@@ -48,6 +48,8 @@ $lang['video_menu_label']  = 'វីដេអូ អនុវត្តផ្ទ�
 $lang['job_menu_label']  = 'ទំព័រ​ការងារ';
 $lang['expired_menu_label']  = 'តារាងហួសកាលបរិច្ឆេត';
 $lang['people_menu_label'] = 'អ្នក​ចូល​រួម';
+$lang['people_fillter_by_location_menu_label']  = 'ស្វែងរកតាមទីតាំង';
+$lang['people_filter_by_group_menu_label']  = 'ស្វែងរកតាមក្រុម';
 $lang['agribook_menu_label']  = 'សៀវ​ភៅ​កសិកម្ម';
 $lang['agribook_fillter_by_location_menu_label']  = 'ស្វែងរកតាមទីតាំង';
 $lang['agribook_filter_by_group_menu_label']  = 'ស្វែងរកតាមក្រុម';
@@ -82,7 +84,9 @@ $lang['send_email_label']  = 'ផ្ញើរ​អ៊ីម៉ែល';
 
 // Agribook
 $lang['page_not_valid_label']  = 'សុំអភ័យទោស ទំព័រនេះ​មិនមាន​ទេ!';
-$lang['_label']  = '';
-$lang['_label']  = '';
-$lang['_label']  = '';
-$lang['_label']  = '';
+$lang['address_label']  = 'អាសយដ្ឋាន:';
+$lang['map_label']  = 'ទីតាំង​នៅលើ​ផែនទី:';
+$lang['email_label']  = 'អីុម៉ែល:';
+$lang['telephone_label']  = 'លេខ​ទូរស័ព្ទៈ';
+
+$lang['source_label'] = 'ប្រភពពី៖';

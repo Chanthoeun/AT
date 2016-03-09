@@ -144,17 +144,21 @@ class Jobs extends Admin_Controller {
                                         'css/plugins/metisMenu/metisMenu.min.css',
                                         'css/sb-admin-2.css',
                                         'font-awesome-4.1.0/css/font-awesome.min.css',
+                                        'css/jquery-ui.css',
                                         'css/datepicker.min.css',
                                         );
         $layout_property['js']  = array('https://code.jquery.com/jquery-1.11.1.min.js' => FALSE,
                                         'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' => FALSE,
                                         'js/plugins/metisMenu/metisMenu.min.js',
                                         'js/sb-admin-2.js',
+                                        'js/jquery-ui.min.js',
                                         'js/bootstrap-datepicker.min.js',
                                         );
         $layout_property['optional_js'] = base_url('assets/ckeditor/ckeditor.js');
         
-        $layout_property['script'] = '$(\'#close_date\').datepicker(); ';
+        $field1 = array_to_string(Modules::run('agribooks/get_field', 'name'), 'name');
+        $field2 = array_to_string(Modules::run('agribooks/get_field', 'name_en'), 'name_en');
+        $layout_property['script'] = '$(\'#close_date\').datepicker();$(function() { var availableTags = ['.$field1.$field2.'];  $( "#company" ).autocomplete({ source: availableTags }); }); ';
         
         
         $layout_property['breadcrumb'] = array('jobs' => $this->lang->line('index_job_heading'), $title);
@@ -317,16 +321,21 @@ class Jobs extends Admin_Controller {
                                         'css/plugins/metisMenu/metisMenu.min.css',
                                         'css/sb-admin-2.css',
                                         'font-awesome-4.1.0/css/font-awesome.min.css',
+                                        'css/jquery-ui.css',
                                         'css/datepicker.min.css',
                                         );
         $layout_property['js']  = array('https://code.jquery.com/jquery-1.11.1.min.js' => FALSE,
                                         'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' => FALSE,
                                         'js/plugins/metisMenu/metisMenu.min.js',
                                         'js/sb-admin-2.js',
+                                        'js/jquery-ui.min.js',
                                         'js/bootstrap-datepicker.min.js',
                                         );
         $layout_property['optional_js'] = base_url('assets/ckeditor/ckeditor.js');
-        $layout_property['script'] = '$(\'#close_date\').datepicker(); ';
+        
+        $field1 = array_to_string(Modules::run('agribooks/get_field', 'name'), 'name');
+        $field2 = array_to_string(Modules::run('agribooks/get_field', 'name_en'), 'name_en');
+        $layout_property['script'] = '$(\'#close_date\').datepicker();$(function() { var availableTags = ['.$field1.$field2.'];  $( "#company" ).autocomplete({ source: availableTags }); }); ';
         
         $layout_property['breadcrumb'] = array('jobs' => $this->lang->line('index_job_heading'), $title);
         

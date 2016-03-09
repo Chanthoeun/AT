@@ -53,30 +53,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$route['article/(:num)'] = 'home_page/articles/$1';
 //$route['view/(:num)'] = 'home_page/view/$1';
 //
-//$route['news'] = 'home_page/news';
-//$route['news/page'] = 'home_page/news/page';
-//$route['news/page/(:num)'] = 'home_page/news/page/$1';
-//
-//$route['news/(:num)']    = 'home_page/news/$1';
-//$route['news/(:num)/page']    = 'home_page/news/$1/page';
-//$route['news/(:num)/page/(:num)']    = 'home_page/news/$1/page/$2';
-//
-//$route['technique'] = 'home_page/technique';
-//$route['technique/page'] = 'home_page/technique/page';
-//$route['technique/page/(:num)'] = 'home_page/technique/page/$1';
-//
-//$route['technique/(:num)']    = 'home_page/technique/$1';
-//$route['technique/(:num)/page']    = 'home_page/technique/$1/page';
-//$route['technique/(:num)/page/(:num)']    = 'home_page/technique/$1/page/$2';
-//
-//$route['problem-solutions'] = 'home_page/problem_solutions';
-//$route['problem-solutions/page'] = 'home_page/problem_solutions/page';
-//$route['problem-solutions/page/(:num)'] = 'home_page/problem_solutions/page/$1';
-//
-//$route['problem-solutions/(:num)']    = 'home_page/problem_solutions/$1';
-//$route['problem-solutions/(:num)/page']    = 'home_page/problem_solutions/$1/page';
-//$route['problem-solutions/(:num)/page/(:num)']    = 'home_page/problem_solutions/$1/page/$2';
-//
+$route['news'] = 'home_page/news';
+$route['news/page'] = 'home_page/news/page';
+$route['news/page/(:num)'] = 'home_page/news/page/$1';
+
+$route['news/(:num)']    = 'home_page/news/$1';
+$route['news/(:num)/page']    = 'home_page/news/$1/page';
+$route['news/(:num)/page/(:num)']    = 'home_page/news/$1/page/$2';
+
+$route['techniques'] = 'home_page/techniques';
+$route['techniques/page'] = 'home_page/techniques/page';
+$route['techniques/page/(:num)'] = 'home_page/techniques/page/$1';
+
+$route['techniques/(:num)']    = 'home_page/techniques/$1';
+$route['techniques/(:num)/page']    = 'home_page/techniques/$1/page';
+$route['techniques/(:num)/page/(:num)']    = 'home_page/techniques/$1/page/$2';
+
+$route['publications'] = 'home_page/publications';
+$route['publications/page'] = 'home_page/publications/page';
+$route['publications/page/(:num)'] = 'home_page/publications/page/$1';
+
+$route['publications/(:num)']    = 'home_page/publications/$1';
+$route['publications/(:num)/page']    = 'home_page/publications/$1/page';
+$route['publications/(:num)/page/(:num)']    = 'home_page/publications/$1/page/$2';
+
 //$route['policy-regulation'] = 'home_page/policy_regulation';
 //$route['policy-regulation/page'] = 'home_page/policy_regulation/page';
 //$route['policy-regulation/page/(:num)'] = 'home_page/policy_regulation/page/$1';
@@ -92,14 +92,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //$route['books/(:num)']    = 'home_page/books/$1';
 //$route['books/(:num)/page']    = 'home_page/books/$1/page';
 //$route['books/(:num)/page/(:num)']    = 'home_page/books/$1/page/$2';
-//
-//$route['buy-sell/(:num)']    = 'home_page/buy_sell/$1';
-//$route['buy-sell/(:num)/page']    = 'home_page/buy_sell/$1/page';
-//$route['buy-sell/(:num)/page/(:num)']    = 'home_page/buy_sell/$1/page/$2';
-//
-//$route['real-estate/(:num)']    = 'home_page/real_estate/$1';
-//$route['real-estate/(:num)/page']    = 'home_page/real_estate/$1/page';
-//$route['real-estate/(:num)/page/(:num)']    = 'home_page/real_estate/$1/page/$2';
+
+$route['product-sale-rent'] = 'home_page/product_sale_rent';
+$route['product-sale-rent/page'] = 'home_page/product_sale_rent/page';
+$route['product-sale-rent/page/(:num)'] = 'home_page/product_sale_rent/page/$1';
+
+$route['product-sale-rent/(:num)']    = 'home_page/product_sale_rent/$1';
+$route['product-sale-rent/(:num)/page']    = 'home_page/product_sale_rent/$1/page';
+$route['product-sale-rent/(:num)/page/(:num)']    = 'home_page/product_sale_rent/$1/page/$2';
+
+$route['land-sale-rent'] = 'home_page/land_sale_rent';
+$route['land-sale-rent/page'] = 'home_page/land_sale_rent/page';
+$route['land-sale-rent/page/(:num)'] = 'home_page/land_sale_rent/page/$1';
+
+$route['land-sale-rent/(:num)']    = 'home_page/land_sale_rent/$1';
+$route['land-sale-rent/(:num)/page']    = 'home_page/land_sale_rent/$1/page';
+$route['land-sale-rent/(:num)/page/(:num)']    = 'home_page/land_sale_rent/$1/page/$2';
+
+$route['job'] = 'home_page/job';
+$route['job/page'] = 'home_page/job/page';
+$route['job/page/(:num)'] = 'home_page/job/page/$1';
+
+$route['job/(:num)']    = 'home_page/job/$1';
+$route['job/(:num)/page']    = 'home_page/job/$1/page';
+$route['job/(:num)/page/(:num)']    = 'home_page/job/$1/page/$2';
+
 //
 //$route['more/(:num)/(:num)']    = 'home_page/more/$1/$2';
 //$route['more/(:num)/(:num)/page']    = 'home_page/more/$1/$2/page';
@@ -117,8 +134,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //
 //$route['real-estate-detail/(:num)'] = 'home_page/real_estate_detail/$1';
 //
-//$route['about-us'] = 'home_page/about_us';
-//$route['contact-us'] = 'home_page/contact_us';
+$route['about-us'] = 'home_page/about_us';
+$route['contact-us'] = 'home_page/contact_us';
 //$route['policy'] = 'home_page/policy';
 //$route['condition'] = 'home_page/condition';
 //$route['login'] = 'home_page/login';
@@ -130,6 +147,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 //
 //$route['member/(:num)'] = 'home_page/member/$1';
 
-$route['default_controller'] = 'auth';
+//$route['([a-zA-Z-]+)'] = 'home_page/member/$1';
+
+$route['default_controller'] = 'home_page';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;

@@ -36,7 +36,7 @@
                     </tr>
                     <tr>
                         <td class="col-lg-3 warning"><?php echo lang('view_article_location_label');?></td>
-                        <td><?php echo $location;?></td>
+                        <td><?php echo isset($location) && $location != FALSE ? $location : FALSE;?></td>
                     </tr>
                     <tr>
                         <td class="col-lg-3 warning"><?php echo lang('view_article_published_on_th');?></td>
@@ -46,9 +46,9 @@
                         <td class="col-lg-3 warning"><?php echo lang('view_article_source_th');?></td>
                         <td>
                             <?php 
-                                $source = explode(',', utf8_decode($article->source));
-                                echo anchor(prep_url(trim($source[1])), trim($source[0]), 'target="_blank"');
-                            ?>
+                $source = explode(',', utf8_decode($article->source));
+                echo anchor(prep_url(trim($source[1])), trim($source[0]), 'target="_blank"');
+            ?>
                         </td>
                     </tr>
                     <tr>

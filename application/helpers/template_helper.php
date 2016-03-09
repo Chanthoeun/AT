@@ -215,7 +215,7 @@ if(!function_exists('generate_js_optional')){
 
 if(!function_exists('view_breadcrumb')){
     
-    function view_breadcrumb($start_tag='<ol class="breadcrumb">', $end_tag='</ol>',$home_icon='<i class="fa fa-home fa-fw"></i>', $active='active'){
+    function view_breadcrumb($start_tag='<ol class="breadcrumb"  itemscope itemtype="http://schema.org/BreadcrumbList">', $end_tag='</ol>',$home_icon='<i class="fa fa-home fa-fw"></i>', $active='active'){
         $CI =& get_instance();
         return $CI->template->print_breadcrumb($start_tag, $end_tag, $home_icon, $active);
     }

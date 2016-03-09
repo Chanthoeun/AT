@@ -553,12 +553,13 @@ class Template {
      * @param string $active example active
      * @return string
      */
-    public function print_breadcrumb($start_tag='<ol class="breadcrumb">', $end_tag='</ol>',$home_icon='<i class="fa fa-home fa-fw"></i>', $active='active')
+    public function print_breadcrumb($start_tag='<ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">', $end_tag='</ol>',$home_icon='<i class="fa fa-home fa-fw"></i>', $active='active')
     {
+        $breadcrumb_position = 1;
         $final_breadcrumb = $start_tag;
         //home breadcrumb
         $home = $home_icon == '<i class="fa fa-home fa-fw"></i>' ? $home_icon.' ទំព័រដើម' : $home_icon;
-        $final_breadcrumb .= '<li>'.anchor($this->home_breadcrumb, $home).'</li>';
+        $final_breadcrumb .= '<li  itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">'.anchor($this->home_breadcrumb, '<span itemprop="name">'.$home.'</span>', array('itemprop' => 'item')).'<meta itemprop="position" content="'.$breadcrumb_position.'" /></li>';
         
         //breadcrumb items
         
@@ -566,10 +567,12 @@ class Template {
         
         foreach ($this->_breadcrumb as $url => $title){
             if($title != $last_breadcrumb){
-                $final_breadcrumb .= '<li>'.anchor(site_url($url),$title).'</li>';
+                $breadcrumb_position += 1;
+                $final_breadcrumb .= '<li  itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">'.anchor(site_url($url),  '<span itemprop="name">'.$title.'</span>', array('itemprop' => 'item')).'<meta itemprop="position" content="'.$breadcrumb_position.'" /></li>';
             }
         }
-        $final_breadcrumb .= '<li class="'.$active.'">'.$last_breadcrumb.'</li>';
+        $last = $breadcrumb_position + 1;
+        $final_breadcrumb .= '<li class="'.$active.'" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><span itemprop="name">'.$last_breadcrumb.'</span><meta itemprop="position" content="'.$last.'" /></li>';
         $final_breadcrumb .= $end_tag;
         return $final_breadcrumb;
     }

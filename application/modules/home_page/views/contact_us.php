@@ -1,108 +1,76 @@
-<?php $this->load->view('search_box'); ?>
+<div class="row">
+        <section class="col-lg-12">
+            <article role="article" class="contact" itemscope itemtype="http://schema.org/Organization">
+                <h1><i class="fa fa-phone"></i> <?php echo lang('contact_us_menu_label'); ?></h1>
+                <ul>
+                    <li>
+                        <ul>
+                            <li>
+                                <p itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                                    <span><i class="fa fa-home"></i> <?php echo lang('address_label'); ?></span>
+                                    <strong itemprop="streetAddress"><?php echo lang('contact_address_label'); ?></strong> <strong itemprop="addressLocality"><?php echo lang('contact_city_label'); ?></strong> <strong itemprop="postalCode">12357</strong>
+                                </p>
+                                <p>
+                                    <span><i class="fa fa-phone"></i> <?php echo lang('telephone_label'); ?></span>
+                                    <strong itemprop="telephone"><?php echo lang('contact_telephone_label'); ?></strong>
+                                </p>
+                                <p>
+                                    <span><i class="fa fa-envelope"></i> <?php echo lang('email_label'); ?></span>
+                                    <strong itemprop="email"><?php echo lang('contact_email_label'); ?></strong>
+                                </p>
+                            </li>
+                            <li>
+                                <p>
+                                    <span><?php echo lang('map_label'); ?></span>
+                                     <?php 
+                echo $map['js'];
+                echo $map['html'];
+            ?>
+                                </p>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <p>
+                            <?php echo lang('contact_text_label'); ?>
+                        </p>
+                        <?php echo form_open(current_url()) ?>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-user fa-fw text-success"></i></div>
+                                    <?php echo form_input($name); ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-phone fa-fw text-success"></i></div>
+                                    <?php echo form_input($telephone); ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-envelope fa-fw text-success"></i></div>
+                                    <?php echo form_input($email); ?>
+                                </div>
+                            </div>
 
-<?php $this->load->view('slideshow'); ?>
+                            <div class="form-group">
+                                <?php echo form_textarea($comment); ?>
+                            </div>
 
-<?php echo view_breadcrumb('<ol class="breadcrumb">', '</ol>', '<i class="fa fa-home fa-fw"></i>ទំព័រដើម'); ?>
-
-<?php if(isset($ads_midle)): ?>
-<section class="row">
-    <div class="col-lg-12 ads-bottom">
-        <?php echo $ads_midle; ?>
+                            <div class="form-group">
+                                 <?php echo generate_captcha_image(ENVIRONMENT == 'development' ? 'http://localhost.agritoday.com//' : 'http://www.agritoday.com/'); ?>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-lock fa-fw text-success"></i></div>
+                                    <?php echo form_input($captcha); ?>
+                                </div>
+                            </div>
+                             <button type="submit" class="btn btn-success btn-block"><i class="fa fa-send fa-fw"></i> Send</button>
+                             <?php echo form_close(); ?>
+                    </li>
+                </ul>
+            </article>
+        </section><!-- content -->                  
     </div>
-</section>
-<?php endif; ?>
-
-<section class="row">
-    <div class="col-sm-9 col-md-9 col-lg-9">
-        <h3 class="page-header"><i class="fa fa-envelope-o"></i> <?php echo lang('home_contact_info'); ?></h3>
-        <ul class="fa-ul">
-            <li><i class="fa-li fa fa-map-marker fa-fw fa-lg"></i> <?php echo lang('home_contact_address') ?></li>
-<!--            <li><i class="fa-li fa fa-phone fa-fw fa-lg"></i> <?php echo lang('home_contact_telephone') ?></li>-->
-            <li><i class="fa-li fa fa-envelope fa-fw fa-lg"></i> <?php echo lang('home_contact_email') ?></li>
-            <li><i class="fa-li fa fa-globe fa-fw fa-lg"></i> <?php echo lang('home_contact_website') ?></li>
-        </ul>
-        <br><br>
-        <h3 class="page-header"><i class="fa fa-comment-o"></i> <?php echo lang('home_contact_questiong'); ?></h3>
-        
-        <?php if($message != FALSE){ ?>
-        <div class="alert alert-warning alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            <strong><?php echo $message;?></strong>
-        </div>
-        <?php } ?>
-        
-        <?php echo form_open('home/contact-us', 'role="form"'); ?>
-        <div class="col-lg-12">
-            <div class="form-group">
-                <?php echo lang('home_contact_fullname_label', 'name');?> <br />
-                <?php echo form_input($name);?>
-            </div>
-        </div>
-        
-        <div class="col-md-6 col-lg-6">
-            <div class="form-group">
-                <?php echo lang('home_contact_email_lable', 'email');?> <br />
-                <?php echo form_input($email);?>
-            </div>
-        </div>
-        
-        <div class="col-md-6 col-lg-6">
-            <div class="form-group">
-                <?php echo lang('home_contact_telephone_label', 'telephone');?> <br />
-                <?php echo form_input($telephone);?>
-            </div>
-        </div>
-        
-        <div class="col-lg-12">
-            <div class="form-group">
-                <?php echo lang('home_contact_subject_label', 'subject');?> <br />
-                <?php echo form_input($subject);?>
-            </div>
-        </div>
-        
-        <div class="col-lg-12">
-            <div class="form-group">
-                <?php echo lang('home_contact_comment_label', 'comment');?> <br />
-                <?php echo form_textarea($comment);?>
-            </div>
-        </div>
-        
-        <div class="col-lg-12">
-            <?php echo generate_captcha_image(ENVIRONMENT == 'development' ? 'http://localhost.agritoday.com//' : 'http://www.agritoday.com/'); ?>
-        </div>
-        
-        <div class="col-md-6 col-lg-6">
-            <div class="form-group">
-                <?php echo lang('home_signup_captcha', 'captcha');?> <br />
-                <?php echo form_input($captcha);?>
-            </div>
-        </div>
-        
-        <div class="col-lg-12">
-            <button type="submit" style="margin: 10px 0; padding: 5px 40px; font-size: 22px;" class="btn btn-primary"><strong><i class="fa fa-send"></i> <?php echo lang('home_contact_send_btn') ?></strong></button>
-        </div>        
-        <?php echo form_close(); ?>
-    </div>
-    <div class="col-sm-3 col-md-3 col-lg-3">
-        <?php 
-            if(isset($ads_right)) 
-            {
-                echo $ads_right;
-            }
-            else
-            {
-                echo anchor(
-                        site_url('home/contact-us'),
-                        img(array('src' => get_image('right-banner.png'), 'alt'=>'Right Advertising', 'class' => 'img-thumbnail img-responsive'))
-                        );
-            }
-        ?>
-    </div>
-</section><!-- end Content -->
-<?php if(isset($ads_bottom)): ?>
-<section class="row">
-    <div class="col-lg-12 ads-bottom">
-        <?php echo $ads_bottom; ?>
-    </div>
-</section>
-<?php endif; ?>

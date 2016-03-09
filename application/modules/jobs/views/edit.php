@@ -137,7 +137,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
-                        <?php echo btn_cancel('jobs/view'.$job->id) ?>
+                        <?php echo btn_cancel('jobs/view/'.$job->id) ?>
                     </div>
                 </div>
                 <?php echo form_close();?>

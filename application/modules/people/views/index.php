@@ -51,18 +51,25 @@
                                 <td class="text-center"><?php echo $p->telephone;?></td>
                                 <td class="text-center">
                                     <?php 
-                                        $email = str_replace(',', ';', $p->email);
-                                        echo mailto($email, str_replace(',', ' / ', $p->email), array('title' => lang('send_email_label')));
-                                    ?>
+                    $email = str_replace(',', ';', $p->email);
+                    echo mailto($email, str_replace(',', ' / ', $p->email), array('title' => lang('send_email_label')));
+                ?>
                                 </td>
                                 <td class="text-center">
                                     <?php 
-                                        $socials = explode(', ', $p->social_media);
-                                        foreach ($socials as $social)
-                                        {
-                                            echo anchor(prep_url($social), get_social_icon($social), array('target' => '_blank')).' ';
-                                        }
-                                    ?>
+                    if($p->social_media == FALSE)
+                    {
+                        echo 'None';
+                    }
+                    else
+                    {
+                        $socials = explode(', ', $p->social_media);
+                        foreach ($socials as $social)
+                        {
+                            echo anchor(prep_url($social), get_social_icon($social), array('target' => '_blank')).' ';
+                        }
+                    }
+                ?>
                                 </td>
                                 <td class="text-center"><?php echo $p->status == 1 ? anchor('people/deactivate/'.$p->id, '<i class="fa fa-check fa-lg text-success"> ដំណើរ​ការ</i>', array('onClick' => "return confirm('តើ​អ្នក​ចង់​បញ្ឈប់​ដំណើរ​ការ​".lang('index_people_heading')."នេះ?')")) : anchor('people/activate/'.$p->id, '<i class="fa fa-times fa-lg text-danger"> មិន​ដំណើរ​ការ</i>', array('onClick' => "return confirm('តើ​អ្នក​ចង់​អោយ​".lang('index_people_heading')."នេះ​ដំណើរ​ការ​ឡើង​វិញ​?')"));?></td>
                                 <td class="text-center"><?php echo link_edit("people/edit/".$p->id);?> | <?php echo link_delete('people/destroy/'.$p->id); ?></td>

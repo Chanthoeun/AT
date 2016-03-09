@@ -16,6 +16,8 @@ class Front_Controller extends MY_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('template', array('layout' => 'home_page', 'asset_location' => 'assets', 'site_name' => 'ទស្សនាវដ្តីកសិកម្ម')); 
+        $this->load->library('template', array('layout' => 'home_page', 'asset_location' => 'assets', 'site_name' => 'AgriToday')); 
+        
+        $this->load->library('user_agent');
     }
 }

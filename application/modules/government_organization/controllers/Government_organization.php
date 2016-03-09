@@ -290,6 +290,7 @@ class Government_organization extends Admin_Controller {
         {
             $data = array(
                 'name'   => trim($this->input->post('name')),
+                'organization' => 'ក្រសួង​កសិកម្ម រុក្ខាប្រមាញ់ និងនេសាទ',
                 'position' => trim($this->input->post('position')),
                 'telephone'   => trim($this->input->post('telephone')),
                 'email'    => trim($this->input->post('email')),
@@ -390,6 +391,7 @@ class Government_organization extends Admin_Controller {
         {
             $data = array(
                 'name'   => trim($this->input->post('name')),
+                'organization' => 'ក្រសួង​កសិកម្ម រុក្ខាប្រមាញ់ និងនេសាទ',
                 'position' => trim($this->input->post('position')),
                 'telephone'   => trim($this->input->post('telephone')),
                 'email'    => trim($this->input->post('email')),

@@ -2,17 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <title class="title"><?php echo $this->template->print_title(); ?></title>
+        <?php echo $this->template->print_meta(); ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <?php echo $this->template->print_meta(); ?>
-        <title class="title"><?php echo $this->template->print_title(); ?></title>
-        <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('favicon.ico'); ?>" />
         
-        <!-- Add this to your HEAD if you want to load the apple-touch-icons from another dir than your sites' root -->
-        <link rel="apple-touch-icon" href="<?php echo base_url('apple-touch-icon-iphone-60x60-precomposed.png'); ?>">
-        <link rel="apple-touch-icon" sizes="60x60" href="<?php echo base_url('apple-touch-icon-ipad-76x76-precomposed.png'); ?>">
-        <link rel="apple-touch-icon" sizes="114x114" href="<?php echo base_url('apple-touch-icon-iphone-retina-120x120-precomposed.png'); ?>">
-        <link rel="apple-touch-icon" sizes="144x144" href="<?php echo base_url('apple-touch-icon-ipad-retina-152x152-precomposed.png'); ?>">
+         <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('favicon.ico'); ?>" />
         
         <!--basic styles-->
         <link href='http://fonts.googleapis.com/css?family=Hanuman:400,700|Open+Sans:400,600,600italic,700,700italic,400italic' rel='stylesheet' type='text/css'>
@@ -20,6 +15,25 @@
         
         <!-- Optional Javascript -->
         <?php echo $this->template->print_js_optional(); ?>
+        
+        <!-- Add this to your HEAD if you want to load the apple-touch-icons from another dir than your sites' root -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
         
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,23 +50,51 @@
             ga('create', 'UA-57674511-1', 'auto');
             ga('send', 'pageview');
         </script>
-        
     </head>
 
     <body>
         <!-- Header page -->
         <?php echo $header; ?>
-        <section class="container">
-            <section class="row">
-                <div class="col-sm-3 col-md-3 col-lg-3">
-                    <?php echo $sidebar; ?>
-                </div><!-- end sidebar -->
-                
-                <div class="col-sm-9 col-md-9 col-lg-9">
-                    <?php echo $content;?>
-                </div><!-- end content -->
+       
+        <?php if(!isset($no_breadcrumb)): ?>
+        <section class="clearfix">
+            <section class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?php echo view_breadcrumb(); ?>
+                    </div>
+                </div>
             </section>
-        </section><!-- end body -->
+        </section>
+        <?php endif; ?>
+        
+        <?php 
+        if(isset($content_header) && $content_header == TRUE)
+        {
+            $this->load->view('content_header');
+        }
+    ?>
+        
+        <section class="clearfix">
+            <section class="container">
+                <section class="row">
+                        <?php if(isset($content_sidebar) && $content_sidebar == TRUE):  ?>
+                        <div class="col-md-9 col-lg-9">
+                            <?php echo $content;?>
+                        </div><!-- end content -->
+
+                         <div class="col-md-3 col-lg-3">
+                            <?php echo $sidebar; ?>
+                        </div><!-- end sidebar -->
+                        <?php else: ?>
+                        <div class="col-lg-12">
+                            <?php echo $content;?>
+                        </div><!-- end content -->
+                        <?php endif; ?>
+                </section>
+            </section><!-- end body -->
+        </section>
+        
         
         <!-- Footer -->
         <?php echo $footer; ?>
@@ -72,7 +114,5 @@
           js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=1534352553487668";
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script><!-- end facebook API -->
-        
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54a358ff74914370" async="async"></script>
     </body>
 </html>

@@ -801,18 +801,21 @@ class Auth extends Admin_Controller {
     public function _not_redirect($referrer)
     {
         $url = array(
+            '',
             'http://agritoday.com',
             'http://agritoday.com/',
             'http://agritoday.com/auth',
             'http://agritoday.com/auth/',
             'http://agritoday.com/auth/login.html',
             'http://agritoday.com/auth/login',
-            'http://localhost.agritoday.com',
             'http://localhost.agritoday.com/',
             'http://localhost.agritoday.com/auth',
             'http://localhost.agritoday.com/auth/',
             'http://localhost.agritoday.com/auth/login.html',
             'http://localhost.agritoday.com/auth/login',
+            'http://agritoday.com/test/',
+            'http://agritoday.com/test/auth.html',
+            'http://agritoday.com/test/auth/login.html'
         );
         
         if(in_array($referrer, $url))

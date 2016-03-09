@@ -222,6 +222,15 @@
                     <li>
                         <a <?php echo isset($people_search_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('people/search'); ?>"><i class="fa fa-search fa-fw"></i> <?php echo lang('search_menu_label'); ?></a>
                     </li>
+                    
+                    <li>
+                        <a <?php echo isset($people_filter_location_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('people/filter-by-location'); ?>"><i class="fa fa-filter fa-fw"></i> <?php echo lang('people_fillter_by_location_menu_label'); ?></a>
+                    </li>
+                    
+                    <li>
+                        <a <?php echo isset($people_filter_group_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('people/filter-by-group'); ?>"><i class="fa fa-filter fa-fw"></i> <?php echo lang('people_filter_by_group_menu_label'); ?></a>
+                    </li>
+                    
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

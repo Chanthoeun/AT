@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 // custom uri
 //$route['article/(:num)'] = 'home_page/articles/$1';
-//$route['view/(:num)'] = 'home_page/view/$1';
+$route['view/(:num)'] = 'home_page/view/$1';
 //
 $route['news'] = 'home_page/news';
 $route['news/page'] = 'home_page/news/page';
@@ -101,6 +101,8 @@ $route['product-sale-rent/(:num)']    = 'home_page/product_sale_rent/$1';
 $route['product-sale-rent/(:num)/page']    = 'home_page/product_sale_rent/$1/page';
 $route['product-sale-rent/(:num)/page/(:num)']    = 'home_page/product_sale_rent/$1/page/$2';
 
+$route['product-detail/(:num)'] = 'home_page/product_detail/$1';
+
 $route['land-sale-rent'] = 'home_page/land_sale_rent';
 $route['land-sale-rent/page'] = 'home_page/land_sale_rent/page';
 $route['land-sale-rent/page/(:num)'] = 'home_page/land_sale_rent/page/$1';
@@ -109,6 +111,8 @@ $route['land-sale-rent/(:num)']    = 'home_page/land_sale_rent/$1';
 $route['land-sale-rent/(:num)/page']    = 'home_page/land_sale_rent/$1/page';
 $route['land-sale-rent/(:num)/page/(:num)']    = 'home_page/land_sale_rent/$1/page/$2';
 
+$route['land-detail/(:num)'] = 'home_page/land_detail/$1';
+
 $route['job'] = 'home_page/job';
 $route['job/page'] = 'home_page/job/page';
 $route['job/page/(:num)'] = 'home_page/job/page/$1';
@@ -116,6 +120,20 @@ $route['job/page/(:num)'] = 'home_page/job/page/$1';
 $route['job/(:num)']    = 'home_page/job/$1';
 $route['job/(:num)/page']    = 'home_page/job/$1/page';
 $route['job/(:num)/page/(:num)']    = 'home_page/job/$1/page/$2';
+
+$route['filter-location/(:num)'] = 'home_page/filter_location/$1';
+
+$route['job-detail/(:num)']    = 'home_page/job_detail/$1';
+
+$route['video'] = 'home_page/video';
+$route['video/page'] = 'home_page/video/page';
+$route['video/page/(:num)'] = 'home_page/video/page/$1';
+
+$route['video/(:num)']    = 'home_page/video/$1';
+$route['video/(:num)/page']    = 'home_page/video/$1/page';
+$route['video/(:num)/page/(:num)']    = 'home_page/video/$1/page/$2';
+
+$route['video-detail/(:num)'] = 'home_page/video_detail/$1';
 
 //
 //$route['more/(:num)/(:num)']    = 'home_page/more/$1/$2';
@@ -136,6 +154,7 @@ $route['job/(:num)/page/(:num)']    = 'home_page/job/$1/page/$2';
 //
 $route['about-us'] = 'home_page/about_us';
 $route['contact-us'] = 'home_page/contact_us';
+$route['register'] = 'home_page/register';
 //$route['policy'] = 'home_page/policy';
 //$route['condition'] = 'home_page/condition';
 //$route['login'] = 'home_page/login';

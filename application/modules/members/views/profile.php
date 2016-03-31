@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-lg-12">
         <?php if ($this->agent->is_mobile()) { ?>
-        <h3 class="page-header"><i class="fa fa-user text-primary"> <?php echo $title; ?></i></h3>
+        <h3 class="page-header text-uppercase"><i class="fa fa-user text-primary"> <?php echo $title; ?></i></h3>
         <?php } else { ?>
-        <h1 class="page-header"><i class="fa fa-user text-primary"> <?php echo $title; ?></i></h1>
+        <h1 class="page-header text-uppercase"><i class="fa fa-user text-primary"> <?php echo $title; ?></i></h1>
         <?php } ?>
         
     </div>
@@ -76,6 +76,10 @@
             <table class="table table-bordered">
                 <tbody>
                     <tr>
+                        <td class="col-lg-2 success"><strong><?php echo lang('view_people_group_label'); ?></strong></td>
+                        <td class="col-lg-6"> <?php echo $people->group; ?></td>
+                    </tr>
+                    <tr>
                         <td class="col-lg-2 success"><strong><?php echo lang('view_people_name_label'); ?></strong></td>
                         <td class="col-lg-6"> <?php echo $people->name; ?></td>
                     </tr>
@@ -95,12 +99,15 @@
                         <td class="col-lg-2 success"><strong><?php echo lang('view_people_social_label'); ?> </strong></td>
                         <td class="col-lg-6">
                             <?php 
-                                $socials = explode(', ', $people->social_media);
-                                foreach ($socials as $social)
-                                {
-                                    echo anchor(prep_url($social), get_social_icon($social), array('target' => '_blank')).' ';
-                                }
-                            ?>
+                if($people->social_media != FALSE)
+                {
+                    $socials = explode(', ', $people->social_media);
+                    foreach ($socials as $social)
+                    {
+                        echo anchor(prep_url($social), get_social_icon($social), array('target' => '_blank')).' ';
+                    }
+                }
+            ?>
                         </td>
                     </tr>
                     <tr>

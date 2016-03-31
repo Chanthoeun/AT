@@ -50,7 +50,7 @@ class Locations extends Admin_Controller {
     {
         parent::check_login();
         
-        $this->data['locations'] = $this->get_all_records(array('location.parent_id' => 0));
+        $this->data['locations'] = $this->get_all_records(array('location.parent_id' => 0), array('area_code'));
         
         // process template
         $title = $this->lang->line('index_location_heading');
@@ -71,7 +71,7 @@ class Locations extends Admin_Controller {
     {
         parent::check_login();
         $parent = $this->get($id);
-        $this->data['locations'] = $this->get_all_records(array('location.parent_id' => $parent->id));
+        $this->data['locations'] = $this->get_all_records(array('location.parent_id' => $parent->id), array('area_code'));
         
         // process template
         $title = $parent->caption;
@@ -548,8 +548,17 @@ class Locations extends Admin_Controller {
         return $this->location->get_all();
     }
     
-    public function get_all_records($where = FALSE)
+    public function get_all_records($where = FALSE, $order_by = FALSE, $limit = FALSE, $offset = 0)
     {
+        if($order_by != FALSE)
+        {
+            $this->location->order_by($order_by);
+        }
+        
+        if($limit != FALSE)
+        {
+            $this->location->limit($limit, $offset);
+        }
         return $this->location->get_all_records($where);
     }
     
@@ -570,6 +579,11 @@ class Locations extends Admin_Controller {
     public function get_field($field, $where = FALSE, $array = FALSE)
     {
         return $this->location->get_field($field, $where, $array);
+    }
+    
+    public function get_job_locations($where = FALSE)
+    {
+        return $this->location->get_job_locations($where);
     }
     
     public function insert($data, $skip_validation = FALSE)

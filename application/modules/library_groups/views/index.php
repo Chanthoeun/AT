@@ -41,7 +41,7 @@
                             <?php foreach ($library_groups as $library_group):?>
                             <tr>
                                 <td class="text-center"><?php echo $library_group->id;?></td>
-                                <td><?php echo $library_group->caption;?></td>
+                                <td><?php echo anchor('library-groups/'.$library_group->id, $library_group->caption);?></td>
                                 <td class="text-center"><?php echo link_edit("library-groups/edit/".$library_group->id);?> | <?php echo link_delete('library-groups/destroy/'.$library_group->id); ?></td>
                             </tr>
                             <?php endforeach;?>

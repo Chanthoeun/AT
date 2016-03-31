@@ -821,7 +821,7 @@ if(!function_exists('get_video'))
         {
             if($domain == 'youtube' || $domain == 'youtu')
             {
-                return youtube_embed($url, 700, 400, FALSE, FALSE, TRUE);
+                return youtube_embed($url, '100%', '300', FALSE, FALSE, TRUE);
             }
             else if($domain == 'facebook')
             {

@@ -804,16 +804,23 @@ if(!function_exists('array_to_string'))
 // get source
 if(!function_exists('get_source'))
 {
-    function get_source($text, $target = '_blank')
+    function get_source($text = FALSE, $target = FALSE, $linkcaption = FALSE)
     {
-        $source = explode(', ', utf8_decode($text));
-        if(array_count_values($source) == 1)
+        if($text == FALSE)
+        {
+            return 'AgriToday';
+        }
+        
+        $source = explode(',', utf8_decode($text));
+        $get_count = (int) count($source);
+
+        if($get_count == 1)
         {
             return $source[0];
         }
         else
         {
-            return anchor(prep_url(trim($source[1])), $source[0], array('target' => $target));
+            return anchor(prep_url(trim($source[1])), $linkcaption == FALSE ? $source[0] : $linkcaption, array('target' => $target == FALSE ? '_blank' : $target));
         }
     }
 }
@@ -829,6 +836,100 @@ if(!function_exists('rent_or_sale'))
             return 'សម្រាប់​ជួល';
         }
         return 'សម្រាប់​លក់';
+    }
+}
+
+// check related article
+if(!function_exists('check_related_article'))
+{
+    function check_related_article()
+    {
+        $check_items = func_get_args();
+        if($check_items == FALSE)
+        {
+            return FALSE;
+        }
+        
+        foreach ($check_items as $item)
+        {
+            if($item != FALSE)
+            {
+                return TRUE;
+            }
+        }
+        
+        return FALSE;
+    }
+}
+
+//get discount price
+if(!function_exists('get_discount_price'))
+{
+    function get_discount_price($price, $discount)
+    {
+        return $price - ($price * $discount) / 100;
+    }
+}
+
+// get expire date
+if(!function_exists('get_expire_date'))
+{
+    function get_expire_date($current_date = FALSE, $month = 1)
+    {
+        if($current_date == FALSE)
+        {
+            $current_date = date('Y-m-d');
+        }
+        $expire_date = strtotime("+{$month} months", strtotime($current_date));
+        return date('Y-m-d', $expire_date);
+    }
+}
+
+//check library type
+if(!function_exists('check_library_type'))
+{
+    function check_library_type($value, $type = 1)
+    {
+        $CI =& get_instance();
+        $CI->load->model('library_groups/library_group_model', 'library_group');
+        $parent = $CI->library_group->get($type);
+        $allId = array($parent->id);
+        $children = $CI->library_group->get_many_by(array('parent_id' => $parent->id));
+        if($children != FALSE)
+        {
+            foreach ($children as $child)
+            {
+                $allId[] = $child->id;
+            }
+        }
+        
+        if(in_array($value, $allId))
+        {
+            return TRUE;
+        }
+        return FALSE;
+    }
+}
+
+//get library type
+if(!function_exists('get_library_type'))
+{
+    function get_library_type($type = 1)
+    {
+        $CI =& get_instance();
+        $CI->load->model('library_groups/library_group_model', 'library_group');
+        $parent = $CI->library_group->get($type);
+        $allId = array($parent->id);
+        $children = $CI->library_group->get_many_by(array('parent_id' => $parent->id));
+        if($children != FALSE)
+        {
+            foreach ($children as $child)
+            {
+                $allId[] = $child->id;
+            }
+        }
+        
+        return $allId;
     }
 }
 

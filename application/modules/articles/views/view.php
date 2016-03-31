@@ -61,8 +61,8 @@
         <!-- /.table -->
         <figure>
             <?php 
-                $picture = get_uploaded_file($article->picture);
-            ?>
+        $picture = get_uploaded_file($article->picture);
+    ?>
             <img src="<?php echo base_url($picture); ?>" alt="<?php echo $article->pcaption ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
             <figcaption><?php echo $article->pcaption; ?></figcaption>
         </figure>
@@ -93,7 +93,7 @@
     <!-- /.col-lg-6 -->
     <div class="col-lg-6">
         <?php if(isset($documents) && $documents != FALSE): ?>
-        <h3 class="page-header"><i class="fa fa-file text-primary"> <?php echo lang('view_article_document_label'); ?></i></h3>
+        <h3 class="page-header" style="margin-top: 0;"><i class="fa fa-file text-primary"> <?php echo lang('view_article_document_label'); ?></i></h3>
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>

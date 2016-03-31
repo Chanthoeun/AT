@@ -939,6 +939,11 @@ class Products extends Admin_Controller {
         return $this->product->get_detail($where);
     }
     
+    public function get_contact($id)
+    {
+        return $this->product->get_contact($id);
+    }
+
     public function get_all($order_by = FALSE, $limit = FALSE, $offset = 0)
     {
         if($order_by != FALSE)

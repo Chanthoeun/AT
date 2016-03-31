@@ -69,6 +69,16 @@ class Agribooks extends Admin_Controller {
     {
         parent::check_login();        
         // display form
+        $this->data['member_type'] = form_dropdown('member_type', Modules::run('agribook_member_types/dropdown', 'id', 'caption'), empty($this->validation_errors['post_data']['member_type']) ? NULL : $this->validation_errors['post_data']['member_type'], array('class' => 'form-control', 'id' => 'member_type'));
+        $this->data['parent'] = form_dropdown('parent', Modules::run('agribooks/dropdown', 'id', 'name', $this->lang->line('form_agribook_validation_parent_label'), array('parent' => TRUE)), empty($this->validation_errors['post_data']['parent']) ? NULL : $this->validation_errors['post_data']['parent'], array('class' => 'form-control', 'id' => 'parent'));
+        
+        $this->data['set_parent'] = array(
+            'name'          => 'set_parent',
+            'id'            => 'set_parent',
+            'value'         => 1,
+            'checked'       => empty($this->validation_errors['post_data']['set_parent']) ? FALSE : $this->validation_errors['post_data']['set_parent']
+        );
+        
         $this->data['name'] = array(
             'name'  => 'name',
             'id'    => 'name',
@@ -257,7 +267,10 @@ class Agribooks extends Admin_Controller {
             'pobox' => trim($this->input->post('pobox')),
             'map' => trim($this->input->post('latlng')),
             'agribook_group_id'       => trim($this->input->post('group')),
-            'location_id'    => $getLoc
+            'location_id'    => $getLoc,
+            'parent' => trim($this->input->post('set_parent')),
+            'parent_id' => trim($this->input->post('parent')),
+            'member_type_id' => trim($this->input->post('member_type'))
         );
         
         if(check_empty_field('picture'))
@@ -307,6 +320,16 @@ class Agribooks extends Admin_Controller {
         set_log('View for Update Agribook', $agribook);
         
         // display form
+        $this->data['member_type'] = form_dropdown('member_type', Modules::run('agribook_member_types/dropdown', 'id', 'caption'), empty($this->validation_errors['post_data']['member_type']) ? $agribook->member_type_id : $this->validation_errors['post_data']['member_type'], array('class' => 'form-control', 'id' => 'member_type'));
+        $this->data['parent'] = form_dropdown('parent', Modules::run('agribooks/dropdown', 'id', 'name', $this->lang->line('form_agribook_validation_parent_label'), array('parent' => TRUE)), empty($this->validation_errors['post_data']['parent']) ? $agribook->parent_id : $this->validation_errors['post_data']['parent'], array('class' => 'form-control', 'id' => 'parent'));
+        
+        $this->data['set_parent'] = array(
+            'name'          => 'set_parent',
+            'id'            => 'set_parent',
+            'value'         => 1,
+            'checked'       => empty($this->validation_errors['post_data']['set_parent']) ? $agribook->parent : $this->validation_errors['post_data']['set_parent']
+        );
+        
         $this->data['name'] = array(
             'name'  => 'name',
             'id'    => 'name',
@@ -551,7 +574,10 @@ class Agribooks extends Admin_Controller {
             'pobox' => trim($this->input->post('pobox')),
             'map' => trim($this->input->post('latlng')),
             'agribook_group_id'       => trim($this->input->post('group')),
-            'location_id'    => $getLoc
+            'location_id'    => $getLoc,
+            'parent' => trim($this->input->post('set_parent')),
+            'parent_id' => trim($this->input->post('parent')),
+            'member_type_id' => trim($this->input->post('member_type'))
         );
         
         if(check_empty_field('picture'))

@@ -48,6 +48,9 @@ $lang['view_detail_label'] = $lang['form_real_estate_desc_label'];
 $lang['view_location_label'] = $lang['form_real_estate_map_label'];
 $lang['view_picture_label'] = $lang['form_real_estate_picture_label'];
 $lang['view_picture_upload_label'] = 'បន្ថែម​រូបភាព';
+$lang['view_expire_date_label'] = 'កាល​បរិច្ឆេត​ផុត​កំណត់';
+$lang['view_update_expire_date_btn'] = 'កែប្រែ​កាល​បរិច្ឆេត​ផុត​កំណត់';
+$lang['view_extend_expire_date_label'] = 'កាល​បរិច្ឆេត​ផុត​កំណត់​ត្រុវ​បាន​ពន្យា​ទៅ %s​ រូចរាល់​';
 
 //search
 $lang['search_heading_label'] = 'ស្វែងរក';

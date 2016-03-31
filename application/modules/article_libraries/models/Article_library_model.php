@@ -33,7 +33,7 @@ class Article_library_model extends MY_Model {
         return parent::get_by($where);
     }
     
-    public function get_all_records($where = FALSE)
+    public function get_all_records($where = FALSE, $where_in = FALSE)
     {
         $this->db->select($this->_table.'.*, l.id as lid, l.caption, l.file, l.picture, l.library_group_id, lg.caption as group, a.title, a.article_type_id, a.category_id, cat.caption as category, at.caption as article_type');
         $this->db->join('library as l', $this->_table.'.library_id = l.id', 'left');
@@ -42,10 +42,14 @@ class Article_library_model extends MY_Model {
         $this->db->join('category as cat', 'a.category_id = cat.id', 'left');
         $this->db->join('article_type as at', 'a.article_type_id = at.id', 'left');
         
+        if($where_in != FALSE)
+        {
+            $this->db->where_in('l.library_group_id', $where_in);
+        }
+        
         if($where == FALSE){
             return parent::get_all();
         }
         return parent::get_many_by($where);
-        
     }
 }

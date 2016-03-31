@@ -35,6 +35,17 @@
                         <?php echo form_input($caption);?>
                     </div>
                     
+                     <h4 class="page-header"><?php echo lang('index_people_group_display_th'); ?></h4>
+                    <ul class="list-inline">
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <?php echo form_checkbox($display).' '.  lang('index_people_group_display_th');?> 
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                    
                     <button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
                     <?php echo btn_cancel('people-groups') ?>
                     <?php echo form_close();?>

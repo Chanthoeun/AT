@@ -445,6 +445,41 @@ class Categories extends Admin_Controller {
         return $this->category->get_list($where);
     }
     
+    public function get_news_categories($where = FALSE)
+    {
+        return $this->category->get_news_categories($where);
+    }
+    
+    public function get_technique_categories($where = FALSE)
+    {
+        return $this->category->get_technique_categories($where);
+    }
+    
+    public function get_publication_categories($where = FALSE)
+    {
+        return $this->category->get_publication_categories($where);
+    }
+    
+    public function get_product_categories($where = FALSE)
+    {
+        return $this->category->get_product_categories($where);
+    }
+    
+    public function get_land_categories($where = FALSE)
+    {
+        return $this->category->get_land_categories($where);
+    }
+    
+    public function get_job_categories($where = FALSE)
+    {
+        return $this->category->get_job_categories($where);
+    }
+    
+    public function get_video_categories($where = FALSE)
+    {
+        return $this->category->get_video_categories($where);
+    }
+    
     public function insert($data, $skip_validation = FALSE)
     {
         return $this->category->insert($data, $skip_validation);

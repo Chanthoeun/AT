@@ -155,4 +155,18 @@ class Location_model extends MY_Model {
         }
         return $array == TRUE ? parent::as_array()->get_all() : parent::as_object()->get_all();
     }
+    
+    public function get_job_locations($where = FALSE)
+    {
+        $this->db->select($this->_table.'.id, '.$this->_table.'.caption, '.$this->_table.'.caption_en, count(job.id) as job_count');
+        $this->db->join('job', "job.expire_date >= '".date('Y-m-d')."' AND job.location_id = ".$this->_table.".id", 'left');
+        $this->db->group_by($this->_table.'.caption');
+        $this->db->where(array('parent_id' => 0));
+        $this->db->order_by($this->_table.'.id');
+        if($where != FALSE)
+        {
+            return parent::get_many_by($where);
+        }
+        return parent::get_all();
+    }
 }

@@ -29,6 +29,13 @@
                 <?php } ?>
                 <div class="col-lg-4">
                     <?php echo form_open(current_url(), 'role="form"');?>
+                        <?php if($this->uri->segment(3) != FALSE): ?>
+                        <div class="form-group">
+                            <?php echo lang('create_user_people_group_label', 'people_group');?> <br />
+                            <?php echo $people_group;?>
+                        </div>
+                        <?php endif; ?>
+                    
                         <div class="form-group">
                             <?php echo lang('create_user_username_label', 'username');?> <br />
                             <?php echo form_input($username);?>

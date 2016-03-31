@@ -101,6 +101,15 @@ class Jobs extends Admin_Controller {
         
         $this->data['category'] = form_dropdown('category', Modules::run('categories/dropdown', 'id', 'caption', 'ជ្រើស​ក្រុម​ការងារ', array('job' => TRUE, 'parent_id !=' => FALSE)), empty($this->validation_errors['post_data']['categoory']) ? NULL : $this->validation_errors['post_data']['category'], array('class' => 'form-control', 'id' => 'category'));
         
+        $this->data['location'] = form_dropdown('location', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស​ទីតាំង', array('parent_id' => FALSE)), empty($this->validation_errors['post_data']['location']) ? NULL : $this->validation_errors['post_data']['location'], array('class' => 'form-control', 'id' => 'location'));
+        
+        $this->data['salary'] = array(
+            'name'  => 'salary',
+            'id'    => 'salary',
+            'class' => 'form-control',
+            'value' => empty($this->validation_errors['post_data']['salary']) ? NULL : $this->validation_errors['post_data']['salary']
+        );
+        
         $this->data['company'] = array(
             'name'  => 'company',
             'id'    => 'company',
@@ -185,7 +194,9 @@ class Jobs extends Admin_Controller {
             'agri_position'=> trim($this->input->post('agripos')),
             'agri_cat_id' => trim($this->input->post('agricat')),
             'status'    => 1,
-            'fb_quote'  => trim($this->input->post('fb'))
+            'fb_quote'  => trim($this->input->post('fb')),
+            'salary' => trim($this->input->post('salary')),
+            'location_id' => $this->input->post('location')
         );
         
         $fbpost = $this->input->post('fbp');
@@ -229,7 +240,7 @@ class Jobs extends Admin_Controller {
     public function edit($id)
     {
         parent::check_login();
-        $job = $this->get($id);
+        $job = $this->get_detail($id);
         $this->data['job_id'] = array('job_id' => $job->id);
         $this->data['job'] = $job;
         // display form
@@ -276,6 +287,15 @@ class Jobs extends Admin_Controller {
         );
         
         $this->data['category'] = form_dropdown('category', Modules::run('categories/dropdown', 'id', 'caption', 'ជ្រើស​ក្រុម​ការងារ', array('job' => TRUE, 'parent_id !=' => FALSE)), empty($this->validation_errors['post_data']['categoory']) ? $job->category_id : $this->validation_errors['post_data']['category'], array('class' => 'form-control', 'id' => 'category'));
+        
+        $this->data['location'] = form_dropdown('location', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស​ទីតាំង', array('parent_id' => FALSE)), empty($this->validation_errors['post_data']['location']) ? $job->location_id : $this->validation_errors['post_data']['location'], array('class' => 'form-control', 'id' => 'location'));
+        
+        $this->data['salary'] = array(
+            'name'  => 'salary',
+            'id'    => 'salary',
+            'class' => 'form-control',
+            'value' => empty($this->validation_errors['post_data']['salary']) ? $job->salary : $this->validation_errors['post_data']['salary']
+        );
         
         $this->data['company'] = array(
             'name'  => 'company',
@@ -346,7 +366,6 @@ class Jobs extends Admin_Controller {
         generate_template($this->data, $layout_property); 
     }
 
-
     // update
     public function modify()
     {
@@ -363,7 +382,9 @@ class Jobs extends Admin_Controller {
             'company'   => ucwords(trim($this->input->post('company'))),
             'agri_position'=> trim($this->input->post('agripos')),
             'agri_cat_id' => trim($this->input->post('agricat')),
-            'fb_quote'  => trim($this->input->post('fb'))
+            'fb_quote'  => trim($this->input->post('fb')),
+            'salary' => trim($this->input->post('salary')),
+            'location_id' => $this->input->post('location')
         );
         
         $fbpost = $this->input->post('fbp');

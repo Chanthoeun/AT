@@ -74,8 +74,16 @@ class Article_products extends Admin_Controller {
         return $this->article_product->get_all();
     }
     
-    public function get_all_records($where = FALSE, $get_product = TRUE)
+    public function get_all_records($where = FALSE, $get_product = TRUE, $order_by = FALSE, $limit = FALSE, $offset = 0)
     {
+        if($order_by != FALSE)
+        {
+            $this->order_by($order_by);
+        }
+        if($limit != FALSE)
+        {
+            $this->article_product->limit($limit, $offset);
+        }
         return $this->article_product->get_all_records($where, $get_product);
     }
     

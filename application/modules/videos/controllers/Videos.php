@@ -166,7 +166,7 @@ class Videos extends Admin_Controller {
         $data = array(
             'title'     => $videoTitle,
             'slug'     => str_replace(' ', '-', strtolower($videoTitle)),
-            'detail'    => $this->input->post('detail') != FALSE ? $this->input->post('detail') : $videoInfo['desc'],
+            'detail'    => $this->input->post('detail'),
             'published_at'  => $this->input->post('publish') != FALSE ? $this->input->post('publish') : $videoInfo['p_date'],
             'source'    => $getSource,
             'fb_quote'  => trim($this->input->post('fb')),
@@ -324,7 +324,7 @@ class Videos extends Admin_Controller {
         $data = array(
             'title'     => $videoTitle,
             'slug'     => str_replace(' ', '-', strtolower($videoTitle)),
-            'detail'    => $this->input->post('detail') != FALSE ? $this->input->post('detail') : $videoInfo['desc'],
+            'detail'    => $this->input->post('detail'),
             'published_at'  => $this->input->post('publish') != FALSE ? $this->input->post('publish') : $videoInfo['p_date'],
             'source'    => $getSource,
             'fb_quote'  => trim($this->input->post('fb')),
@@ -402,17 +402,15 @@ class Videos extends Admin_Controller {
         $this->data['title'] = $title;
         $layout_property['css'] = array('https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' => FALSE,
                                         'css/plugins/metisMenu/metisMenu.min.css',
-                                        'css/sb-ad-2.css',
-                                        'font-awesome-4.1.0/css/font-awesome.min.css',
-                                        'css/colorbox/colorbox.min.css'
+                                        'css/sb-admin-2.css',
+                                        'font-awesome-4.1.0/css/font-awesome.min.css'
                                         );
         $layout_property['js']  = array('https://code.jquery.com/jquery-1.11.1.min.js' => FALSE,
                                         'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' => FALSE,
                                         'js/plugins/metisMenu/metisMenu.min.js',
-                                        'js/sb-ad-2.js',
-                                        'js/jquery.colorbox.min.js'
+                                        'js/sb-admin-2.js'
                                         );
-        $layout_property['script'] = '$(document).ready(function(){$(".color-box").colorbox({rel:"color-box",transition:"fade"})});';
+        
         $layout_property['breadcrumb'] = array('videos' => $this->lang->line('index_video_heading'), $title);
         
         $layout_property['content']  = 'view';

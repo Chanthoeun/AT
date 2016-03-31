@@ -39,6 +39,22 @@
             <table class="table table-bordered">
                 <tbody>
                     <tr>
+                        <td class="col-lg-2 success"><strong><?php echo lang('view_agribook_member_type_label'); ?> </strong></td>
+                        <td class="col-lg-6"> <?php echo $agribook->member_type; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-2 success"><strong><?php echo lang('view_agribook_pay_price_label'); ?> </strong></td>
+                        <td class="col-lg-6"> <i class="fa fa-dollar text-danger"> <?php echo $agribook->price; ?></i> </td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-2 success"><strong><?php echo lang('view_agribook_parent_label'); ?> </strong></td>
+                        <td class="col-lg-6"> <?php echo $agribook->parent == TRUE ? 'ស្ថាប័ន​មេ' : 'មិន​មែន'; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-2 success"><strong><?php echo lang('view_agribook_under_parent_label'); ?> </strong></td>
+                        <td class="col-lg-6"> <?php echo $agribook->parent_id == FALSE ? '' : anchor('agribooks/view/'.$agribook->parent_id, 'បើក​ស្ថាប័ន​មេ', array('target' => '_blank')); ?></td>
+                    </tr>
+                    <tr>
                         <td class="col-lg-2 success"><strong><?php echo lang('view_agribook_group_label'); ?> </strong></td>
                         <td class="col-lg-6"> <?php echo $agribook->group; ?></td>
                     </tr>

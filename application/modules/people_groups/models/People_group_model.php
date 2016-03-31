@@ -27,6 +27,11 @@ class People_group_model extends MY_Model {
                 'required'  => '%s តម្រូវឲ្យ​មាន',
                 'is_unique' => '%s មាន​រូចហើយ'
                 )
+        ),
+        array(
+            'field' => 'display',
+            'label' => 'lang:form_people_group_validation_display_label',
+            'rules' => 'trim|xss_clean'
         )
     );
 }

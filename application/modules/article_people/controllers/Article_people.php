@@ -74,8 +74,16 @@ class Article_people extends Admin_Controller {
         return $this->article_people->get_all();
     }
     
-    public function get_all_records($where = FALSE, $get_people = TRUE)
+    public function get_all_records($where = FALSE, $get_people = TRUE, $order_by = FALSE, $limit = FALSE, $offset = 0)
     {
+        if($order_by != FALSE)
+        {
+            $this->order_by($order_by);
+        }
+        if($limit != FALSE)
+        {
+            $this->article_people->limit($limit, $offset);
+        }
         return $this->article_people->get_all_records($where, $get_people);
     }
     

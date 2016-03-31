@@ -73,7 +73,7 @@
     </div>
     <!-- /.col-lg-6 -->
     <div class="col-lg-6">
-        <h3 class="page-header"><?php echo lang('view_upload_picture_label'); ?></h3>
+        <h3 class="page-header" style="margin-top: 0;"><?php echo lang('view_upload_picture_label'); ?></h3>
         <div class="row">
             <div class="col-lg-12">
                 <?php echo form_open_multipart(current_url(), 'role="form" class="form-inline"', $product_id); ?>

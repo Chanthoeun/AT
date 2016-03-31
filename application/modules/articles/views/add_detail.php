@@ -40,8 +40,8 @@
                         <?php echo lang('form_article_detail_desc_label', 'desc');?> <br />
                         <?php echo form_textarea($desc);?>
                         <script>
-                            CKEDITOR.replace('desc', {height: 400} );
-                        </script>
+                CKEDITOR.replace('desc', {height: 400} );
+            </script>
                     </div>
                 </div>
 

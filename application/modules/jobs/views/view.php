@@ -47,6 +47,14 @@
                         <td class="col-lg-6"> <?php echo $job->catcaption; ?></td>
                     </tr>
                     <tr>
+                        <td class="col-lg-2 success"><strong><?php echo lang('form_job_location_label'); ?></strong></td>
+                        <td class="col-lg-6"> <?php echo $job->location; ?></td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-2 success"><strong><?php echo lang('form_job_salary_label'); ?></strong></td>
+                        <td class="col-lg-6"> <?php echo $job->salary.' $'; ?></td>
+                    </tr>
+                    <tr>
                         <td class="col-lg-1 success"><strong><?php echo lang('form_job_company_label'); ?></strong></td>
                         <td class="col-lg-6"> <?php echo $job->company; ?></td>
                     </tr>

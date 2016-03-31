@@ -30,6 +30,29 @@
                 <div class="row">
                     <div class="col-lg-2">
                         <div class="form-group">
+                            <?php echo lang('form_agribook_member_type_label', 'member_type');?> <br />
+                            <?php echo $member_type;?>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <?php echo lang('form_agribook_parent_label', 'parent');?> <br />
+                            <?php echo $parent;?>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <?php echo lang('form_agribook_make_as_parent_label', 'set_parent');?> <br />
+                            <?php echo form_checkbox($set_parent).lang('form_agribook_validation_make_as_parent_label');?>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="form-group">
                             <?php echo lang('form_agribook_group_label', 'group');?> <br />
                             <?php echo $group;?>
                         </div>

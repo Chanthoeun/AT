@@ -73,9 +73,17 @@ class Article_libraries extends Admin_Controller {
         return $this->article_library->get_all();
     }
     
-    public function get_all_records($where = FALSE)
+    public function get_all_records($where = FALSE, $where_in = FALSE, $order_by = FALSE, $limit = FALSE, $offset = 0)
     {
-        return $this->article_library->get_all_records($where);
+        if($order_by != FALSE)
+        {
+            $this->order_by($order_by);
+        }
+        if($limit != FALSE)
+        {
+            $this->article_library->limit($limit, $offset);
+        }
+        return $this->article_library->get_all_records($where, $where_in);
     }
     
     public function get_many_by($where, $order_by = FALSE, $limit = FALSE, $offset = 0)

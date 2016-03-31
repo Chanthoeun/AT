@@ -76,6 +76,13 @@ class People_groups extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['caption']) ? NULL : $this->validation_errors['post_data']['caption']
         );
         
+        $this->data['display'] = array(
+            'name'          => 'display',
+            'id'            => 'display',
+            'value'         => 1,
+            'checked'       => empty($this->validation_errors['post_data']['display']) ? FALSE : $this->validation_errors['post_data']['display']
+        );
+        
         // process template
         $title = $this->lang->line('form_people_group_create_heading');
         $this->data['title'] = $title;
@@ -104,8 +111,9 @@ class People_groups extends Admin_Controller {
         parent::check_login();
         $data = array(
             'caption'   => trim($this->input->post('caption')),
-            'slug'      => str_replace(' ', '-', strtolower(trim($this->input->post('caption')))),
-            'order'     => $this->get_next_order('order')
+            'slug'     => str_replace(' ', '-', strtolower(trim($this->input->post('caption')))),
+            'display'   => $this->input->post('display'),
+            'order'    => $this->get_next_order('order')
         );
 
         if(($pgid = $this->insert($data)) != FALSE)
@@ -144,6 +152,13 @@ class People_groups extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['caption']) ? $people_group->caption : $this->validation_errors['post_data']['caption']
         );
         
+        $this->data['display'] = array(
+            'name'          => 'display',
+            'id'            => 'display',
+            'value'         => 1,
+            'checked'       => empty($this->validation_errors['post_data']['display']) ? $people_group->display : $this->validation_errors['post_data']['display']
+        );
+        
         // process template
         $title = $this->lang->line('form_people_group_edit_heading');
         $this->data['title'] = $title;
@@ -173,7 +188,8 @@ class People_groups extends Admin_Controller {
         $id = $this->input->post('people_group_id');
         $data = array(
             'caption'   => trim($this->input->post('caption')),
-            'slug'      => str_replace(' ', '-', strtolower(trim($this->input->post('caption')))),
+            'slug'     => str_replace(' ', '-', strtolower(trim($this->input->post('caption')))),
+            'display'   => $this->input->post('display')
         );
         
         $this->people_group->validate[0]['rules'] = 'trim|required|xss_clean';

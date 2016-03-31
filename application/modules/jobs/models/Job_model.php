@@ -22,7 +22,8 @@ class Job_model extends MY_Model {
         array(
             'field' => 'title',
             'label' => 'lang:form_job_title_label',
-            'rules' => 'trim|required|xss_clean'
+            'rules' => 'trim|required|xss_clean',
+            'onerror' => array('required' => '%s តម្រូវ​ឲ្យ​មាន')
         ),
         array(
             'field' => 'description',
@@ -32,12 +33,25 @@ class Job_model extends MY_Model {
         array(
             'field' => 'requirement',
             'label' => 'lang:form_job_requirement_label',
-            'rules' => 'trim|required|xss_clean'
+            'rules' => 'trim|required|xss_clean',
+            'onerror' => array('required' => '%s តម្រូវ​ឲ្យ​មាន')
         ),
         array(
             'field' => 'apply',
             'label' => 'lang:form_job_apply_label',
-            'rules' => 'trim|required|xss_clean'
+            'rules' => 'trim|required|xss_clean',
+            'onerror' => array('required' => '%s តម្រូវ​ឲ្យ​មាន')
+        ),
+        array(
+            'field' => 'salary',
+            'label' => 'lang:form_job_salary_label',
+            'rules' => 'trim|xss_clean'
+        ),
+        array(
+            'field' => 'location',
+            'label' => 'lang:form_job_location_label',
+            'rules' => 'trim|required|xss_clean',
+            'onerror' => array('required' => '%s តម្រូវ​ឲ្យ​មាន')
         ),
         array(
             'field' => 'close_date',
@@ -78,9 +92,10 @@ class Job_model extends MY_Model {
     
     public function get_detail($where)
     {
-        $this->db->select($this->_table.'.*, category.caption as catcaption, agricat.caption as agricatcaption');
+        $this->db->select($this->_table.'.*, category.caption as catcaption, location.caption as location, agricat.caption as agricatcaption');
         $this->db->join('category', $this->_table.'.category_id = category.id', 'left');
         $this->db->join('category as agricat', $this->_table.'.agri_cat_id = agricat.id', 'left');
+        $this->db->join('location', $this->_table.'.location_id = location.id', 'left');
         if(is_numeric($where))
         {
             $where = array($this->_table.'.id' => $where);
@@ -90,9 +105,10 @@ class Job_model extends MY_Model {
     
     public function get_all_records($where = FALSE)
     {
-        $this->db->select($this->_table.'.*, category.caption as catcaption, agricat.caption as agricatcaption');
+        $this->db->select($this->_table.'.*, category.caption as catcaption, location.caption as location, agricat.caption as agricatcaption');
         $this->db->join('category', $this->_table.'.category_id = category.id', 'left');
         $this->db->join('category as agricat', $this->_table.'.agri_cat_id = agricat.id', 'left');
+        $this->db->join('location', $this->_table.'.location_id = location.id', 'left');
         if($where == FALSE)
         {
             return parent::get_all();

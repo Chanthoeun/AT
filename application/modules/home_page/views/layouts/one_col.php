@@ -36,6 +36,17 @@
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
         <meta name="theme-color" content="#ffffff">
         
+        
+        <style>
+        html, body{
+            background-color: #063501;
+            height: 100%;
+        }
+        body{
+            min-height: 100%;
+        }
+    </style>
+        
         <!--[if lt IE 9]>
                 <script src="js/respond.min.js"></script>
         <![endif]-->

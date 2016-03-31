@@ -56,7 +56,7 @@
         <!-- Header page -->
         <?php echo $header; ?>
        
-        <?php if(!isset($no_breadcrumb)): ?>
+        <?php if(!$this->agent->is_mobile() && !isset($no_breadcrumb)): ?>
         <section class="clearfix">
             <section class="container">
                 <div class="row">
@@ -104,15 +104,5 @@
         <?php echo $this->template->print_jquery(); ?>
         
         <?php echo $this->template->print_script(); ?>
-        
-        <!-- Facebook API -->
-        <div id="fb-root"></div>
-        <script>(function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3&appId=1534352553487668";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script><!-- end facebook API -->
     </body>
 </html>

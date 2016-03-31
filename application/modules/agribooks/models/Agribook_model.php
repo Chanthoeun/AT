@@ -119,13 +119,29 @@ class Agribook_model extends MY_Model {
             'field' => 'phum',
             'label' => 'lang:form_agribook_validation_phum_label',
             'rules' => 'trim|xss_clean'
+        ),
+        array(
+            'field' => 'set_parent',
+            'label' => 'lang:form_agribook_validation_make_as_parent_label',
+            'rules' => 'trim|xss_clean'
+        ),
+        array(
+            'field' => 'parent',
+            'label' => 'lang:form_agribook_validation_parent_label',
+            'rules' => 'trim|xss_clean'
+        ),
+        array(
+            'field' => 'member_type',
+            'label' => 'lang:form_agribook_validation_member_type_label',
+            'rules' => 'trim|xss_clean'
         )
     );
     
     public function get_detail($where, $or = FALSE)
     {
-        $this->db->select($this->_table.'.*, g.caption as group');
+        $this->db->select($this->_table.'.*, g.caption as group, mt.caption as member_type, mt.price as price');
         $this->db->join('agribook_group as g', $this->_table.'.agribook_group_id = g.id', 'left');
+        $this->db->join('agribook_member_type as mt', $this->_table.'.member_type_id = mt.id', 'left');
         if(is_numeric($where))
         {
             $where = array($this->_table.'.id' => $where);

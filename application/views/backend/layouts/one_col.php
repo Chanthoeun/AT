@@ -30,14 +30,14 @@
         <?php echo $this->template->print_css(); ?>
         
         <style>
-            html, body{
-                background-color: #063501;
-                height: 100%;
-            }
-            body{
-                min-height: 100%;
-            }
-        </style>
+        html, body{
+            background-color: #063501;
+            height: 100%;
+        }
+        body{
+            min-height: 100%;
+        }
+    </style>
         
         <!-- Optional Javascript -->
         <?php echo $this->template->print_js_optional(); ?>

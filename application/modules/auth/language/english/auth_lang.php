@@ -58,11 +58,13 @@ $lang['create_user_username_label']                    = $lang['index_username_t
 $lang['create_user_email_label']                       = $lang['index_email_th'].':';
 $lang['create_user_password_label']                    = $lang['login_password_label'].':';
 $lang['create_user_password_confirm_label']            = $lang['deactivate_validation_confirm_label'].$lang['login_password_label'].':';
+$lang['create_user_people_group_label']                 = 'ក្រុម:';
 $lang['create_user_submit_btn']                        = lang('btn_submit_label');
 $lang['create_user_validation_username_label']         = $lang['index_username_th'];
 $lang['create_user_validation_email_label']            = $lang['index_email_th'];
 $lang['create_user_validation_password_label']         = $lang['login_password_label'];
 $lang['create_user_validation_password_confirm_label'] = $lang['deactivate_validation_confirm_label'].$lang['login_password_label'];
+$lang['create_user_validation_people_group_label'] = 'ក្រុម';
 
 // Edit User
 $lang['edit_user_heading']                           = 'កែប្រែ'.$lang['index_heading'];

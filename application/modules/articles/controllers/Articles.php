@@ -396,7 +396,6 @@ class Articles extends Admin_Controller {
         generate_template($this->data, $layout_property); 
     }
 
-
     // update
     public function modify()
     {
@@ -487,9 +486,9 @@ class Articles extends Admin_Controller {
         parent::check_login();
         $article = $this->get_detail($id);
         $this->data['article'] = $article;
-        $this->data['documents'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id, 'library_group_id' => 1));
-        $this->data['audios'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id, 'library_group_id' => 2));
-        $this->data['videos'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id, 'library_group_id' => 3));
+        $this->data['documents'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type());
+        $this->data['audios'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(2));
+        $this->data['videos'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(3));
         $this->data['details'] = Modules::run('article_details/get_many_by', array('article_id' => $article->id));
         
         //get linked data
@@ -613,7 +612,8 @@ class Articles extends Admin_Controller {
         
         // message error
         $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
-        $this->data['group'] = form_dropdown('group', Modules::run('library_groups/dropdown', 'id', 'caption'), empty($this->validation_errors['post_data']['group']) ? $search : $this->validation_errors['post_data']['group'], 'class="form-control" id="group"');
+        $library_groups = get_dropdown(prepareList(Modules::run('library_groups/get_dropdown')), 'ជ្រើស​ក្រុម');
+        $this->data['group'] = form_dropdown('group', $library_groups, empty($this->validation_errors['post_data']['group']) ? $search : $this->validation_errors['post_data']['group'], 'class="form-control" id="group"');
         
         $title = $this->lang->line('article_link_library_menu_label');
         $this->data['title'] = $title;
@@ -1307,6 +1307,79 @@ class Articles extends Admin_Controller {
         generate_template($this->data, $layout_property);
     }
     
+    public function change_category()
+    {
+        parent::check_login();
+        $this->form_validation->set_rules('category', $this->lang->line('search_caption_label'), 'trim|xss_clean');
+        if($this->form_validation->run() == TRUE)
+        {
+            $search = trim($this->input->post('category'));
+            $this->data['category_id'] = array('category_id' => $search != FALSE ? $search : FALSE);
+            $this->data['articles'] = $this->get_all_records(array('category_id' => $search)); 
+        }
+        
+        // message error
+        $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+        
+        $categories_all = get_dropdown(prepareList(Modules::run('categories/get_dropdown')), $this->lang->line('filter_cat_caption_label'));
+        $this->data['category'] = form_dropdown('category', $categories_all, set_value('category'), 'class="form-control" id="category"');
+        
+        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE))), $this->lang->line('filter_cat_caption_label'));
+        $this->data['category_update'] = form_dropdown('category_update', $categories, empty($this->validation_errors['post_data']['category_update']) ? NULL : $this->validation_errors['post_data']['category_update'], 'class="form-control" id="category_update"');
+        
+        // process template
+        $title = $this->lang->line('change_cat_heading_label');
+        $this->data['title'] = $title;
+        
+        $layout_property = parent::load_index_script();
+        
+        $layout_property['breadcrumb'] = array('articles' => $this->lang->line('index_article_heading'), $title);
+        
+        $layout_property['content']  = 'change_category';
+        
+        // menu
+        $this->data['article_group_menu'] = TRUE; $this->data['article_change_category_menu'] = TRUE;
+        generate_template($this->data, $layout_property);
+    }
+    
+    public function update_category()
+    {
+        parent::check_login();
+        $this->form_validation->set_rules('category_update', $this->lang->line('change_cat_caption_label'), 'trim|required|xss_clean', array('required' => '%s តម្រូវឲ្យ​មាន'));
+        $this->form_validation->set_rules('art_id[]', $this->lang->line('change_cat_article_label'), 'trim|xss_clean');
+        if($this->form_validation->run() == TRUE)
+        {
+            $category_update = trim($this->input->post('category_update'));
+            $category_id = trim($this->input->post('category_id'));
+            $articleIds = $this->input->post('art_id');
+            
+            if($articleIds == FALSE)
+            {
+                $arts = $this->get_many_by(array('category_id' => $category_id));
+                foreach ($arts as $art){
+                    $this->update($art->id, array('category_id' => $category_update), TRUE);
+                }
+            }
+            else
+            {
+                foreach ($articleIds as $articleId)
+                {
+                    $this->update($articleId, array('category_id' => $category_update), TRUE);
+                }
+            }
+            
+             // set log
+            set_log('Updated Article Category', array($category_id, $category_update));
+
+            $this->session->set_flashdata('message', $this->lang->line('change_cat_success_label'));
+            redirect('articles/change-category', 'refresh');
+        }
+        else
+        {
+            redirect_form_validation(validation_errors(), $this->input->post(), 'articles/change-category');
+        }
+    }
+    
     public function details($id)
     {
         parent::check_login();
@@ -1414,6 +1487,8 @@ class Articles extends Admin_Controller {
                                         'js/sb-admin-2.js'
                                         );
         
+        $layout_property['optional_js'] = base_url('assets/ckeditor/ckeditor.js');
+        
         $layout_property['breadcrumb'] = array('articles' => $this->lang->line('index_article_heading'), 'articles/view/'.$article->id => $article->title, $title);
         
         $layout_property['content']  = 'add_detail';
@@ -1504,6 +1579,7 @@ class Articles extends Admin_Controller {
                                         'js/plugins/metisMenu/metisMenu.min.js',
                                         'js/sb-admin-2.js'
                                         );
+        $layout_property['optional_js'] = base_url('assets/ckeditor/ckeditor.js');
         
         $layout_property['breadcrumb'] = array('articles' => $this->lang->line('index_article_heading'), 'articles/view/'.$this->data['article']->id => $this->data['article']->title, $title);
         

@@ -98,11 +98,25 @@ class Auth extends Admin_Controller {
 
             //redirect them back to the home page
             $this->session->set_flashdata('message', $this->ion_auth->messages());
+            
+            $userProfile = Modules::run('people/get_detail', array('user_id' => $this->session->userdata('user_id')));
+            
             if($this->ion_auth->is_admin()){
+                $this->session->set_userdata(array('user_group' => 'Administrators'));
+                
                 $this->_reditect_back('control');
             }else{
                 if($this->ion_auth->in_group(2))
                 {
+                    if($userProfile != FALSE)
+                    {
+                        $userInfo = array(
+                            'member_group' => $userProfile->people_group_id
+                        );
+                    }
+                    $userInfo['user_group'] = 'Members';
+                    
+                    $this->session->set_userdata($userInfo);
                     $this->_reditect_back('members');
                 }
             }
@@ -123,11 +137,27 @@ class Auth extends Admin_Controller {
                 
                 //redirect them back to the home page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
+                
+                $userProfile = Modules::run('people/get_detail', array('user_id' => $this->session->userdata('user_id')));
+                
                 if($this->ion_auth->is_admin()){
+                    
+                    $this->session->set_userdata(array('user_group' => 'Administrators'));
+                    
                     $this->_reditect_back('control');
                 }
                 else
                 {
+                    if($userProfile != FALSE)
+                    {
+                        $userInfo = array(
+                            'member_group' => $userProfile->people_group_id
+                        );
+                    }
+                    $userInfo['user_group'] = 'Members';
+                    
+                    $this->session->set_userdata($userInfo);
+                    
                     $this->_reditect_back('members');
                 }
             }else{
@@ -548,11 +578,15 @@ class Auth extends Admin_Controller {
     {
         parent::check_login();        
         //validate form input
-        $this->form_validation->set_rules('username', $this->lang->line('create_user_validation_username_label'), 'trim|required|is_unique[users.username]|xss_clean', array('required' => 'You have not provided %s.', 'is_unique' => 'This %s already exists.'));
-        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'trim|required|valid_email|is_unique[users.email]|xss_clean', array('required' => 'You have not provided %s.', 'is_unique' => 'This %s already exists.'));
-        $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'trim|required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
-        $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'trim|required');
-
+        $this->form_validation->set_rules('username', $this->lang->line('create_user_validation_username_label'), 'trim|required|is_unique[users.username]|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន', 'is_unique' => '%s នេះ​មាន​រួច​ហើយ'));
+        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'trim|required|valid_email|is_unique[users.email]|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន', 'is_unique' => '%s នេះ​មាន​រួច​ហើយ'));
+        $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'trim|required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]', array('required' => '%s តម្រូវ​ឲ្យ​មាន', 'min_length' => '%s មិនត្រូវ​តូចជាង​ '.$this->config->item('min_password_length', 'ion_auth'), 'max_length' => '%s មិនត្រូវ​ធំជាង '.$this->config->item('max_password_length', 'ion_auth'), 'matches' => '%s ពាក្យ​សំងាត់​មិន​ដូចគ្នា'));
+        $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'trim|required', array('required' => '%s តម្រូវ​ឲ្យ​មាន'));
+        
+        if($m != FALSE)
+        {
+            $this->form_validation->set_rules('people_group', $this->lang->line('create_user_validation_people_group_label'), 'trim|xss_clean');
+        }
 
         if ($this->form_validation->run() == TRUE)
         {
@@ -564,20 +598,43 @@ class Auth extends Admin_Controller {
                 'active'    => 1,
             );
             $member_type = $m == FALSE ? 1 : 2;
-            if ($this->ion_auth->register($username, $password, $email, $additional_data,array($member_type))){
+            if (($uid = $this->ion_auth->register($username, $password, $email, $additional_data,array($member_type))) != FALSE){
                 // set log
                 set_log('Create User', array($username,$email,$password,'Admin',$member_type));
-
-                //check to see if we are creating the user
+                
+                if($m != FALSE)
+                {
+                    //check people profile
+                    $userProfile = Modules::run('people/get_detail', array('email' => $email));
+                    if($userProfile == FALSE)
+                    {
+                        // insert people profile
+                        Modules::run('people/insert', array('people_group_id' => $this->input->post('people_group'), 'user_id' => $uid), TRUE);
+                    }
+                    else
+                    {
+                        //update people profile
+                        Modules::run('poeple/update', $userProfile->id, array('people_group_id' => $this->input->post('people_group'), 'user_id' => $uid), TRUE);
+                    }
+                    
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect("members/".$uid, 'refresh');
+                }
+                
                 //redirect them back to the admin page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect($m == FALSE ? "auth" : "auth/members", 'refresh');
+                redirect("auth", 'refresh');
             }
         }
         
         //display the create user form
         //set the flash data error message if there is one
         $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        
+        if($m != FALSE)
+        {
+            $this->data['people_group'] = form_dropdown('people_group', Modules::run('people_groups/dropdown', 'id', 'caption', FALSE, array('display' => TRUE)), $this->form_validation->set_value('people_group'), array('class' => 'form-control', 'id' => 'people_group'));
+        }
 
         $this->data['username'] = array(
             'name'  => 'username',
@@ -643,6 +700,10 @@ class Auth extends Admin_Controller {
         $user = $this->ion_auth->user($id)->row();
         $user_groups = $this->ion_auth->get_users_groups($user->id)->row();
         $this->data['user_group'] = $user_groups->id;       
+        
+        // get people profile
+        $userProfile = Modules::run('people/get_detail', $user->id);
+        
         //validate form input
         if($user->username != 'administrator')
         {
@@ -671,6 +732,14 @@ class Auth extends Admin_Controller {
             if ($this->form_validation->run() === TRUE)
             {
                 $this->ion_auth->update($user->id, $data);
+                
+                //update peopel profile email
+                if($userProfile)
+                {
+                    //update people profile
+                    Modules::run('poeple/update', $userProfile->id, array('email' => $data['email']), TRUE);
+                }
+                
 
                 //check to see if we are creating the user
                 //redirect them back to the admin page

@@ -97,8 +97,8 @@
                             <?php echo lang('form_article_detail_label', 'detail');?> <br />
                             <?php echo form_textarea($detail);?>
                             <script>
-                                CKEDITOR.replace( 'detail', {height: 400, filebrowserBrowseUrl: '/assets/pgrfilemanager/PGRFileManager.php',} );
-                            </script>
+                CKEDITOR.replace( 'detail', {height: 400, filebrowserBrowseUrl: '/assets/pgrfilemanager/PGRFileManager.php',} );
+            </script>
                         </div>
                     </div>
                 </div>

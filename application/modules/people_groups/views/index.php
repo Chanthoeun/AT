@@ -34,7 +34,8 @@
                             <tr>
                                 <th class="col-lg-1 text-center"><?php echo lang('id_th'); ?></th>
                                 <th><?php echo lang('index_people_group_caption_th');?></th>
-                                <th class="text-center"><?php echo lang('index_people_group_order_th');?></th>
+                                <th class="col-lg-2 text-center"><?php echo lang('index_people_group_display_th');?></th>
+                                <th class="col-lg-2 text-center"><?php echo lang('index_people_group_order_th');?></th>
                                 <th class="col-lg-2 text-center"><?php echo lang('index_people_group_action_th');?></th>
                             </tr>
                         </thead>
@@ -43,6 +44,7 @@
                             <tr>
                                 <td class="text-center"><?php echo $group->id;?></td>
                                 <td><?php echo $group->caption;?></td>
+                                <td class="text-center"><?php echo $group->display == FALSE ? 'មិន​'.lang('index_people_group_display_th') : lang('index_people_group_display_th');?></td>
                                 <td class="text-center"><?php echo $group->order;?></td>
                                 <td class="text-center"><?php echo link_edit("people-groups/edit/".$group->id);?> | <?php echo link_delete('people-groups/destroy/'.$group->id); ?></td>
                             </tr>

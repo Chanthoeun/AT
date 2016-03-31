@@ -29,7 +29,7 @@
                 <?php } ?>
                 <?php echo form_open_multipart("jobs/modify", 'role="form"', $job_id);?>
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <?php echo lang('form_job_title_label', 'title');?> <br />
                             <?php echo form_input($job_title);?>
@@ -40,6 +40,23 @@
                         <div class="form-group">
                             <?php echo lang('form_job_category_label', 'category');?> <br />
                             <?php echo $category;?>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <?php echo lang('form_job_location_label', 'category');?> <br />
+                            <?php echo $location;?>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <?php echo lang('form_job_salary_label', 'close_date');?> <br />
+                            <div class="input-group date">
+                                <?php echo form_input($salary);?>
+                                <div class="input-group-addon"><i class="fa fa-dollar fa-fw"></i></div>
+                            </div>
                         </div>
                     </div>
 

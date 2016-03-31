@@ -65,6 +65,10 @@
                     </li>
                     
                     <li>
+                        <a <?php echo isset($agribook_member_types_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('agribook-member_types'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('agribook_member_type_menu_label'); ?></a>
+                    </li>
+                    
+                    <li>
                         <a <?php echo isset($agribook_groups_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('agribook-group'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('agribook_group_menu_label'); ?></a>
                     </li>
                     
@@ -128,6 +132,10 @@
                     
                     <li>
                         <a <?php echo isset($article_filter_category_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('articles/filter-by-category'); ?>"><i class="fa fa-filter fa-fw"></i> <?php echo lang('filter_by_category_menu_label'); ?></a>
+                    </li>
+                    
+                    <li>
+                        <a <?php echo isset($article_change_category_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('articles/change-category'); ?>"><i class="fa fa-refresh fa-fw"></i> <?php echo lang('article_change_category_menu_label'); ?></a>
                     </li>
                     
                 </ul>

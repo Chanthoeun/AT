@@ -139,4 +139,14 @@ class Product_model extends MY_Model {
         }
         return $array == TRUE ? parent::as_array()->get_all() : parent::as_object()->get_all();
     }
+    
+    public function get_contact($id)
+    {
+        $this->db->select($this->_table.'.id, agribook.id as agribook_id, agribook.name, agribook.name_en, agribook.address, agribook.telephone, agribook.map, agribook.logo, agribook.location_id');
+        $this->db->join('users', $this->_table.'.user_id = users.id', 'left');
+        $this->db->join('people', 'users.id = people.user_id', 'left');
+        $this->db->join('agribook', 'people.organization = agribook.name OR people.organization = agribook.name_en', 'left');
+        
+        return parent::get_by(array($this->_table.'.id' => $id));
+    }
 }

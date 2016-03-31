@@ -408,6 +408,15 @@ class People extends Admin_Controller {
 
         if($this->update($id, $data))
         {
+            //update login email 
+            $people = $this->get($id);
+            $user = $this->ion_auth->user($people->user_id)->row();
+            
+            if($user)
+            {
+                $this->ion_auth->update($user->id, array('email' => $data['email']));
+            }
+            
             // set log
             array_unshift($data, $id);
             set_log('Updated People',$data);

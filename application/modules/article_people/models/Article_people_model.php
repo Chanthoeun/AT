@@ -22,7 +22,7 @@ class Article_people_model extends MY_Model {
     {
         if($get_people == TRUE)
         {
-            $this->db->select($this->_table.'.*, people.name, people.position, people.organization, people_group.caption as group');
+            $this->db->select($this->_table.'.*, people.name, people.position,  people.telephone, people.organization, people_group.caption as group');
             $this->db->join('people', $this->_table.'.people_id = people.id', 'left');
             $this->db->join('people_group', 'people.people_group_id = people_group.id', 'left');
         }

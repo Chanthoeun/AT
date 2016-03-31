@@ -29,7 +29,12 @@
                 <?php } ?>
                 <div class="col-lg-4">
                     <?php echo form_open("library-groups/store", 'role="form"');?>
-                                                <div class="form-group">
+                        <div class="form-group">
+                            <?php echo lang('form_library_group_parent_label', 'parent');?> <br />
+                            <?php echo $parent;?>
+                        </div>
+                    
+                        <div class="form-group">
                             <?php echo lang('form_library_group_caption_label', 'caption');?> <br />
                             <?php echo form_input($caption);?>
                         </div>

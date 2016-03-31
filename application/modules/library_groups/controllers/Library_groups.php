@@ -46,7 +46,7 @@ class Library_groups extends Admin_Controller {
     public function index()
     {
         parent::check_login();
-        $this->data['library_groups'] = $this->get_all();
+        $this->data['library_groups'] = $this->get_all_records(array('library_group.parent_id' => FALSE));
         
         // process template
         $title = $this->lang->line('index_library_group_heading');
@@ -55,6 +55,26 @@ class Library_groups extends Admin_Controller {
         $layout_property = parent::load_index_script();
         
         $layout_property['breadcrumb'] = array($title);
+        
+        $layout_property['content']  = 'index';
+        
+        // menu
+        $this->data['setting_menu'] = TRUE; $this->data['library_groups_menu'] = TRUE;
+        generate_template($this->data, $layout_property); 
+    }
+    
+    public function get_index($pid)
+    {
+        parent::check_login();
+        $this->data['library_groups'] = $this->get_all_records(array('library_group.parent_id' => $pid));
+        
+        // process template
+        $title = $this->lang->line('index_library_group_heading');
+        $this->data['title'] = $title;
+        
+        $layout_property = parent::load_index_script();
+        
+        $layout_property['breadcrumb'] = array_merge(array('library_groups' => $this->lang->line('index_library_group_heading')), generate_breadcrumb($pid, 'library-groups', 'library_groups', 'library_group'));
         
         $layout_property['content']  = 'index';
         
@@ -76,6 +96,8 @@ class Library_groups extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['caption']) ? NULL : $this->validation_errors['post_data']['caption']
         );
         
+        $this->data['parent'] = form_dropdown('parent', get_dropdown(prepareList($this->get_dropdown()), 'ជ្រើស​ក្រុម'), empty($this->validation_errors['post_data']['parent']) ? $pid : $this->validation_errors['post_data']['parent'], 'class="form-control" id="parent"');
+        
         // process template
         $title = $this->lang->line('form_library_group_create_heading');
         $this->data['title'] = $title;
@@ -89,8 +111,16 @@ class Library_groups extends Admin_Controller {
                                         'js/plugins/metisMenu/metisMenu.min.js',
                                         'js/sb-admin-2.js'
                                         );
+        if($pid == FALSE)
+        {
+            $layout_property['breadcrumb'] = array('library-groups' => $this->lang->line('index_library_group_heading'), $title);
+        }
+        else
+        {
+            $layout_property['breadcrumb'] = array_merge(array('library-groups' => $this->lang->line('index_library_group_heading')), generate_breadcrumb($pid, 'library-groups', 'library_groups', 'library_group'), array($title));
+        }
         
-        $layout_property['breadcrumb'] = array('library_groups' => $this->lang->line('index_library_group_heading'), $title);
+        
         
         $layout_property['content']  = 'create';
         
@@ -103,8 +133,10 @@ class Library_groups extends Admin_Controller {
     public function store()
     {
         parent::check_login();
+        $parentId = trim($this->input->post('parent'));
         $data = array(
-            'caption' => ucwords(trim($this->input->post('caption')))
+            'caption' => trim($this->input->post('caption')),
+            'parent_id' => $parentId
         );
 
         if (($atid = $this->insert($data)) != FALSE)
@@ -114,11 +146,11 @@ class Library_groups extends Admin_Controller {
             set_log('Created Library Group', $data);
 
             $this->session->set_flashdata('message', $this->lang->line('form_library_group_report_success'));
-            redirect('library-groups', 'refresh');
+            redirect('library-groups/'.$parentId, 'refresh');
         }
         else
         {
-            redirect_form_validation(validation_errors(), $this->input->post(), 'library-groups/create');
+            redirect_form_validation(validation_errors(), $this->input->post(), 'library-groups/create/'.$parentId);
         }
     }
 
@@ -142,6 +174,8 @@ class Library_groups extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['caption']) ? $library_group->caption : $this->validation_errors['post_data']['caption']
         );
         
+        $this->data['parent'] = form_dropdown('parent', get_dropdown(prepareList($this->get_dropdown()), 'ជ្រើស​ក្រុម'), empty($this->validation_errors['post_data']['parent']) ? $library_group->parent_id : $this->validation_errors['post_data']['parent'], 'class="form-control" id="parent"');
+        
         // process template
         $title = $this->lang->line('form_library_group_edit_heading');
         $this->data['title'] = $title;
@@ -156,7 +190,7 @@ class Library_groups extends Admin_Controller {
                                         'js/sb-admin-2.js'
                                         );
         
-        $layout_property['breadcrumb'] = array('library_groups' => $this->lang->line('index_library_group_heading'), $title);
+        $layout_property['breadcrumb'] = array_merge(array('library-groups' => $this->lang->line('index_library_group_heading')), generate_breadcrumb($library_group->parent_id, 'library-groups', 'library_groups', 'library_group'), array($title));
         
         $layout_property['content']  = 'edit';
         
@@ -170,9 +204,10 @@ class Library_groups extends Admin_Controller {
     {
         parent::check_login();
         $id = $this->input->post('library_group_id');
-
+        $parentId = trim($this->input->post('parent'));
         $data = array(
-            'caption' => ucwords(strtolower(trim($this->input->post('caption'))))
+            'caption' => trim($this->input->post('caption')),
+            'parent_id' => $parentId
         );
         
         $this->library_group->validate[0]['rules'] = 'trim|required|xss_clean';
@@ -183,7 +218,7 @@ class Library_groups extends Admin_Controller {
             set_log('Updated Library Group', $data);
 
             $this->session->set_flashdata('message', $this->lang->line('form_library_group_report_success'));
-            redirect('library-groups', 'refresh');
+            redirect('library-groups/'.$parentId, 'refresh');
         }
         else
         {
@@ -197,8 +232,31 @@ class Library_groups extends Admin_Controller {
         parent::check_login();
         $library_group = $this->get($id);
         
+        // do they have childs
+        $get_childs = $this->get_many_by(array('parent_id' => $library_group->id));
+        
         if($this->delete($id))
         {            
+            if($del_child == FALSE)
+            {
+                //convert child to parent
+                if(count($get_childs) > 0)
+                {
+                    // transfer child to parent
+                    foreach ($get_childs as $child)
+                    {
+                        $this->update($child->id, array('parent_id' => 0), TRUE);
+                        // set log
+                        set_log('Converted to parent', $child);
+                    }
+                }
+            }
+            else
+            {
+                // delete all child
+                $this->delete_by(array('parent_id' => $library_group->id));
+            }
+            
             // set log
             set_log('Deleted Library Group', $library_group);
             
@@ -208,7 +266,7 @@ class Library_groups extends Admin_Controller {
         {
             $this->session->set_flashdata('message', $this->lang->line('del_library_group_report_error'));
         }
-        redirect('library-groups', 'refresh');
+        redirect('library-groups/'.$library_group->parent+_id, 'refresh');
     }
     
     public function get($id, $array = FALSE)
@@ -227,6 +285,11 @@ class Library_groups extends Admin_Controller {
         return $this->library_group->as_object()->get_by($where);
     }
     
+    public function get_detail($where)
+    {
+        return $this->library_group->get_detail($where);
+    }
+    
     public function get_all()
     {
         return $this->library_group->get_all();
@@ -235,6 +298,21 @@ class Library_groups extends Admin_Controller {
     public function get_many_by($where)
     {
         return $this->library_group->get_many_by($where);
+    }
+    
+    public function get_all_records($where = FALSE)
+    {
+        return $this->library_group->get_all_records($where);
+    }
+    
+    public function get_dropdown($where = FALSE)
+    {
+        return $this->library_group->get_dropdown($where);
+    }
+    
+    public function get_list($where = FALSE)
+    {
+        return $this->library_group->get_list($where);
     }
     
     public function insert($data, $skip_validation = FALSE)

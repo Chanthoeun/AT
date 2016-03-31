@@ -48,7 +48,7 @@
                             <?php foreach ($categories as $category):?>
                             <tr>
                                 <td class="text-center"><?php echo $category->id;?></td>
-                                <td><?php echo anchor('categories/'.$category->id, $category->caption, 'title= "View sub categories"');?></td>
+                                <td><?php echo anchor('categories/'.$category->id, $category->caption);?></td>
                                 <td class="text-center"><?php echo $category->p_caption;?></td>
                                 <td class="text-center"><?php echo $category->article == 1 ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>';?></td>
                                 <td class="text-center"><?php echo $category->market == 1 ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>';?></td>

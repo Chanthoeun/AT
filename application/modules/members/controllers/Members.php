@@ -53,50 +53,67 @@ class Members extends Admin_Controller {
         }
         $this->data['user'] = $this->ion_auth->user($userId)->row();
         $this->data['people'] = Modules::run('people/get_detail', array('user_id' => $this->data['user']->id));
-        $this->data['organization'] = Modules::run('agribooks/get_detail', "name = '{$this->data['people']->organization}' OR name_en ='{$this->data['people']->organization}'");
-        // if it's has organization
-        if($this->data['organization'] != FALSE)
-        {
-            $getLoc = explode('/', $this->data['organization']->location_id);
         
-            switch (count($getLoc))
+        //check personal information
+        if($this->data['people'] == FALSE)
+        {
+            redirect('members/update-profile/'.$userId, 'refresh');
+        }
+        else
+        {
+            if($this->data['people']->name == FALSE)
             {
-                case 1:
-                    $province = Modules::run('locations/get',$getLoc[0])->caption;
-                    $this->data['location'] = $province;
-                    break;
-                case 2:
-                    $province = Modules::run('locations/get',$getLoc[0])->caption;
-                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                    $this->data['location'] = $khan.' / '.$province;
-                    break;
-                case 3:
-                    $province = Modules::run('locations/get',$getLoc[0])->caption;
-                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
-                    $this->data['location'] = $sangkat.' / '.$khan.' / '.$province;
-                    break;
-                default:
-                    $province = Modules::run('locations/get',$getLoc[0])->caption;
-                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
-                    $phum = Modules::run('locations/get',$getLoc[3])->caption;
-                    $this->data['location'] = $phum.' / '.$sangkat.' / '.$khan.' / '.$province;
-                    break;
+                redirect('members/update-profile/'.$userId, 'refresh');
             }
+        }
+        
+        if($this->data['people'] != FALSE && $this->data['people']->organization != FALSE)
+        {
+            $this->data['organization'] = Modules::run('agribooks/get_detail', "name = '{$this->data['people']->organization}' OR name_en ='{$this->data['people']->organization}'");
+            // if it's has organization
+            if($this->data['organization'] != FALSE)
+            {
+                $getLoc = explode('/', $this->data['organization']->location_id);
 
-            // map 
-            $map_config = array(
-                'center' => $this->data['organization']->map,
-                'zoom'  => '13',
-                'height' => '300px'
-            );
+                switch (count($getLoc))
+                {
+                    case 1:
+                        $province = Modules::run('locations/get',$getLoc[0])->caption;
+                        $this->data['location'] = $province;
+                        break;
+                    case 2:
+                        $province = Modules::run('locations/get',$getLoc[0])->caption;
+                        $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                        $this->data['location'] = $khan.' / '.$province;
+                        break;
+                    case 3:
+                        $province = Modules::run('locations/get',$getLoc[0])->caption;
+                        $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                        $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                        $this->data['location'] = $sangkat.' / '.$khan.' / '.$province;
+                        break;
+                    default:
+                        $province = Modules::run('locations/get',$getLoc[0])->caption;
+                        $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                        $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                        $phum = Modules::run('locations/get',$getLoc[3])->caption;
+                        $this->data['location'] = $phum.' / '.$sangkat.' / '.$khan.' / '.$province;
+                        break;
+                }
 
-            $marker = array(
-                'position' => $this->data['organization']->map,
-                'animation'=> 'Drop'
-            );
-            $this->data['map'] = get_google_map($map_config, $marker);
+                // map 
+                $map_config = array(
+                    'center' => $this->data['organization']->map,
+                    'zoom'  => '13',
+                    'height' => '300px'
+                );
+
+                $marker = array(
+                    'position' => $this->data['organization']->map,
+                    'animation'=> 'Drop'
+                );
+                $this->data['map'] = get_google_map($map_config, $marker);
+            }
         }
         
         // process template
@@ -136,51 +153,70 @@ class Members extends Admin_Controller {
         $userId = $checkLogin == 'admin' ? $id : $checkLogin;
         $this->data['user'] = $this->ion_auth->user($userId)->row();
         $this->data['people'] = Modules::run('people/get_detail', array('user_id' => $this->data['user']->id));
-        $this->data['organization'] = Modules::run('agribooks/get_detail', "name = '{$this->data['people']->organization}' OR name_en ='{$this->data['people']->organization}'");
-        // if it's has organization
-        if($this->data['organization'] != FALSE)
-        {
-            $getLoc = explode('/', $this->data['organization']->location_id);
         
-            switch (count($getLoc))
-            {
-                case 1:
-                    $province = Modules::run('locations/get',$getLoc[0])->caption;
-                    $this->data['location'] = $province;
-                    break;
-                case 2:
-                    $province = Modules::run('locations/get',$getLoc[0])->caption;
-                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                    $this->data['location'] = $khan.' / '.$province;
-                    break;
-                case 3:
-                    $province = Modules::run('locations/get',$getLoc[0])->caption;
-                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
-                    $this->data['location'] = $sangkat.' / '.$khan.' / '.$province;
-                    break;
-                default:
-                    $province = Modules::run('locations/get',$getLoc[0])->caption;
-                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
-                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
-                    $phum = Modules::run('locations/get',$getLoc[3])->caption;
-                    $this->data['location'] = $phum.' / '.$sangkat.' / '.$khan.' / '.$province;
-                    break;
-            }
-
-            // map 
-            $map_config = array(
-                'center' => $this->data['organization']->map,
-                'zoom'  => '13',
-                'height' => '300px'
-            );
-
-            $marker = array(
-                'position' => $this->data['organization']->map,
-                'animation'=> 'Drop'
-            );
-            $this->data['map'] = get_google_map($map_config, $marker);
+        //check personal information
+        if($this->data['people'] == FALSE)
+        {
+            redirect('members/update-profile/'.$userId, 'refresh');
         }
+        else
+        {
+            if($this->data['people']->name == FALSE)
+            {
+                redirect('members/update-profile/'.$userId, 'refresh');
+            }
+        }
+        
+        if($this->data['people'] != FALSE && $this->data['people']->organization != FALSE)
+        {
+            $this->data['organization'] = Modules::run('agribooks/get_detail', "name = '{$this->data['people']->organization}' OR name_en ='{$this->data['people']->organization}'");
+            // if it's has organization
+            if($this->data['organization'] != FALSE)
+            {
+                $getLoc = explode('/', $this->data['organization']->location_id);
+
+                switch (count($getLoc))
+                {
+                    case 1:
+                        $province = Modules::run('locations/get',$getLoc[0])->caption;
+                        $this->data['location'] = $province;
+                        break;
+                    case 2:
+                        $province = Modules::run('locations/get',$getLoc[0])->caption;
+                        $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                        $this->data['location'] = $khan.' / '.$province;
+                        break;
+                    case 3:
+                        $province = Modules::run('locations/get',$getLoc[0])->caption;
+                        $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                        $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                        $this->data['location'] = $sangkat.' / '.$khan.' / '.$province;
+                        break;
+                    default:
+                        $province = Modules::run('locations/get',$getLoc[0])->caption;
+                        $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                        $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                        $phum = Modules::run('locations/get',$getLoc[3])->caption;
+                        $this->data['location'] = $phum.' / '.$sangkat.' / '.$khan.' / '.$province;
+                        break;
+                }
+
+                // map 
+                $map_config = array(
+                    'center' => $this->data['organization']->map,
+                    'zoom'  => '13',
+                    'height' => '300px'
+                );
+
+                $marker = array(
+                    'position' => $this->data['organization']->map,
+                    'animation'=> 'Drop'
+                );
+                $this->data['map'] = get_google_map($map_config, $marker);
+            }
+        }
+        
+        
         // process template
         $title = $this->data['user']->username;
         $this->data['title'] = $title;
@@ -232,7 +268,7 @@ class Members extends Admin_Controller {
             if($this->ion_auth->update($this->data['user']->id, $data))
             {
                 $people = Modules::run('people/get_detail', array('user_id' => $this->data['user']->id));
-                if(isset($people) && $people != FALSE)
+                if($people)
                 {
                     Modules::run('people/update', $people->id, $data, TRUE);
                 }
@@ -355,10 +391,10 @@ class Members extends Admin_Controller {
         $this->data['user'] = $this->ion_auth->user($userId)->row();
         $people = Modules::run('people/get_detail', array('user_id' => $this->data['user']->id));
         
-        $this->form_validation->set_rules('name', $this->lang->line('form_member_validation_name_label'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('name', $this->lang->line('form_member_validation_name_label'), 'trim|required|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន'));
         $this->form_validation->set_rules('organization', $this->lang->line('form_member_validation_organization_label'), 'trim|xss_clean');
         $this->form_validation->set_rules('position', $this->lang->line('form_member_validation_position_label'), 'trim|xss_clean');
-        $this->form_validation->set_rules('telephone', $this->lang->line('form_member_validation_telephone_label'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('telephone', $this->lang->line('form_member_validation_telephone_label'), 'trim|required|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន'));
         $this->form_validation->set_rules('social', $this->lang->line('form_member_validation_social_label'), 'trim|xss_clean');
         if($this->form_validation->run() === TRUE)
         {
@@ -369,7 +405,6 @@ class Members extends Admin_Controller {
                 'telephone'   => trim($this->input->post('telephone')),
                 'social_media'   => trim($this->input->post('social')),
                 'email' => $this->data['user']->email,
-                'people_group_id' => 1
             );
             if(isset($people) && $people != FALSE)
             {

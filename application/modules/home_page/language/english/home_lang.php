@@ -2,7 +2,10 @@
 
 $lang['home_headding'] = "បណ្តុំ​ព័ត៌មាន​ បច្ចេកទេស​កសិកម្ម";
 $lang['site_name'] = 'AgriToday';
-$lang['site_description'] = 'ផ្តល់នូវព័ត៌មាន​ និងសេវាដែលទាក់ទងនឹងកសិកម្ម​ ចុងក្រោយ និង​អាចប្រើប្រាស់ ។​';
+$lang['site_description'] = 'ផ្តល់នូវព័ត៌មាន​ និងសេវាដែលទាក់ទងនឹងកសិកម្ម​ ចុងក្រោយ និង​អាចប្រើប្រាស់បាន។​';
+
+$lang['read_more_label'] = 'អាន​បន្ត';
+$lang['browser_not_support_label'] = 'Browser របស់​អ្នក​មិន​ស្គាល់​សម្លេង​ប្រភេទនេះ​ទេ!';
 
 //menu
 $lang['about_us_menu_label'] = 'អំពីយើង';
@@ -37,16 +40,6 @@ $lang['contact_telephone_label'] = '+855-12-336-382 / +855-69-336​-382';
 $lang['contact_email_label'] = 'info@agritoday.com';
 $lang['contact_text_label'] = 'ប្រសិន​បើ​លោក​អ្នក​មាន​ចម្ងល់​ សំណួរ បញ្ហា មតិយោបល់​ផ្សេងៗ ឫចង់​កែលំអរ​ យើង​ខ្ញុំ​រីករាយ​នឹងទទួលយក​រាល់​មតិយោបល់​របស់​លោកអ្នក។ សូម​បំពេញនូវ​ព័ត៌មាន​ខាងក្រោមមុន​នឹង​ផ្ញើរ​ទៅ​យើងខ្ញុំ។ សូម​អរគុណ​យ៉ាងជ្រៀលជ្រៅ ចំពោះការចំណាយពេលវេលាដ៏មានតំលៃ ក្នុងការផ្តល់​ជា​មតិយោបល់​របស់​លោកអ្នក។ ';
 
-
-//footer
-$lang['footer_policy_label'] = "ភាពជាឯកជន ";
-$lang['footer_condition_label'] = "កិច្ចព្រមព្រៀងនិងលក្ខខណ្ឌ ";
-$lang['footer_information_label'] = 'ព័ត៌មាន';
-$lang['footer_account_label'] = 'ព័ត៌មាន​គណនី';
-$lang['footer_join_us_label'] = 'ចូលរួម​ជាមួយយើង';
-
-
-
 //home item
 $lang['news_label'] = 'ព័ត៌មានពេញនិយម';
 $lang['techniques_label'] = 'សម្រង់​បច្ចេកទេស';
@@ -57,184 +50,98 @@ $lang['job_label'] = 'ទំព័រការងារ';
 $lang['video_label'] = 'វីដេអូ អនុវត្តផ្ទាល់';
 $lang['meet_expert_label'] = 'ជួបអ្នកជំនាញ';
 
-$lang['home_menu_news'] = "ព័ត៌មាន";
-$lang['home_menu_research'] = "ការស្រាវជ្រាវ";
-$lang['home_menu_policy_regulation'] = "គោលនយោបាយ";
-$lang['home_menu_problem'] = "បញ្ហា និង​ដំណោះ​ស្រាយ";
-$lang['home_menu_technique'] = "បច្ចេកទេស​";
-$lang['home_menu_training'] = "ការបណ្តុះបណ្តាល";
-$lang['home_menu_book'] = "សៀវភៅ";
-$lang['home_menu_buy_sell'] = "ទិញ​ លក់";
-$lang['home_menu_real_estate'] = "អចលនទ្រព្យ";
-$lang['home_menu_weather'] = "អាកាសធាតុ";
-$lang['home_menu_about_us'] = "អំពីយើង";
-$lang['home_menu_contact_us'] = "ទំនក់ទំនង";
-$lang['home_menu_signup'] = "ចូលជា​សមាជិក";
-$lang['home_menu_login'] = "ចូលក្នុង";
+// article
+$lang['article_audio_label'] = 'ស្តាប់​សម្លេង';
+$lang['download_document_label'] = 'ទាញយក​ឯកសារ';
+$lang['watch_video_label'] = 'ទស្សនា​វីដេអូ';
 
-$lang['home_sidebar_crop'] = "ប្រភេទ​ដំណាំ";
-$lang['home_sidebar_animal'] = "ប្រភេទ​សត្វ";
+$lang['related_label'] = 'ព័ត៌មាន​ផ្សេងៗដែល​ទាក់ទង់​និង​អត្ថបទ​នេះ';
+$lang['related_news_label'] = 'ព័ត៌មានពាក់ព័ន្ធ';
+$lang['related_video_label'] = 'វីដេអូពាក់ព័ន្ធ';
+$lang['related_technique_label'] = 'បច្ចេកទេស';
+$lang['related_publication_label'] = 'ឯកសារ​ពាក់ព័ន្ធ';
+$lang['related_product_label'] = $lang['sale_rent_product_label'];
+$lang['related_real_estate_label'] = 'លក់​ជួល​ ស្រែ​ចំការ​ កសិដ្ឋាន';
+$lang['related_job_label'] = 'ការងារ​ទាក់ទង់​នឹង​កសិកម្ម';
+$lang['related_organization_label'] = 'ស្ថាប័នធ្វើ​ការខាងកសិកម្ម';
+$lang['related_people_label'] = 'ទំនាក់ទំនង​មន្ត្រី​ប្រចាំ​តំបន់';
 
-$lang['home_footer_info'] = "ព័ត៌មានរបស់យើង";
-$lang['home_footer_member'] = "សមាជិកភាព ";
-$lang['home_footer_social'] = "ភ្ជាប់​ទំនាក់​ទំនង ";
-$lang['home_footer_policy'] = "ភាពជាឯកជន ";
-$lang['home_footer_condition'] = "រយៈពេលនៃលក្ខខណ្ឌ ";
-
-// crop
-$lang['home_crop'] = "%s";
-$lang['home_more'] = "ផ្សេង​ៗ";
-$lang['home_no_data'] = "មិន​មាន​ទិន្នន័យ";
-$lang['home_picture'] = "រូប​ភាព";
-$lang['home_document'] = "ឯកសារ";
-$lang['home_audio'] = "សម្លេង";
-$lang['home_video'] = "វីដេអូ";
-$lang['home_document_download'] = "ទាញ​យក​ឯកសារ";
-$lang['home_relate_articles'] = "អត្ថបទ​ផ្សេងៗ";
-$lang['home_read_more'] = "អាន​បន្ត...";
-
-// slidebar
-$lang['home_sidebar_news'] = "ព័ត៌មាន";
-$lang['home_slidebar_press_release'] = "សេចក្តីប្រកាសព័ត៌មាន";
-$lang['home_slidebar_newsletter'] = "ព្រឹត្តិប័ត្រព័ត៌មាន";
-$lang['home_slidebar_report'] = "របាយការណ៏";
-
-//input company
-$lang['home_input_view_detail'] = "ព័ត៌មាន​លំអិត";
-$lang['home_input_company_product'] = "ផលិតផល";
-$lang['home_input_company_real_estate'] = "អចលនទ្រព្យ";
-$lang['home_input_company_contact'] = "ទំនាក់​ទំនង​ព័ត៌មាន";
-$lang['home_input_company_profile'] = "ព័ត៌មាន​ក្រុមហ៊ុន";
-$lang['home_input_company_gallery'] = "រូបភាព";
-$lang['home_input_company_map'] = "ទីតាំង​នៅ​លើ​ផែនទី";
+//request 
+$lang['request_label'] = 'តើមាន​ព័ត៌មាន​អ្វីផ្សេងទៀត ដែល​អ្នក​នឹង​ត្រូវ​ការពេលក្រោយ?';
+$lang['request_name_label'] = 'ឈ្មោះ';
+$lang['request_telephone_label'] = 'លេខ​ទូរស័ព្ទ';
+$lang['request_email_label'] = 'អ៊ីម៉ែល';
+$lang['request_comment_label'] = 'អ្វីដែលអ្នកនឹងត្រូវការ';
+$lang['request_send_btn'] = 'ផ្ញើរ';
+$lang['request_close_btn'] = 'បិទ';
 
 // product
-$lang['home_product_specification'] = "លក្ខខ័ណ​ពិសេស​របស់​ផលិត​ផល";
-$lang['home_product_condition_new'] = "ថ្មី";
-$lang['home_product_condition_used'] = "ប្រើ​ហើយ";
-$lang['home_product_price_condition'] = "តំលៃ​ និង​លក្ខខណ្ឌ";
-$lang['home_product_contact'] = "ទំនាក់​ទំនងទិញ";
-$lang['home_product_company'] = "ឈ្មោះក្រុមហ៊ុន";
-$lang['home_product_personal'] = "ឈ្មោះអ្នក​លក់";
-$lang['home_product_address'] = "អាសយដ្ឋាន";
-$lang['home_product_telephone'] = "លេខ​ទូរស័ពទ";
-$lang['home_product_email'] = "អ៊ីម៉ែល";
-$lang['home_product_other'] = "ផលិតផល​ផ្សេង";
+$lang['product_type_label'] = 'ប្រភេទ';
+$lang['product_discount_label'] = 'បញ្ចុះតំលៃ';
+$lang['product_price_label'] = 'តំលៃ';
+$lang['product_discount_start_label'] = 'ចាប់​ពីថ្ងៃទី';
+$lang['product_discount_end_label'] = 'ដល់​ថ្ងៃទី';
+$lang['product_description_label'] = 'ព័ត៌មានពីផលិតផល';
+$lang['product_picture_label'] = 'រូបភាពផលិតផល';
+$lang['similar_product_label'] = 'ផលិតផលស្រដៀងគ្នា';
 
-// product
-$lang['home_real_estate_specification'] = "លក្ខខ័ណ​ពិសេស​របស់​អចលនទ្រព្យ";
-$lang['home_real_estate_price_condition'] = "តំលៃ​ និង​ទីតាំង";
-$lang['home_real_estate_contact'] = "ទំនាក់​ទំនងទិញ";
-$lang['home_real_estate_company'] = "ឈ្មោះក្រុមហ៊ុន";
-$lang['home_real_estate_personal'] = "ឈ្មោះអ្នក​លក់";
-$lang['home_real_estate_address'] = "អាសយដ្ឋាន";
-$lang['home_real_estate_telephone'] = "លេខ​ទូរស័ពទ";
-$lang['home_real_estate_email'] = "អ៊ីម៉ែល";
-$lang['home_real_estate_other'] = "អចលនទ្រព្យ​​ផ្សេង";
+// Product company contact
+$lang['product_contact_label'] = 'ព័ត៌មានពីអ្នកលក់';
+$lang['product_seller_label'] = 'អ្នកលក់';
+$lang['product_seller_address_label'] = 'អាសយដ្ឋាន';
+$lang['product_seller_telephone_label'] = 'លេខទូរស័ព្ទ';
+$lang['product_seller_location_label'] = 'ទីតាំងអ្នក​លក់';
 
+//Land
+$lang['land_type_label'] = $lang['product_type_label'];
+$lang['land_price_label'] = $lang['product_price_label'];
+$lang['land_description_label'] = 'ព័ត៌មាន​លំអិត';
+$lang['land_contact_label'] = 'ព័ត៌មានពីអ្នកលក់';
+$lang['land_seller_label'] = $lang['product_seller_label'];
+$lang['land_address_label'] = $lang['product_seller_address_label'];
+$lang['land_telephone_label'] = $lang['product_seller_telephone_label'];
+$lang['land_location_label'] = 'ទីតាំងលើ​ផែនទី';
+$lang['land_picture_label'] = 'រូបភាព';
+$lang['land_similar_label'] = 'ស្រៃ​ ចំការ និង​កសិដ្ឋាន​ស្រដៀង​គ្នា';
 
-// page blank
-$lang['home_blank'] = "មិន​មាន​ទំព័រ​ដែល​អ្នក​កំពុង​ស្វែង​រក​ទេ!";
+// job
+$lang['job_location_label'] = 'ស្វែង​រក​តាម​តំបន់​';
+$lang['job_category_label'] = 'ស្វែងរក​តាម​ក្រុមពិសេស';
+$lang['job_view_label'] = 'បើក​មើល';
 
-// page underconstruction
-$lang['home_underconstruction'] = "ទំព័រ​កំពុង​តែ​ស្ថាបនា!"; 
+$lang['job_description_label'] = 'ព័ត៌មាន​ពី​ការងារ (Job Description)';
+$lang['job_position_label'] = 'ព័ត៌មាន​ពី​តំណែង (Position)';
+$lang['job_requirement_label'] = 'ការងារ​ទទួល​ខុស​ត្រូវ និង​លក្ខណៈដែល​ត្រូវ​មាន (Responsibilities + Requirements)';
+$lang['job_apply_label'] = 'របៀប​ដាក់​ពាក្យ (Apply)';
+$lang['job_close_date_label'] = 'កាបរិច្ឆេត​ឈប់ទទួល​ពាក្យ (Close Date)';
 
-// Login
-$lang['home_login_member'] = "សមាជិក";
-$lang['home_login_username'] = "ឈ្មោះ​សមាជិក";
-$lang['home_login_password'] = "ពាក្យ​សំងាត់";
-$lang['home_login_remember'] = "ចងចាំខ្ញុំ";
-$lang['home_login_submit_btn'] = "ចូលក្នុង";
-$lang['home_login_note'] = "ចំណាំ";
-$lang['home_login_note_username'] = "ឈ្មោះ​សមាជិកតម្រូវ​ឳ្យមាន";
-$lang['home_login_note_password'] = "ពាក្យ​សំងាត់តម្រូវ​ឳ្យមាន";
-$lang['home_login_note_remember'] = "ចងចាំខ្ញុំ​ប្រើ​សំរាប់​ចូលក្នុង​​ដោយស្វ័យប្រវត្តិ";
+// Register
+$lang['register_heading_label'] = 'ចុះ​ឈ្មោះ​ជា​សមាជិក​ថ្មី';
+$lang['register_subheading_label'] = 'បំពេញ​នូវ​ព័ត៌មាន​ខាងក្រោម';
+$lang['register_btn'] = 'ចុះ​ឈ្មោះ';
+$lang['register_validation_username_label'] = 'ឈ្មោះអ្នកប្រើ';
+$lang['register_validation_email_label'] = 'អីុម៉ែល';
+$lang['regerter_validation_password_label'] = 'ពាក្យ​សំងាត់';
+$lang['register_validation_comfirm_password_label'] = 'បញ្ចាកពាក្យ​សំងាត់​ឡើង​វិញ';
 
-// signup
-$lang['home_signup_error'] = "បង្កើត​គណនីបុគ្គល​មាន​កំហុស! សូម​ព្យាយាម​មួយ​ដង​ទៀត។:";
-$lang['home_signup_success'] = "គណនី​របស់​អ្នក​ត្រូវបាន​បង្កើត​ដោយ​ជោគ​ជ័យ។​ ប្រសិន​បើមាន​បញ្ហា​ត្រង់​ចំណុច​ណា​មួយសូម​ទំនាក់​ទំនង​មក​កាន់​ពួក​យើង។:";
-$lang['home_signup_captcha'] = "លេខ​កូដ​​សុវត្ថិភាព:";
-$lang['home_signup_validation_captcha'] = "លេខ​កូដ​​សុវត្ថិភាព";
-$lang['home_signup_captcha_invalid'] = "លេខ​កូដ​​សុវត្ថិភាពមិនត្រឹម​ត្រូវ​!​ សូម​ព្យាយាម​មួយ​ដង​ទៀត។";
-$lang['home_signup_company'] = "សមាជិកជាក្រុមហ៊ុន";
-$lang['home_signup_company_account_information'] = "ព័ត៌មានគណនី";
-$lang['home_signup_company_information'] 		 = "ព័ត៌មានក្រុមហ៊ុន";
-$lang['home_signup_company_contact_information'] = "ព័ត៌មានទំនាក់​ទំនង";
+//captcha
+$lang['captcha_validation_label'] = 'លេខ​សុវត្ថិភាព';
+$lang['captcha_error_label'] = 'លេខ​សុវត្ថិភាព​មិន​ត្រឹម​ត្រូវ​ទេ​! សូម​ព្យាយាម​ម្តងទៀត!';
 
-$lang['form_company_username_label']            = 'ឈ្មោះអ្នកប្រើ (username):';
-$lang['form_company_email_label']               = 'អីុម៉ែល (Email Address):';
-$lang['form_company_password_label']            = 'ពាក្យសម្ងាត់ (Password):';
-$lang['form_company_cpassword_label']           = 'បញ្ជាក់​ពាក្យសម្ងាត់ (Confirm Password):';
-$lang['form_company_name_label']                = 'ឈ្មោះក្រុមហ៊ុន (Company Name):';
-$lang['form_company_submit_btn']                = 'បង្កើត​គណនីក្រុមហ៊ុន';
-$lang['form_company_validation_username_label'] = 'ឈ្មោះអ្នកប្រើ (Username)';
-$lang['form_company_validation_email_label']    = 'អីុម៉ែល (Email Address)';
-$lang['form_company_validation_password_label'] = 'ពាក្យសម្ងាត់ (Password)';
-$lang['form_company_validation_cpassword_label']= 'បញ្ជាក់​ពាក្យសម្ងាត់ (Confirm Password)';
-$lang['form_company_validation_name_label']     = 'ឈ្មោះក្រុមហ៊ុន (Company Name)';
+$lang['share_label'] = 'ចែករំលែកជាមួយ៖';
 
-$lang['home_signup_personal'] = "សមាជិកជាបុគ្គល";
-$lang['home_signup_personal_information'] = "ពត៌មានផ្ទាល់ខ្លួន";
-$lang['form_personal_username_label'] = 'ឈ្មោះអ្នកប្រើ (username):';
-$lang['form_personal_email_label'] = 'អីុម៉ែល (Email Address):';
-$lang['form_personal_password_label'] = 'ពាក្យសម្ងាត់ (Password):';
-$lang['form_personal_cpassword_label'] = 'បញ្ជាក់​ពាក្យសម្ងាត់ (Confirm Password):';
-$lang['form_personal_fullname_label'] = 'ឈ្មោះ (Fullname):';
-$lang['form_personal_submit_btn'] = 'បង្កើត​គណនីបុគ្គល';
-$lang['form_personal_validation_username_label'] = 'ឈ្មោះអ្នកប្រើ (username)';
-$lang['form_personal_validation_email_label'] = 'អីុម៉ែល (Email Address)';
-$lang['form_personal_validation_password_label'] = 'ពាក្យសម្ងាត់ (Password)';
-$lang['form_personal_validation_cpassword_label'] = 'បញ្ជាក់​ពាក្យសម្ងាត់ (Confirm Password)';
-$lang['form_personal_validation_fullname_label'] = 'ឈ្មោះ (Fullname)';
-
-// place holder
-$lang['home_signup_placeholder_address'] = "លេខផ្ទះ ផ្លូវ សង្កាត់ ខណ្ឌ";
-$lang['home_signup_placeholder_category'] = "--- ជ្រើសប្រភេទ​ក្រុម​ហ៊ុន ---"; 
-$lang['home_signup_placeholder_location'] = "--- ជ្រើសទីតាំង ---";
-$lang['home_signup_placeholder_map'] = "ទាញ​និងទម្លាក់រូបតំណាងនៅលើផែនទីនេះទៅទីតាំងរបស់អ្នក";
-$lang['home_signup_placeholder_captcha'] = "សូម​បញ្ចូល​លេខ​កូដ​សុវត្ថិភាព​ខាង​លើ";
+//footer
+$lang['footer_policy_label'] = "ភាពជាឯកជន ";
+$lang['footer_condition_label'] = "កិច្ចព្រមព្រៀងនិងលក្ខខណ្ឌ ";
+$lang['footer_information_label'] = 'ព័ត៌មាន';
+$lang['footer_account_label'] = 'ព័ត៌មាន​គណនី';
+$lang['footer_join_us_label'] = 'ចូលរួម​ជាមួយយើង';
 
 // search
 $lang['home_search'] = "ស្វែង​រក​តាម​ពាក្យ​គន្លឹះ";
 $lang['home_search_headding'] = "ការស្វែង​រក​";
 $lang['home_search_result_not_found'] = "មិន​មាន​ទិន្នន័យ​ដែល​លោក​អ្នក​កំពុង​ស្វែងរក​ទេ​ សូម​ព្យាយាម​ម្តង​ទៀត។";
 $lang['home_search_result_found'] = "លទ្ធផល​ដែល​បាន​ស្វែងរក​មាន​​ %s";
-
-// contact
-$lang['home_contact_info'] = "ពត៌មានទំនាក់ទំនង : ";
-$lang['home_contact_address'] = "អាសយដ្ឋាន : ផ្ទះ​លេខ 1C ក្នុងបុរី​ហេង​មានជ័យ ផ្លូវ 351 សង្កាត់​ និរោធន៍ ខ័ណ្ឌ ច្បារអំពៅ​​ ក្រុង​ភ្នំ​ពេញ កម្ពុជា";
-$lang['home_contact_telephone'] = "លេខទូរស័ព្ទ : (+855-12) 456 429";
-$lang['home_contact_email'] = "អីុម៉ែល : info@agritoday.com";
-$lang['home_contact_website'] = "គេហទំព័រ : www.agritoday.com";
-$lang['home_contact_questiong'] = "បើ​មាន​សំណួរ ឬមតិណាមួយឡើយ";
-$lang['home_contact_fullname_label'] = "ឈ្មោះ";
-$lang['home_contact_email_lable'] = "អីុម៉ែល";
-$lang['home_contact_telephone_label'] = "លេខ​ទូរស័ព្ទ";
-$lang['home_contact_subject_label'] = "ប្រធានបទ";
-$lang['home_contact_comment_label'] = "មតិយោ​បល់​";
-$lang['home_contact_send_btn'] = "ផ្ញើ";
-$lang['home_contact_sent_success'] = "អរគុណ​សំរាប់​ផ្ញើ​មក​កាន់​យើង​ខ្ញុំ";
-$lang['home_contact_sent_error'] = "ការ​ផ្ញើ​របស់​លោក​អ្នក​មាន​បញ្ហា​ សូម​ព្យាយាម​ម្តង​ទៀត។";
-
-// product
-$lang['home_product_fit'] = "ផលិតផល​ត្រូវ​ប្រើ";
-$lang['home_product_posted_at'] = "កាលបរិច្ឆេទផ្សាយ:";
-$lang['home_product_posted_by'] = "ចុះផ្សាយ​ដោយ:";
-$lang['home_product_desc'] = "ពិពណ៌នាផលិតផល:";
-$lang['home_product_photo'] = "រូបថតផលិតផល:";
-$lang['home_product_membership'] = "អ្នក​លក់​:";
-$lang['home_product_address'] = "អាសយដ្ឋាន:";
-$lang['home_product_telephone'] = " ទូរស័ព្ទ:";
-$lang['home_product_fax'] = "ទូរសារ:";
-$lang['home_product_email'] = "អ៊ីម៉ែល:";
-$lang['home_product_website'] = "គេហទំព័រ:";
-$lang['home_product_member_profile'] = "ពត៌មានរបស់ក្រុមហ៊ុន:";
-$lang['home_product_location'] = "ទីតាំង:";
-
-// Membership
-$lang['home_memebership_no_item'] = 'មិនមាន​ទិន្នន័យ​នៅ​ក្នុង​ប្រព័ន្ទ';
-$lang['home_membership_product'] = 'ផលិតផល';
-$lang['home_membership_real_estate'] = 'អចលនទ្រព្យ';
 
 // Meta Tag
 

@@ -52,24 +52,24 @@
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo site_url('jobs'); ?>">
+                            <a href="<?php echo site_url('job'); ?>">
                                 <i class="icon-job"></i>
                                 <p><?php echo lang('job_label'); ?></p>
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo site_url('videos'); ?>">
+                            <a href="<?php echo site_url('video'); ?>">
                                 <i class="icon-video"></i>
                                 <p><?php echo lang('video_label'); ?></p>
                             </a>
                         </li>
-                        <li>
+                        <!--<li>
                             <a href="<?php echo site_url('experts'); ?>">
                                 <i class="icon-expertise"></i>
                                 <p><?php echo lang('meet_expert_label'); ?></p>
                             </a>
                         </li>
-                        <!--<li>
+                        <li>
                             <a href="farmers.html">
                                 <i class="flaticon-farm"></i>
                                 <p>កសិដ្ឋាន​ជោគជ័យ</p>

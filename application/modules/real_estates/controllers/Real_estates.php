@@ -292,7 +292,8 @@ class Real_estates extends Admin_Controller {
             'address' => trim($this->input->post('address')),
             'map' => trim($this->input->post('map')),
             'location_id' => $getLoc,
-            'user_id' => $userId
+            'user_id' => $userId,
+            'expire_date' => get_expire_date()
         );
         
         if(($rsid = $this->insert($data)) != FALSE)
@@ -534,6 +535,7 @@ class Real_estates extends Admin_Controller {
         {
             $getLoc = FALSE;
         }
+        
         
         $data = array(
             'title' => trim($this->input->post('title')),
@@ -866,6 +868,16 @@ class Real_estates extends Admin_Controller {
         generate_template($this->data, $layout_property); 
     }
     
+    public function refresh_expire_date($id)
+    {
+        parent::check_login(FALSE);
+        $exprie_date = get_expire_date();
+        $this->update($id, array('expire_date' => $exprie_date), TRUE);
+        
+        $this->session->set_flashdata('message', sprintf($this->lang->line('view_extend_expire_date_label'), $exprie_date));
+        redirect('real-estates/view/'.$id, 'refresh');
+    }
+    
     // delete media
     public function delete_media($id)
     {
@@ -925,6 +937,11 @@ class Real_estates extends Admin_Controller {
     public function get_detail($where)
     {
         return $this->real_estate->get_detail($where);
+    }
+    
+    public function get_contact($id)
+    {
+        return $this->real_estate->get_contact($id);
     }
     
     public function get_all($order_by = FALSE, $limit = FALSE, $offset = 0)

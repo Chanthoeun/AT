@@ -51,21 +51,21 @@
                         <td class="col-lg-2 success"><strong><?php echo lang('view_people_email_label'); ?></strong></td>
                         <td class="col-lg-6"> 
                             <?php 
-                                $email = str_replace(',', ';', $people->email);
-                                echo mailto($email, str_replace(',', ' / ', $people->email))
-                            ?>
+                $email = str_replace(',', ';', $people->email);
+                echo mailto($email, str_replace(',', ' / ', $people->email))
+            ?>
                         </td>
                     </tr>
                     <tr>
                         <td class="col-lg-2 success"><strong><?php echo lang('view_people_social_label'); ?> </strong></td>
                         <td class="col-lg-6">
                             <?php 
-                                $socials = explode(', ', $people->social_media);
-                                foreach ($socials as $social)
-                                {
-                                    echo anchor(prep_url($social), get_social_icon($social), array('target' => '_blank')).' ';
-                                }
-                            ?>
+                $socials = explode(', ', $people->social_media);
+                foreach ($socials as $social)
+                {
+                    echo anchor(prep_url($social), get_social_icon($social), array('target' => '_blank')).' ';
+                }
+            ?>
                         </td>
                     </tr>
                     <tr>

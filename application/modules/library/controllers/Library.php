@@ -19,7 +19,7 @@ class Library extends Admin_Controller {
         parent::__construct();
         $this->load->model('library_model', 'library');
         $this->lang->load('library');
-        $this->load->helper(array('video', 'string'));
+        $this->load->helper(array('video', 'string', 'menu'));
         
         // message
         $this->validation_errors = $this->session->flashdata('validation_errors');
@@ -68,7 +68,8 @@ class Library extends Admin_Controller {
         }
         
         // display form 
-        $this->data['group'] = form_dropdown('group', Modules::run('library_groups/dropdown', 'id', 'caption'), empty($this->validation_errors['post_data']['group']) ? $gId : $this->validation_errors['post_data']['group'], 'class="form-control" id="group"');
+        $library_groups = get_dropdown(prepareList(Modules::run('library_groups/get_dropdown')), 'ជ្រើស​ក្រុម');
+        $this->data['group'] = form_dropdown('group', $library_groups, empty($this->validation_errors['post_data']['group']) ? $gId : $this->validation_errors['post_data']['group'], 'class="form-control" id="group"');
         
         $this->data['caption'] = array(
             'name'  => 'caption',
@@ -132,11 +133,11 @@ class Library extends Admin_Controller {
             'library_group_id' => $group,
         );
         
-        if($group == 1)
+        if(check_library_type($group) == TRUE)
         {
             $upload_type = 'document';
         }
-        else if($group == 2){
+        else if(check_library_type($group, 2) == TRUE){
             $upload_type = 'audio';
         }
         else{
@@ -236,7 +237,8 @@ class Library extends Admin_Controller {
         
         
         // display form 
-        $this->data['group'] = form_dropdown('group', Modules::run('library_groups/dropdown', 'id', 'caption'), empty($this->validation_errors['post_data']['group']) ? $library->library_group_id : $this->validation_errors['post_data']['group'], 'class="form-control" id="group"');
+        $library_groups = get_dropdown(prepareList(Modules::run('library_groups/get_dropdown')), 'ជ្រើស​ក្រុម');
+        $this->data['group'] = form_dropdown('group', $library_groups, empty($this->validation_errors['post_data']['group']) ? $library->library_group_id : $this->validation_errors['post_data']['group'], 'class="form-control" id="group"');
         
         $this->data['caption'] = array(
             'name'  => 'caption',
@@ -306,11 +308,11 @@ class Library extends Admin_Controller {
             'library_group_id' => $group
         );
         
-        if($group == 1)
+        if(check_library_type($group) == TRUE)
         {
             $upload_type = 'document';
         }
-        else if($group == 2){
+        else if(check_library_type($group, 2) == TRUE){
             $upload_type = 'audio';
         }
         else{

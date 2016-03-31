@@ -140,4 +140,13 @@ class Real_estate_model extends MY_Model {
         }
         return $array == TRUE ? parent::as_array()->get_all() : parent::as_object()->get_all();
     }
+    
+    public function get_contact($id)
+    {
+        $this->db->select($this->_table.'.id, people.id as people_id, people.name, people.telephone');
+        $this->db->join('users', $this->_table.'.user_id = users.id', 'left');
+        $this->db->join('people', 'users.id = people.user_id', 'left');
+        
+        return parent::get_by(array($this->_table.'.id' => $id));
+    }
 }

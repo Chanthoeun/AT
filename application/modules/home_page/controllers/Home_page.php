@@ -12,11 +12,12 @@
  * @author Chanthoeun
  */
 class Home_page extends Front_Controller {
+    public  $validation_errors =  array();
     
     public function __construct() {
         parent::__construct();
         $this->lang->load('home'); 
-        $this->load->helper('text');
+        $this->load->helper(array('text', 'video'));
         
         $this->load->library('form_validation');
         
@@ -29,6 +30,10 @@ class Home_page extends Front_Controller {
         {
             $this->data['checkId'] = FALSE;
         }
+        
+        // message
+        $this->validation_errors = $this->session->flashdata('validation_errors');
+        $this->data['message'] = empty($this->validation_errors['errors']) ? $this->session->flashdata('message') : $this->validation_errors['errors'];
     }
     
     public function _remap($method, $params = array())
@@ -63,95 +68,6 @@ class Home_page extends Front_Controller {
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function articles($id)
-    {
-        $cat = Modules::run('categories/get', $id);
-        $this->data['cat'] = $cat;
-        $this->data['types'] = Modules::run('article_types/get_all');
-        
-        $this->_default();
-                
-        // process template
-        $title = ($cat->parent_id != 0 && $cat->parent_id == 1) ? 'ដំណាំ'.$cat->caption : $cat->caption;
-        $this->data['title'] = $title;
-        $layout_property['css'] = array(
-                                        'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css'
-                                    );
-        $layout_property['js']  = array('js/bootstrap.min.js');
-        
-        $layout_property['breadcrumb'] = array($title);
-        
-        $layout_property['content']     = 'article';
-        
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('article/'.$cat->id));
-
-        generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-    
-    public function view($id)
-    {
-        $article = Modules::run('articles/get', $id);
-        $cat = Modules::run('categories/get', $article->category_id);
-        $this->data['article'] = $article;
-        $this->data['article_medias'] = Modules::run('article_medias/get_many_by', array('article_id' => $article->id));
-        $this->data['related_articles'] = Modules::run('articles/get_many_by', array('category_id' => $cat->id, 'article_type_id' => $article->article_type_id), array('created_at' => 'RANDOM'), 5);
-        $this->data['product_articles'] = Modules::run('classified_article_categories/get_all_with_classified', array('article_category_id' => $article->category_id), array('created_at' => 'RANDOM'), 10);
-        
-        $this->_default();
-        
-        // process template
-        $title = $article->title;
-        $this->data['title'] = $title;
-        $layout_property['css'] = array(
-                                        'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css',
-                                        'css/colorbox/colorbox.min.css'
-                                    );
-        $layout_property['js']  = array('js/bootstrap.min.js', 'js/jquery.colorbox.min.js');
-        $layout_property['script'] = '$(document).ready(function(){$(".color-box").colorbox({rel:"color-box",transition:"fade"})});';
-        
-        $layout_property['breadcrumb'] = array('article/'.$cat->id => $cat->caption,$title);
-        
-        $layout_property['content']     = 'article_view';
-        
-        $meta = $this->_generate_meta($title, $article->detail, $cat->caption, base_url(get_uploaded_file($article->picture)), site_url('view/'.$article->id));
-        
-        generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-    
-    public function more($catid, $typeid)
-    {        
-        $pagination = get_pagination('more/'.$catid.'/'.$typeid.'/page', count(Modules::run('articles/get_many_by', array('article_type_id' => $typeid, 'category_id' => $catid))), 20, 5, 5);
-        $articles = Modules::run('articles/get_many_by', array('article_type_id' => $typeid, 'category_id' => $catid), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
-        
-        $this->data['pagination'] = $pagination['v_pagination'];
-        $this->data['articles'] = $articles;
-        
-        
-        $this->_default();
-                
-        // process template
-        $title = $this->lang->line('home_more');
-        $this->data['title'] = $title;
-        $layout_property['css'] = array(
-                                        'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css'
-                                    );
-        $layout_property['js']  = array('js/bootstrap.min.js');
-        
-        $layout_property['breadcrumb'] = array($title);
-        
-        $layout_property['content']     = 'news_items';
-        
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('more/'.$catid.'/'.$typeid));
-        
-        generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-    
     public function news($cat_id = FALSE)
     {
         $type = Modules::run('article_types/get', 1);
@@ -171,10 +87,10 @@ class Home_page extends Front_Controller {
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['articles'] = $articles;
         
-        $this->_default();
-        $this->data['category_type'] = 'article';        
+        $this->data['categories'] = Modules::run('categories/get_news_categories', array('category.article' => TRUE));
+        
         // process template
-        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $type->caption;
+        $title =  isset($cat) && $cat != FALSE ? $type->caption.' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $type->caption;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
@@ -215,12 +131,10 @@ class Home_page extends Front_Controller {
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['articles'] = $articles;
         
-        
-        $this->_default();
-        $this->data['category_type'] = 'article';
+        $this->data['categories'] = Modules::run('categories/get_technique_categories', array('category.article' => TRUE));
         
         // process template
-        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $type->caption;
+        $title =  isset($cat) && $cat != FALSE ? $type->caption.' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $type->caption;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
@@ -261,12 +175,10 @@ class Home_page extends Front_Controller {
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['articles'] = $articles;
         
-        
-        $this->_default();
-        $this->data['category_type'] = 'article';
+        $this->data['categories'] = Modules::run('categories/get_publication_categories', array('category.article' => TRUE));
                 
         // process template
-        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $type->caption;
+        $title =  isset($cat) && $cat != FALSE ? $type->caption.' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $type->caption;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
@@ -284,6 +196,107 @@ class Home_page extends Front_Controller {
         $this->data['menu_pubish'] = TRUE;
         
         $meta = $this->_generate_meta($title, $this->lang->line('publish_meta_description'), $this->lang->line('publication_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('publications/'.$cat->id) : site_url('publications'));
+        
+        generate_template($this->data, $layout_property, FALSE, $meta);
+    }
+    
+    public function view($id)
+    {
+        $article = Modules::run('articles/get_detail', $id);
+        $cat = Modules::run('categories/get', $article->category_id);
+        $this->data['article'] = $article;
+        $this->data['details'] = Modules::run('article_details/get_many_by', array('article_id' => $article->id));
+        $this->data['documents'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type());
+        $this->data['audios'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(2));
+        $this->data['videos'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(3));
+        
+        $this->data['related_news'] = Modules::run('articles/get_all_records', array('article_type_id' => 1, 'category_id' => $cat->id, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_techniques'] = Modules::run('articles/get_all_records', array('article_type_id' => 2, 'category_id' => $cat->id, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_publications'] = Modules::run('articles/get_all_records', array('article_type_id' => 3, 'category_id' => $cat->id, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_videos'] = Modules::run('videos/get_all_records', array('category_id' => $cat->id), array('created_at' => 'random'), 6);
+        
+        //get linked data
+        $this->data['products'] = Modules::run('article_products/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
+        $this->data['real_estates'] = Modules::run('article_real_estates/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
+        $this->data['jobs'] = Modules::run('article_jobs/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
+        $this->data['people'] = Modules::run('article_people/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
+        $this->data['abs'] = Modules::run('article_agribooks/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
+        
+        $this->data['check_related'] = check_related_article($this->data['products'], $this->data['real_estates'], $this->data['jobs'], $this->data['people'], $this->data['abs'], $this->data['related_videos']);
+        
+        //get url
+        if($article->article_type_id == 1)
+        {
+            $url = 'news';
+            $label = $this->lang->line('news_label');
+            $this->data['menu_news'] = TRUE;
+        }
+        else if($article->article_type_id == 2)
+        {
+            $url = 'techniques';
+            $label = $this->lang->line('techniques_label');
+            $this->data['menu_technique'] = TRUE;
+        }
+        else
+        {
+            $url = 'publications';
+            $label = $this->lang->line('publish_label');
+            $this->data['menu_pubish'] = TRUE;
+        }
+        
+        
+        $this->data['name'] = array(
+            'name'  => 'name',
+            'id'    => 'name',
+            'class' => 'form-control',
+            'value' => empty($this->validation_errors['post_data']['name']) ? NULL : $this->validation_errors['post_data']['name']
+        );
+        
+        $this->data['telephone'] = array(
+            'name'  => 'telephone',
+            'id'    => 'telephone',
+            'class' => 'form-control',
+            'value' => empty($this->validation_errors['post_data']['telephone']) ? NULL : $this->validation_errors['post_data']['telephone']
+        );
+        
+        $this->data['email'] = array(
+            'name'  => 'email',
+            'id'    => 'email',
+            'class' => 'form-control',
+            'value' => empty($this->validation_errors['post_data']['email']) ? NULL : $this->validation_errors['post_data']['email']
+        );
+        
+        $this->data['comment'] = array(
+            'name'  => 'comment',
+            'id'    => 'comment',
+            'class' => 'form-control',
+            'value' => empty($this->validation_errors['post_data']['comment']) ? NULL : $this->validation_errors['post_data']['comment']
+        );
+        
+        // process template
+        $title = $article->title;
+        $this->data['title'] = $title;
+        $layout_property['css'] = array(
+                                        'css/bootstrap.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
+                                        'css/style.min.css'
+                                    );
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
+        
+        if($cat->parent_id == FALSE)
+        {
+            $layout_property['breadcrumb'] = array($url => $label, $title);
+        }
+        else
+        {
+            $layout_property['breadcrumb'] = array($url => $label, $url.'/'.$cat->id => $cat->caption, $title);
+        }        
+        
+        
+        $layout_property['content']     = 'article_view';
+        
+        $meta = $this->_generate_meta($title, $article->detail, $title, base_url(get_uploaded_file($article->picture)), site_url('view/'.$article->id));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
@@ -306,11 +319,10 @@ class Home_page extends Front_Controller {
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['products'] = $products;
         
-        $this->_default();
-        $this->data['category_type'] = 'market';
+        $this->data['categories'] = Modules::run('categories/get_product_categories', array('category.market' => TRUE));
                 
         // process template
-        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $this->lang->line('sale_rent_product_label');
+        $title =  isset($cat) && $cat != FALSE ? $this->lang->line('sale_rent_product_label').' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $this->lang->line('sale_rent_product_label');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
@@ -332,46 +344,87 @@ class Home_page extends Front_Controller {
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function classified_detail($id)
+    public function product_detail($id)
     {
-        $classified = Modules::run('products/get_with_category', $id);
-        $this->data['classified'] = $classified;
-        $this->data['medias'] = Modules::run('classified_medias/get_many_by', array('classified_id' => $classified->id));
-        $this->data['membership'] =Modules::run('memberships/get_with_user', array('membership.id' => $classified->membership_id));
+        $product = Modules::run('products/get_detail', $id);
+        $cat = Modules::run('categories/get', $product->category_id);
+        $this->data['product'] = $product;
+        $this->data['prices'] = Modules::run('product_prices/get_all_records', array('product_id' => $this->data['product']->id));
+        $this->data['pictures'] = Modules::run('product_pictures/get_many_by', array('product_id' => $this->data['product']->id));
+        $this->data['company'] = Modules::run('products/get_contact', $product->id);
         
-        $map_config = array(
-            'center' => $this->data['membership']->map,
-            'zoom'  => '15',
-            'height' => '300px'
-        );
+        $this->data['similar_products'] = Modules::run('products/get_all_records', array('category_id' => $cat->id, 'product.id != ' => $product->id), array('created_at' => 'desc'), 12);
         
-        $marker = array(
-            'position' => $this->data['membership']->map,
-            'animation'=> 'Drop'
-        );
-        $this->data['map'] = get_google_map($map_config, $marker);
-        
-        $this->_default();
+        if($this->data['company'] != FALSE && $this->data['company']->name != FALSE)
+        {
+            $getLoc = explode('/', $this->data['company']->location_id);
+            switch (count($getLoc))
+            {
+                case 1:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $this->data['location'] = $province;
+                    break;
+                case 2:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $this->data['location'] = $khan.' / '.$province;
+                    break;
+                case 3:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                    $this->data['location'] = $sangkat.' / '.$khan.' / '.$province;
+                    break;
+                default:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                    $phum = Modules::run('locations/get',$getLoc[3])->caption;
+                    $this->data['location'] = $phum.' / '.$sangkat.' / '.$khan.' / '.$province;
+                    break;
+            }
+            
+            
+            $map_config = array(
+                'center' => $this->data['company']->map,
+                'zoom'  => '15',
+                'height' => '300px'
+            );
+
+            $marker = array(
+                'position' => $this->data['company']->map,
+                'animation'=> 'Drop'
+            );
+            $this->data['map'] = get_google_map($map_config, $marker);
+        }       
         
         // process template
-        $title = $classified->title;
+        $title = $product->title;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css',
                                         'css/colorbox/colorbox.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js', 'js/jquery.colorbox.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js', 'js/script.min.js', 'js/jquery.colorbox.min.js');
         $layout_property['script'] = '$(document).ready(function(){$(".color-box").colorbox({rel:"color-box",transition:"fade"})});';
         
-        $layout_property['breadcrumb'] = array('buy-sell/'.$classified->category_id => $classified->caption,$title);
+        if($cat->parent_id == FALSE)
+        {
+            $layout_property['breadcrumb'] = array('product-sale-rent' => $this->lang->line('sale_rent_product_label'), $title);
+        }
+        else
+        {
+            $layout_property['breadcrumb'] = array('product-sale-rent' => $this->lang->line('sale_rent_product_label'), 'product-sale-rent/'.$cat->id => $cat->caption, $title);
+        }
         
-        $layout_property['content']     = 'classified_detail';
+        $layout_property['content']     = 'product_view';
         
-        $this->data['menu_buy_sell'] = TRUE;
+        $this->data['menu_product'] = TRUE;
         
-        $meta = $this->_generate_meta($title, $classified->description, $classified->caption, base_url(get_uploaded_file($classified->file)), site_url('classified-detail/'.$classified->id));
+        $meta = $this->_generate_meta($title, $product->description, $title, base_url(get_uploaded_file($product->file)), site_url('product-detail/'.$product->id));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
@@ -382,24 +435,23 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('land-sale-rent/'.$cat->id.'/page', count(Modules::run('real_estates/get_all_records', array('category_id' => $cat->id))), 20, 5, 4);
-            $realestates = Modules::run('real_estates/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('land-sale-rent/'.$cat->id.'/page', count(Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+            $realestates = Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('land-sale-rent/page', count(Modules::run('real_estates/get_all_records')), 20, 5, 4);
-            $realestates = Modules::run('real_estates/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $pagination = get_pagination('land-sale-rent/page', count(Modules::run('real_estates/get_all_records', array('expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+            $realestates = Modules::run('real_estates/get_all_records', array('expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['realestates'] = $realestates;
         
-        $this->_default();
-        $this->data['category_type'] = 'real_estate';
+        $this->data['categories'] = Modules::run('categories/get_land_categories', array('category.real_estate' => TRUE, 'category.parent_id !=' => FALSE));
                 
         // process template
-        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $this->lang->line('sale_rent_land_label');
+        $title =  isset($cat) && $cat != FALSE ?  $this->lang->line('sale_rent_land_label').' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $this->lang->line('sale_rent_land_label');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
@@ -421,46 +473,87 @@ class Home_page extends Front_Controller {
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function real_estate_detail($id)
+    public function land_detail($id)
     {
-        $real_estate = Modules::run('real_estates/get_with_category', $id);
-        $this->data['classified'] = $real_estate;
-        $this->data['medias'] = Modules::run('classified_medias/get_many_by', array('classified_id' => $real_estate->id));
-        $this->data['membership'] =Modules::run('memberships/get_with_user', array('membership.id' => $real_estate->membership_id));
+        $land = Modules::run('real_estates/get_detail', $id);
+        $cat = Modules::run('categories/get', $land->category_id);
+        $this->data['land'] = $land;
+        $this->data['pictures'] = Modules::run('real_estate_pictures/get_many_by', array('real_estate_id' => $land->id));
+        $this->data['seller'] = Modules::run('real_estates/get_contact', $land->id);
         
-        $map_config = array(
-            'center' => $this->data['membership']->map,
-            'zoom'  => '15',
-            'height' => '300px'
-        );
+        $this->data['similar_lands'] = Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'real_estate.id != ' => $land->id), array('created_at' => 'desc'), 12);
         
-        $marker = array(
-            'position' => $this->data['membership']->map,
-            'animation'=> 'Drop'
-        );
-        $this->data['map'] = get_google_map($map_config, $marker);
-        
-        $this->_default();
+        if($land->location_id != FALSE)
+        {
+            $getLoc = explode('/', $land->location_id);
+            switch (count($getLoc))
+            {
+                case 1:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $this->data['location'] = $province;
+                    break;
+                case 2:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $this->data['location'] = $khan.' / '.$province;
+                    break;
+                case 3:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                    $this->data['location'] = $sangkat.' / '.$khan.' / '.$province;
+                    break;
+                default:
+                    $province = Modules::run('locations/get',$getLoc[0])->caption;
+                    $khan = Modules::run('locations/get',$getLoc[1])->caption;
+                    $sangkat = Modules::run('locations/get',$getLoc[2])->caption;
+                    $phum = Modules::run('locations/get',$getLoc[3])->caption;
+                    $this->data['location'] = $phum.' / '.$sangkat.' / '.$khan.' / '.$province;
+                    break;
+            }
+        }
+        if($land->map != FALSE)
+        {
+            $map_config = array(
+                'center' => $land->map,
+                'zoom'  => '15',
+                'height' => '300px'
+            );
+
+            $marker = array(
+                'position' => $land->map,
+                'animation'=> 'Drop'
+            );
+            $this->data['map'] = get_google_map($map_config, $marker);
+        }
         
         // process template
-        $title = $real_estate->title;
+        $title = $land->title;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css',
                                         'css/colorbox/colorbox.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js', 'js/jquery.colorbox.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js', 'js/script.min.js', 'js/jquery.colorbox.min.js');
         $layout_property['script'] = '$(document).ready(function(){$(".color-box").colorbox({rel:"color-box",transition:"fade"})});';
         
-        $layout_property['breadcrumb'] = array('real-estate/'.$real_estate->category_id => $real_estate->caption,$title);
+        if($cat->parent_id == FALSE)
+        {
+            $layout_property['breadcrumb'] = array('land-sale-rent' => $this->lang->line('sale_rent_land_label'), $title);
+        }
+        else
+        {
+            $layout_property['breadcrumb'] = array('land-sale-rent' => $this->lang->line('sale_rent_land_label'), 'land-sale-rent/'.$cat->id => $cat->caption, $title);
+        }
         
-        $layout_property['content']     = 'real_estate_detail';
+        $layout_property['content']     = 'land_view';
         
-        $this->data['menu_real_estate'] = TRUE;
+        $this->data['menu_land'] = TRUE;
         
-        $meta = $this->_generate_meta($title, $real_estate->description, $real_estate->caption, base_url(get_uploaded_file($real_estate->file)), site_url('classified-detail/'.$real_estate->id));
+        $meta = $this->_generate_meta($title, $land->description, $title, base_url(get_uploaded_file($land->file)), site_url('land-detail/'.$land->id));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
@@ -484,11 +577,12 @@ class Home_page extends Front_Controller {
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['jobs'] = $jobs;
         
-        $this->_default();
-        $this->data['category_type'] = 'job';
+        $this->data['locations'] = Modules::run('locations/get_job_locations');
+        
+        $this->data['categories'] = Modules::run('categories/get_job_categories', array('category.job' => TRUE, 'category.parent_id !=' => FALSE));
                 
         // process template
-        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $this->lang->line('job_label');
+        $title =  isset($cat) && $cat != FALSE ? $this->lang->line('job_label') .' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $this->lang->line('job_label');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
@@ -502,7 +596,6 @@ class Home_page extends Front_Controller {
         
         $layout_property['content']     = 'job_list';
         $this->data['content_header']   = TRUE;
-        $this->data['content_sidebar']  = TRUE;
         
         $this->data['menu_job'] = TRUE;
         
@@ -511,386 +604,165 @@ class Home_page extends Front_Controller {
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function member($id, $method = FALSE)
+    public function job_detail($id)
     {
-        echo $id.'/'.$method;
-//        $membership = Modules::run('memberships/get_with_user', array('membership.id' => $id));
-//
-//        $this->data['membership'] = $membership;
-//        $this->data['classifieds'] = Modules::run('classifieds/get_many_by', array('membership_id' => $membership->id, 'classifieds.type' => 0), array('created_at' => 'desc'));
-//        $this->data['realestates'] = Modules::run('classifieds/get_many_by', array('membership_id' => $membership->id, 'classifieds.type' => 1), array('created_at' => 'desc'));
-//        
-//        $map_config = array(
-//            'center' => $membership->map,
-//            'zoom'  => '15',
-//            'height' => '300px'
-//        );
-//        
-//        $marker = array(
-//            'position' => $membership->map,
-//            'animation'=> 'Drop'
-//        );
-//        $this->data['map'] = get_google_map($map_config, $marker);
-//        
-//        $this->_default();
-//        
-//        // process template
-//        $title = $membership->name;
-//        $this->data['title'] = $title;
-//        $layout_property['css'] = array(
-//                                        'css/bootstrap.min.css',
-//                                        'css/fontawsome.min.css',
-//                                        'css/style.min.css',
-//                                        'css/colorbox/colorbox.min.css'
-//                                    );
-//        $layout_property['js']  = array('js/bootstrap.min.js', 'js/jquery.colorbox.min.js');
-//        
-//        $layout_property['breadcrumb'] = array($title);
-//        
-//        $layout_property['content']     = 'membership';
-//        
-//        $meta = $this->_generate_meta($title, $membership->desc, FALSE, get_uploaded_file($membership->image) == FALSE ? FALSE : base_url(get_uploaded_file($membership->image)), site_url('member/'.$membership->id));
-//        
-//        generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-    
-    public function login()
-    {
-        // check if logged in
-        if($this->ion_auth->logged_in())
-        {
-            if($this->ion_auth->is_admin()){
-                    redirect('control', 'refresh');
-                }else{
-                    redirect('memberships/member', 'refresh');
-                }
-        }
+        $job = Modules::run('jobs/get_detail', $id);
+        $this->data['job'] = $job;
         
-        // auto login if remember login user
-        if($this->ion_auth->login_remembered_user() == TRUE)
-        {
-            // log activities
-            set_log('Log In');
-
-            //redirect them back to the home page
-            $this->session->set_flashdata('message', $this->ion_auth->messages());
-            if($this->ion_auth->is_admin()){
-                redirect('control', 'refresh');
-            }else{
-                redirect('memberships/member', 'refresh');
-            }
-        }
-        
-        // Login
-        $this->form_validation->set_rules('identity', $this->lang->line('home_login_username'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('password', $this->lang->line('home_login_password'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('captcha', $this->lang->line('home_signup_validation_captcha'), 'trim|required|xss_clean');
-        if($this->form_validation->run() === TRUE)
-        {
-            // check captcha
-            if(check_captcha($this->input->post('captcha')) == FALSE)
-            {
-                $this->session->set_flashdata('message', $this->lang->line('home_signup_captcha_invalid'));
-                redirect('login', 'refresh');
-            }
-            
-            //check to see if the user is logging in
-            //check for "remember me"
-            $remember = (bool) $this->input->post('remember');
-
-            if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)){
-                
-                // log activities
-                set_log('Log In');
-                
-                //redirect them back to the home page
-                $this->session->set_flashdata('message', $this->ion_auth->messages());
-                if($this->ion_auth->is_admin()){
-                    redirect('control', 'refresh');
-                }else{
-                    redirect('memberships/member', 'refresh');
-                }
-            }else{
-                //redirect them back to the login page
-                $this->session->set_flashdata('message', $this->ion_auth->errors());
-                redirect('login', 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
-            }
-        }
-        
-        // form display
-        $this->_default();
-        
-        //set the flash data error message if there is one
-        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-        
-        $this->data['identity'] = array('name' => 'identity',
-                'id' => 'identity',
-                'type' => 'text',
-                'autocomplete'  => 'off',
-                'class' => 'form-control',
-                'placeholder'   => $this->lang->line('home_login_username'),
-                'value' => set_value('identity'),
-        );
-        $this->data['password'] = array('name' => 'password',
-                'id' => 'password',
-                'type' => 'password',
-                'class' => 'form-control',
-                'placeholder'   => $this->lang->line('home_login_password'),
-        );
-        
-        $this->data['captcha'] = array(
-            'name'  => 'captcha',
-            'id'    => 'captcha',
-            'class' => 'form-control',
-            'placeholder' => $this->lang->line('home_signup_placeholder_captcha'),
-            'autocomplete' => 'off'
-        );
+        $this->data['locations'] = Modules::run('locations/get_job_locations');
+        $this->data['categories'] = Modules::run('categories/get_job_categories', array('category.job' => TRUE, 'category.parent_id !=' => FALSE));
         
         // process template
-        $title = $this->lang->line('home_menu_login');
+        $title = $job->title;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js', 'js/script.min.js');
         
-        $layout_property['breadcrumb'] = array($title);
+        $layout_property['breadcrumb'] = array('job' => $this->lang->line('job_label'), $title);
         
-        $layout_property['content']     = 'login';
+        $layout_property['content']     = 'job_view';
+        $this->data['content_header']   = TRUE;
         
-        $this->data['menu_login'] = TRUE;
+        $this->data['menu_job'] = TRUE;
         
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('login'));
+        $meta = $this->_generate_meta($title, $job->description, $title, base_url(get_uploaded_file($job->logo)), site_url('job-detail/'.$job->id));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function signup()
+    public function filter_location($lid)
     {
-        // Validation error
-        $validation_errors = $this->session->flashdata('validation_errors');
-        //set the flash data error message if there is one
-        $this->data['message'] = ($validation_errors['errors'] ? $validation_errors['errors'] : $this->session->flashdata('message'));
+        $location = Modules::run('locations/get', $lid);
+        $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('location_id' => $lid, 'expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+        $jobs = Modules::run('jobs/get_all_records', array('location_id' => $lid, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
 
-        $this->_default();
-
-        // Account Information
-        $this->data['username'] = array(
-            'name'  => 'username',
-            'id'    => 'username',
-            'class' => 'form-control',
-            'value' => (isset($validation_errors['post_data']['username']) ? $validation_errors['post_data']['username'] : NULL)
-        );
+        $this->data['pagination'] = $pagination['v_pagination'];
+        $this->data['jobs'] = $jobs;
         
-        $this->data['email'] = array(
-            'name'  => 'email',
-            'id'    => 'email',
-            'type'  => 'email',
-            'class' => 'form-control',
-            'value' => (isset($validation_errors['post_data']['email']) ? $validation_errors['post_data']['email'] : NULL)
-        );
+        $this->data['locations'] = Modules::run('locations/get_job_locations');
         
-        $this->data['password'] = array(
-            'name'  => 'password',
-            'id'    => 'password',
-            'class' => 'form-control',
-            'value' => (isset($validation_errors['post_data']['password']) ? $validation_errors['post_data']['password'] : NULL)
-        );
-        
-        $this->data['cpassword'] = array(
-            'name'  => 'cpassword',
-            'id'    => 'cpassword',
-            'class' => 'form-control',
-            'value' => (isset($validation_errors['post_data']['cpassword']) ? $validation_errors['post_data']['cpassword'] : NULL)
-        );
-        
-        // Company Information
-        $this->data['name'] = array(
-            'name'  => 'name',
-            'id'    => 'name',
-            'class' => 'form-control',
-            'value' => (isset($validation_errors['post_data']['name']) ? $validation_errors['post_data']['name'] : NULL)
-        );
-        
-        
-        // Personal        
-        $this->data['fullname'] = array(
-            'name' => 'fullname',
-            'id' => 'fullname',
-            'class' => 'form-control',
-            'value' => (isset($validation_errors['post_data']['fullname']) ? $validation_errors['post_data']['fullname'] : NULL)
-        );
-        
-        $this->data['captcha'] = array(
-            'name'  => 'captcha',
-            'id'    => 'captcha',
-            'class' => 'form-control',
-            'placeholder' => $this->lang->line('home_signup_placeholder_captcha'),
-            'autocomplete' => 'off'
-        );
-        
+        $this->data['categories'] = Modules::run('categories/get_job_categories', array('category.job' => TRUE, 'category.parent_id !=' => FALSE));
+                
         // process template
-        $title = $this->lang->line('home_menu_signup');
+        $title =  $this->lang->line('job_label').' <i class="fa fa-angle-double-right"></i> <small>'.$location->caption.'</small>';
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
         
-        $layout_property['breadcrumb'] = array($title);
+        $layout_property['breadcrumb'] = array('job' => $this->lang->line('job_label'), $location->caption);
         
-        $layout_property['content']     = 'signup';
+        $layout_property['content']     = 'job_list';
+        $this->data['content_header']   = TRUE;
         
-        $this->data['menu_signup'] = TRUE;
+        $this->data['menu_job'] = TRUE;
         
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('signup'));
+        $meta = $this->_generate_meta($title, $this->lang->line('job_meta_description'), $this->lang->line('job_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('job/'.$cat->id) : site_url('job'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function signup_company()
+    public function video($cat_id = FALSE)
     {
-        $this->form_validation->set_rules('username', $this->lang->line('form_company_validation_username_label'), 'trim|required|is_unique[users.username]|xss_clean');
-        $this->form_validation->set_rules('email', $this->lang->line('form_company_validation_email_label'), 'trim|required|valid_email|is_unique[users.email]|xss_clean');
-        $this->form_validation->set_rules('password', $this->lang->line('form_company_validation_password_label'), 'trim|required|min_length[8]|max_length[20]|matches[cpassword]');
-        $this->form_validation->set_rules('cpassword', $this->lang->line('form_company_validation_cpassword_label'), 'trim|required');
-        
-        $this->form_validation->set_rules('name', $this->lang->line('form_company_validation_name_label'), 'trim|required|is_unique[membership.name]|xss_clean');
-        $this->form_validation->set_rules('captcha', $this->lang->line('home_signup_validation_captcha'), 'trim|required|xss_clean');
-        if($this->form_validation->run() == TRUE)
+        if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
-            // check captcha
-            if(check_captcha($this->input->post('captcha')) == FALSE)
-            {
-                $this->session->set_flashdata('message', $this->lang->line('home_signup_captcha_invalid'));
-                redirect_form_validation(validation_errors(), $this->input->post(), 'signup');
-            }
-            
-            // data
-            $data = array(
-                'username'  => $this->input->post('username', TRUE),
-                'email'     => $this->input->post('email', TRUE),
-                'password'  => $this->input->post('password'),
-                'name'      => $this->input->post('name', TRUE),
-            );
-            
-            // create company
-            $company_data = array(
-                'name' => $data['name'],
-                'slug' => strtolower(url_title($data['name'])),
-                'member_type_id' => 1
-            );
-            
-            if(($mid = Modules::run('memberships/insert', $company_data, TRUE)) != FALSE)
-            {                
-                // create user
-                if(($user_id = $this->ion_auth->register($data['username'], $data['password'], $data['email'], array('active' => 1),array(2))) != FALSE)
-                {
-                    // create company user
-                    Modules::run('user_memberships/insert', array('membership_id' => $mid, 'user_id' => $user_id), TRUE);
-                }
-                else
-                {
-                    Modules::run('memberships/delete', $mid);
-                    $this->session->set_flashdata('message', $this->ion_auth->errors());
-                    redirect_form_validation(validation_errors(), $this->input->post(), 'signup');
-                }
-                
-                // set log
-                array_unshift($company_data, $mid);
-                set_log('Created Company Membership', $company_data, $data['username']);
-                
-                // login
-                if($this->ion_auth->login($data['username'], $data['password'], FALSE))
-                {
-                    // log activities
-                    set_log('Log In');
-
-                    //redirect them back to the home page
-                    $this->session->set_flashdata('message', $this->lang->line('home_signup_success'));
-                    redirect('memberships/member', 'refresh');
-                }
-            }
-            else
-            {
-                $this->session->set_flashdata('message', $this->lang->line('home_signup_error'));
-                redirect_form_validation(validation_errors(), $this->input->post(), 'signup');
-            }
+            $cat = Modules::run('categories/get', $cat_id);
+        
+            $pagination = get_pagination('video/'.$cat->id.'/page', count(Modules::run('videos/get_all_records', array('category_id' => $cat->id))), 20, 5, 4);
+            $videos = Modules::run('videos/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            redirect_form_validation(validation_errors(), $this->input->post(), 'signup');
+            $pagination = get_pagination('video/page', count(Modules::run('videos/get_all_records')), 20, 5, 4);
+            $videos = Modules::run('videos/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
+        
+        
+        $this->data['pagination'] = $pagination['v_pagination'];
+        $this->data['videos'] = $videos;
+        
+        $this->data['categories'] = Modules::run('categories/get_video_categories', array('category.article' => TRUE));
+                
+        // process template
+        $title =  isset($cat) && $cat != FALSE ? $cat->caption : $this->lang->line('video_label');
+        $this->data['title'] = $title;
+        $layout_property['css'] = array(
+                                        'css/bootstrap.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
+                                        'css/style.min.css'
+                                    );
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
+        
+        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('job' => $this->lang->line('job_label'), $cat->caption) : array($title);;
+        
+        $layout_property['content']     = 'video_list';
+        $this->data['content_header']   = TRUE;
+        
+        $this->data['menu_video'] = TRUE;
+        
+        $meta = $this->_generate_meta($title, $this->lang->line('video_meta_description'), $this->lang->line('video_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('video/'.$cat->id) : site_url('video'));
+        
+        generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
-    public function signup_personal()
+    public function video_detail($id)
     {
-        $this->form_validation->set_rules('username', $this->lang->line('form_personal_validation_username_label'), 'trim|required|is_unique[users.username]|xss_clean');
-        $this->form_validation->set_rules('email', $this->lang->line('form_personal_validation_email_label'), 'trim|required|valid_email|is_unique[users.email]|xss_clean');
-        $this->form_validation->set_rules('password', $this->lang->line('form_personal_validation_password_label'), 'trim|required|min_length[8]|max_length[20]|matches[cpassword]');
-        $this->form_validation->set_rules('cpassword', $this->lang->line('form_personal_validation_cpassword_label'), 'trim|required');
-        $this->form_validation->set_rules('fullname', $this->lang->line('form_personal_validation_fullname_label'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('captcha', $this->lang->line('home_signup_validation_captcha'), 'trim|required|xss_clean');
-        if($this->form_validation->run() == TRUE)
-        {
-            // check captcha
-            if(check_captcha($this->input->post('captcha')) == FALSE)
-            {
-                $this->session->set_flashdata('message', $this->lang->line('home_signup_captcha_invalid'));
-                redirect_form_validation(validation_errors(), $this->input->post(), 'signup');
-            }
-            
-            
-            $email = $this->input->post('email');
-            $username = trim($this->input->post('username'));
-            $password = $this->input->post('password');
-            if(($user_id = $this->ion_auth->register($username, $password, $email, array('active' => 1), array(2))) != FALSE)
-            {
-                $personal_data = array(
-                    'name' => trim($this->input->post('fullname')),
-                    'slug' => str_replace(' ', '-', strtolower(trim($this->input->post('fullname')))),
-                    'member_type_id' => 2
-                    
-                );
-                if(($pid = Modules::run('memberships/insert', $personal_data, TRUE)))
-                {
-                    // create personal user
-                    Modules::run('user_memberships/insert', array('membership_id' => $pid, 'user_id' => $user_id), TRUE);
-                    
-                    // set log
-                    array_unshift($personal_data, $pid);
-                    set_log('Created Personal Membership', $personal_data, $username);
-                    
-                    // login
-                    if($this->ion_auth->login($username, $password, FALSE))
-                    {
-                        // log activities
-                        set_log('Log In');
+        $video = Modules::run('videos/get_detail', $id);
+        $cat = Modules::run('categories/get', $video->category_id);
+        $this->data['video'] = $video;
 
-                        //redirect them back to the home page
-                        $this->session->set_flashdata('message', $this->lang->line('home_signup_success'));
-                        redirect('memberships/member', 'refresh');
-                    }
-                }
-                else
-                {
-                    // delete account
-                    $this->ion_auth->delete_user($user_id);
-                    $this->session->set_flashdata('message', $this->lang->line('home_signup_error'));
-                    redirect_form_validation(validation_errors(), $this->input->post(), 'signup');
-                }
-            }
-            else
-            {
-                $this->session->set_flashdata('message', $this->ion_auth->errors());
-                redirect_form_validation(validation_errors(), $this->input->post(), 'signup');
-            }
+        if($cat == FALSE)
+        {
+            $this->data['related_news'] = Modules::run('articles/get_all_records',  array('article_type_id' => 1), array('created_at' => 'random'), 6);
+            $this->data['related_techniques'] = Modules::run('articles/get_all_records', array('article_type_id' => 2), array('created_at' => 'random'), 6);
+            $this->data['related_videos'] = Modules::run('videos/get_all_records', array('video.id !=' => $video->id), array('created_at' => 'random'), 6);
         }
-        redirect_form_validation(validation_errors(), $this->input->post(), 'signup');
+        else
+        {
+            $this->data['related_news'] = Modules::run('articles/get_all_records',  array('article_type_id' => 1, 'category_id' => $cat->id), array('created_at' => 'random'), 6);
+            $this->data['related_techniques'] = Modules::run('articles/get_all_records', array('article_type_id' => 2, 'category_id' => $cat->id), array('created_at' => 'random'), 6);
+            $this->data['related_videos'] = Modules::run('videos/get_all_records', array('category_id' => $cat->id, 'video.id !=' => $video->id), array('created_at' => 'random'), 6);
+        }
+        
+        
+        // process template
+        $title = $video->title;
+        $this->data['title'] = $title;
+        $layout_property['css'] = array(
+                                        'css/bootstrap.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
+                                        'css/style.min.css'
+                                    );
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
+        
+        if($cat == FALSE)
+        {
+            $layout_property['breadcrumb'] = array('videos' => $this->lang->line('video_label'), $title);
+        }
+        else
+        {
+            $layout_property['breadcrumb'] = array('videos' => $this->lang->line('video_label'), 'videos/'.$cat->id => $cat->caption, $title);
+        }        
+        
+        
+        $layout_property['content']     = 'video_view';
+        
+        $this->data['menu_video'] = TRUE;
+        
+        $meta = $this->_generate_meta($title, $video->detail, $title, base_url(get_uploaded_file($video->picture)), site_url('video-detail/'.$video->id));
+        
+        generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
     public function search()
@@ -942,10 +814,141 @@ class Home_page extends Front_Controller {
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
     
+    public function register()
+    {
+        $this->lang->load('auth/auth');
+        
+        $this->form_validation->set_rules('username', $this->lang->line('register_validation_username_label'), 'trim|required|is_unique[users.username]|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន', 'is_unique' => '%s នេះ​មាន​រួច​ហើយ'));
+        $this->form_validation->set_rules('email', $this->lang->line('register_validation_email_label'), 'trim|required|valid_email|is_unique[users.email]|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន', 'is_unique' => '%s នេះ​មាន​រួច​ហើយ'));
+        $this->form_validation->set_rules('password', $this->lang->line('regerter_validation_password_label'), 'trim|required|min_length[' .$this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]', array('required' => '%s តម្រូវ​ឲ្យ​មាន', 'min_length' => '%s មិនត្រូវ​តូចជាង​ '.$this->config->item('min_password_length', 'ion_auth').' តួអក្សរ', 'max_length' => '%s មិនត្រូវ​ធំជាង '.$this->config->item('max_password_length', 'ion_auth').' តួអក្សរ', 'matches' => '%s ពាក្យ​សំងាត់​មិន​ដូចគ្នា'));
+        $this->form_validation->set_rules('password_confirm', $this->lang->line('register_validation_comfirm_password_label'), 'trim|required', array('required' => '%s តម្រូវ​ឲ្យ​មាន'));
+        $this->form_validation->set_rules('captcha', $this->lang->line('captcha_validation_label'), 'trim|required|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន'));
+        
+        if($this->form_validation->run() == TRUE)
+        {
+            if(check_captcha($this->input->post('captcha')) == FALSE)
+            {
+                $this->session->set_flashdata('message', $this->lang->line('captcha_error_label'));
+                redirect(current_url(), 'refresh');
+            }
+            
+            $username = strtolower(trim($this->input->post('username')));
+            $email    = strtolower($this->input->post('email'));
+            $password = $this->input->post('password');
+            $additional_data = array(
+                'active'    => 1,
+            );
+            
+            if (($uid = $this->ion_auth->register($username, $password, $email, $additional_data,array(2))) != FALSE){
+                // set log
+                set_log('Create User', array($username,$email,$password,'Member'), $username);
+                
+                //check people profile
+                $userProfile = Modules::run('people/get_detail', array('email' => $email));
+                if($userProfile == FALSE)
+                {
+                    // insert people profile
+                    Modules::run('people/insert', array('people_group_id' => 1, 'user_id' => $uid), TRUE);
+                }
+                else
+                {
+                    //update people profile
+                    Modules::run('poeple/update', $userProfile->id, array('people_group_id' => 1, 'user_id' => $uid), TRUE);
+                }
+                
+                // redirect login
+                if ($this->ion_auth->login($username, $password, FALSE)){  
+                    // log activities
+                    set_log('Log In');
+                    
+                    $userInfo = array(
+                        'member_group' => 1,
+                        'user_group' => 'Members'
+                    );
+                    
+                    $this->session->set_userdata($userInfo);
+                    
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect("members", 'refresh');
+                }else{
+                    //redirect them back to the login page
+                    $this->session->set_flashdata('message', $this->ion_auth->errors());
+                    redirect(current_url(), 'refresh'); //use redirects instead of loading views for compatibility with MY_Controller libraries
+                }
+            }
+        }
+        
+        $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        
+        // display form
+        $this->data['username'] = array(
+            'name'  => 'username',
+            'id'    => 'username',
+            'type'  => 'text',
+            'class' => 'form-control',
+            'placeholder' => $this->lang->line('register_validation_username_label'),
+            'autocomplete' => 'off',
+            'value' => $this->form_validation->set_value('username')
+        );
+        $this->data['email'] = array(
+            'name'  => 'email',
+            'id'    => 'email',
+            'type'  => 'email',
+            'class' => 'form-control',
+            'placeholder' => $this->lang->line('register_validation_email_label'),
+            'autocomplete' => 'off',
+            'value' => $this->form_validation->set_value('email')
+        );
+
+        $this->data['password'] = array(
+            'name'  => 'password',
+            'id'    => 'password',
+            'type'  => 'password',
+            'class' => 'form-control',
+            'placeholder' => $this->lang->line('regerter_validation_password_label'),
+            'value' => $this->form_validation->set_value('password')
+        );
+        $this->data['password_confirm'] = array(
+            'name'  => 'password_confirm',
+            'id'    => 'password_confirm',
+            'type'  => 'password',
+            'class' => 'form-control',
+            'placeholder' => $this->lang->line('register_validation_comfirm_password_label'),
+            'value' => $this->form_validation->set_value('password_confirm')
+        );
+        
+        $this->data['captcha'] = array(
+            'name'  => 'captcha',
+            'id'    => 'captcha',
+            'type'  => 'text',
+            'class' => 'form-control',
+            'placeholder' => $this->lang->line('captcha_validation_label'),
+            'autocomplete' => 'off',
+            'value' => $this->form_validation->set_value('captcha')
+        );
+        
+        
+        // process template
+        $title = $this->lang->line('register_heading_label');
+        $this->data['title'] = $title;
+        $layout_property['css'] = array(
+                                        'css/bootstrap.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
+                                        'css/style.min.css'
+                                    );
+        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['content']     = 'register';
+        $layout_property['template']    = 'one_col';
+        
+        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('register'));
+        
+        generate_template($this->data, $layout_property, FALSE, $meta);
+    }
+    
     public function about_us()
     {
         // process template
-        $this->_default();
         $title = $this->lang->line('about_us_menu_label');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
@@ -976,7 +979,7 @@ class Home_page extends Front_Controller {
         $this->form_validation->set_rules('captcha', $this->lang->line('home_signup_validation_captcha'), 'trim|required|xss_clean');
         if($this->form_validation->run() === TRUE)
         {
-            if(check_captcha($this->input->post('captcha') == FALSE))
+            if(check_captcha($this->input->post('captcha')) == FALSE)
             {
                 $this->session->set_flashdata('message', $this->lang->line('captcha_error_label'));
                 redirect('contact-us', 'refresh');
@@ -1049,20 +1052,18 @@ class Home_page extends Front_Controller {
         );
         
         // map 
-            $map_config = array(
-                'center' => '11.525485395179993, 104.94450590310089',
-                'zoom'  => '15',
-                'height' => '300px'
-            );
+        $map_config = array(
+            'center' => '11.525485395179993, 104.94450590310089',
+            'zoom'  => '15',
+            'height' => '300px'
+        );
 
-            $marker = array(
-                'position' => '11.525485395179993, 104.94450590310089',
-                'animation'=> 'Drop'
-            );
-            $this->data['map'] = get_google_map($map_config, $marker);
-        
-        
-        $this->_default();
+        $marker = array(
+            'position' => '11.525485395179993, 104.94450590310089',
+            'animation'=> 'Drop'
+        );
+        $this->data['map'] = get_google_map($map_config, $marker);
+
         // process template
         $title = $this->lang->line('contact_us_menu_label');
         $this->data['title'] = $title;
@@ -1083,82 +1084,6 @@ class Home_page extends Front_Controller {
         $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('contact-us'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-    
-    public function policy()
-    {
-        $this->underconstruction();
-    }
-    
-    public function condition()
-    {
-        $this->underconstruction();
-    }
-    
-    public function weather()
-    {
-        $this->_default();
-        // process template
-        $title = $this->lang->line('home_menu_weather');
-        $this->data['title'] = $title;
-        $layout_property['css'] = array(
-                                        'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css'
-                                    );
-        $layout_property['js']  = array('js/bootstrap.min.js');
-        
-        $layout_property['breadcrumb'] = array($title);
-        
-        $layout_property['content']     = 'weather';
-        
-        $this->data['menu_weather'] = TRUE; 
-        
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('weather'));
-        
-        generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-
-    public function blank()
-    {
-        $this->data['categories'] = Modules::run('categories/get_many_by', array('type' => 0));
-        // process template
-        $title = $this->lang->line('home_blank');
-        $this->data['title'] = $title;
-        $layout_property['css'] = array(
-                                        'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css'
-                                    );
-        $layout_property['js']  = array('js/bootstrap.min.js');
-        
-        $layout_property['breadcrumb'] = array($title);
-        
-        $layout_property['content']     = 'blank';
-        
-        $meta = $this->_generate_meta($title, FALSE, FALSE, FALSE, site_url('blank'));
-
-        generate_template($this->data, $layout_property, FALSE, $meta);
-    }
-    
-    public function underconstruction()
-    {
-        $this->_default();
-        // process template
-        $title = $this->lang->line('home_underconstruction');
-        $this->data['title'] = $title;
-        $layout_property['css'] = array(
-                                        'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
-                                        'css/style.min.css'
-                                    );
-        $layout_property['js']  = array('js/bootstrap.min.js');
-        
-        $layout_property['breadcrumb'] = array($title);
-        
-        $layout_property['content']     = 'underconstruction';
-        
-        generate_template($this->data, $layout_property);
     }
     
     public function _generate_meta($title, $description = FALSE, $keyword = FALSE, $image = FALSE, $url = FALSE)
@@ -1194,11 +1119,6 @@ class Home_page extends Front_Controller {
             array('name' => 'twitter:image:height', 'content' => '252'),
             array('name' => 'twitter:widgets:csp', 'content' => 'on'),
         );
-    }
-    
-    public function _default()
-    {
-        $this->data['categories'] = Modules::run('categories/get_all');
     }
     
 }

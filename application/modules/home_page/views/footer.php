@@ -9,8 +9,8 @@
                         <h3><?php echo lang('footer_information_label'); ?></h3>
                         <ul>
                             <li><a href="<?php echo site_url('about-us'); ?>"><?php echo lang('about_us_menu_label'); ?></a></li>
-                            <li><a href="<?php echo site_url('privacy'); ?>"><?php echo lang('footer_policy_label'); ?></a></li>
-                            <li><a href="<?php echo site_url('term'); ?>"><?php echo lang('footer_condition_label'); ?></a></li>
+                            <!--<li><a href="<?php echo site_url('privacy'); ?>"><?php echo lang('footer_policy_label'); ?></a></li>-->
+                            <!--<li><a href="<?php echo site_url('term'); ?>"><?php echo lang('footer_condition_label'); ?></a></li>-->
                             <li><a href="<?php echo site_url('contact-us'); ?>"><?php echo lang('contact_us_menu_label'); ?></a></li>
                         </ul>
                     </div>
@@ -48,7 +48,7 @@
                             <li><a href="https://plus.google.com/+AgritodayMegazine" target="_blank" title="Google+"><i class="fa fa-google-plus-square"></i></a></li>
                             <li><a href="https://twitter.com/agritodaynews" target="_blank" title="Twitter"><i class="fa fa-twitter-square"></i></a></li>
                             <li><a href="https://www.youtube.com/c/AgritodayMegazine" target="_blank" title="Youtube"><i class="fa fa-youtube-square"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-linkedin-square" title="Linkedin"></i></a></li>
+                            <li><a href="https://www.linkedin.com/company/agritoday" target="_blank"><i class="fa fa-linkedin-square" title="Linkedin"></i></a></li>
                         </ul>
                     </div>
                 </section>

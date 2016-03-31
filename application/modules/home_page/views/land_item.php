@@ -9,13 +9,15 @@
                    $adsCount = 0;
           ?>
                         <li>
-                            <a href="#">
-                                <img src="<?php echo get_image('ads350x340.png'); ?>" />
+                            <a href="<?php echo site_url('contact-us'); ?>">
+                                <figure>
+                                    <img src="<?php echo get_image('ads-land-370x316.png'); ?>" />
+                                </figure>
                             </a>
                         </li>
                       <?php endif; ?>
                         <li>
-                            <a href="<?php echo site_url('land-detail/'.$realestate->slug.'-'.$realestate->id); ?>">
+                            <a href="<?php echo site_url('land-detail/'.$realestate->id); ?>">
                                     <figure>
                                         <div class="img-box">
                                                 <?php echo image_thumb(get_uploaded_file($realestate->file), 210, 320, array('alt' => $realestate->title, 'onerror' => "this.src='".  get_image('no-image.png')."'")) ?>

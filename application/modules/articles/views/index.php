@@ -50,12 +50,7 @@
                                 <td><?php echo $article->published_on;?></td>
                                 <td><?php echo $article->artcaption;?></td>
                                 <td><?php echo $article->catcaption;?></td>
-                                <td>
-                                    <?php 
-                                        $source = explode(',', utf8_decode($article->source));
-                                        echo anchor(prep_url(trim($source[1])), trim($source[0]), 'target="_blank"');
-                                    ?>
-                                </td>
+                                <td><?php echo get_source($article->source, '_blank') ?></td>
                                 <td><?php echo $article->view;?></td>
                                 <td class="text-center">
                                     <?php echo link_edit("articles/edit/".$article->id);?> | 

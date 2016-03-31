@@ -101,6 +101,15 @@ $lang['filter_type_caption_label'] = 'ជ្រើស​'.$lang['index_article_t
 $lang['filter_cat_heading_label'] = 'ស្វែងរកតាម​'.$lang['index_article_category_th'];
 $lang['filter_cat_caption_label'] = 'ជ្រើស​​'.$lang['index_article_category_th'];
 
+//change category
+$lang['change_cat_heading_label'] = lang('article_change_category_menu_label');
+$lang['change_cat_caption_label'] = $lang['filter_cat_caption_label'];
+$lang['change_cat_change_label'] = 'ប្តូរ​ទៅ';
+$lang['change_cat_article_label'] = 'អត្ថបទ​';
+$lang['change_cat_btn'] = 'ផ្លាស់​ប្តូរ';
+$lang['change_cat_success_label'] = 'អត្ថបទ​ត្រូវ​បាន​ផ្លាស់​ប្តូរ​ក្រុម​រួចរាល់';
+
+
 // Link to Library
 $lang['check_th'] = 'ជ្រើស​រើស';
 $lang['link_title_th'] = $lang['index_article_title_th'];

@@ -43,7 +43,7 @@
             <div class="col-lg-12">
                 <h3 class="page-header"><?php echo lang('view_video_thum_label'); ?></h3>
                 
-                <?php echo img(array('src' => base_url(get_uploaded_file($video->picture)), 'class' => 'img-thumbnail img-responsive')); ?>
+                <?php echo img(array('src' => base_url(get_uploaded_file($video->picture)), 'class' => 'img-thumbnail img-responsive', 'onerror' => "this.src='".  get_image('no-image.png')."'")); ?>
             </div>
         </div>
     </div>

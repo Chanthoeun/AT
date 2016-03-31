@@ -50,9 +50,13 @@
                     <td class="col-lg-6"><?php echo $real_estate->status == 1 ? anchor('real_estates/sold/'.$real_estate->id, '<i class="fa fa-times text-danger"> លុក​រួច​ហើយ</i>') : anchor('real_estates/sold/'.$real_estate->id.'/1', '<i class="fa fa-check text-success"> មិនទាន់​លុក</i>'); ?></td>
                 </tr>
                 <tr>
+                    <td class="col-lg-1 success"><strong><?php echo lang('view_expire_date_label'); ?></strong></td>
+                    <td class="col-lg-6"><?php echo $real_estate->expire_date; ?></td>
+                </tr>
+                <tr>
                     <td class="col-lg-1 success"><strong><?php echo lang('view_action_label'); ?></strong></td>
                     <td class="col-lg-6">
-                        <?php echo link_edit('real-estates/edit/'.$real_estate->id). ' | '. link_delete('real-estates/destroy/'.$real_estate->id); ?>
+                        <?php echo link_edit('real-estates/edit/'.$real_estate->id). ' | '. link_delete('real-estates/destroy/'.$real_estate->id).' | '.anchor('real_estates/refresh-expire-date/'.$real_estate->id, '<i class=""></i>'.lang('view_update_expire_date_btn')); ?>
                     </td>
                 </tr>
             </tbody>

@@ -28,7 +28,7 @@
                 </div>
                 <?php } ?>
                 <div class="col-lg-4">
-                    <?php echo form_open("article_types/store", 'role="form"');?>
+                    <?php echo form_open("article-types/store", 'role="form"');?>
                         <div class="form-group">
                             <?php echo lang('form_article_type_parent_label', 'parent');?> <br />
                             <?php echo $parent;?>

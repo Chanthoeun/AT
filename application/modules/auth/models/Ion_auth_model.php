@@ -1087,7 +1087,7 @@ class Ion_auth_model extends CI_Model
         }
         return 0;
 	}
-
+        
 	/**
 	 * Get a boolean to determine if an account should be locked out due to
 	 * exceeded login attempts within a given period

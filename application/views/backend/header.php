@@ -13,7 +13,7 @@
     <!-- /.dropdown -->
     <li class="dropdown pull-right">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <i class="fa fa-user fa-fw"></i> <span><?php echo lang('welcome_label'); ?>, <?php echo $this->session->userdata('username'); ?></span> <i class="fa fa-caret-down"></i>
+            <i class="fa fa-user fa-fw"></i> <span class="text-uppercase"><?php echo lang('welcome_label'); ?>, <?php echo $this->session->userdata('username'); ?></span> <i class="fa fa-caret-down"></i>
         </a>
         
         <ul class="dropdown-menu dropdown-user">

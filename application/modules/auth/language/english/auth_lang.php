@@ -39,6 +39,7 @@ $lang['index_status_th']         = 'ស្ថានភាពគណនី';
 $lang['index_action_th']         = 'សកម្មភាព';
 $lang['index_active_link']       = 'ដំណើរការ';
 $lang['index_inactive_link']     = 'មិនដំណើរ​ការ';
+$lang['index_login_failed_th'] = 'ចំនួន​ Login មិន​ចូល';
 $lang['index_create_user_link']  = 'បង្កើត'.$lang['index_heading'].'ថ្មី';
 $lang['index_create_group_link'] = 'បង្កើតក្រុមថ្មី';
 
@@ -109,3 +110,11 @@ $lang['reset_password_validation_new_password_confirm_label'] = 'បញ្ចា
 
 // Member
 $lang['member_label'] = lang('member_label');
+
+// Login Attempts
+$lang['login_attempt_heading'] = lang('login_attempt_menu_label');
+$lang['login_attempt_subheading'] = 'ខាង​ក្រោម​នេះ​ជាតារាងព័ត៌មាន​គណនីដែល​ '.$lang['login_attempt_heading'].' ទាំង​អស់​';
+$lang['login_attempt_ip_address_th'] = 'IP Address';
+$lang['login_attempt_login_th'] = 'អ្នក​ login';
+$lang['login_attempt_time_th'] = 'កាលបរិច្ឆេត';
+$lang['login_attempt_report_label'] = 'Login មួយ​នេះ​ត្រូវ​បាន​លុប​រួចរាល';

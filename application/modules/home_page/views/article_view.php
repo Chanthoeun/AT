@@ -174,7 +174,33 @@
                     </div>
                 <?php endif; ?><!-- Related Technique -->
                 
+                <?php if(isset($people) && $people != FALSE): ?>
+                    <div class="a-list">
+                        <a href="#" class="a-heading"><h3><?php echo lang('related_people_label'); ?></h3></a>
+                        <ul>
+                            <?php foreach ($people as $p):?>
+                            <li>
+                                <span class="p-name"><?php echo anchor('people-info/'.$p->people_id, $p->name, array('target' => '_blank'));?></span>
+                                <span class="p-position"><?php echo $p->position;?></span>
+                                <span class="p-tel"><?php echo $p->telephone;?></span>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?><!-- Related People -->
+            </div>
+
+        </div>​ <!-- atricle box -->
+
+        <div class="clearfix"></div>
+
+        <?php if($check_related == TRUE): ?>
+        <div class="content">
+            <h3 class="a-title"><?php echo lang('related_label'); ?><span class="title-line">&nbsp;</span></h3>
+
+            <ul class="a-connect">
                 <?php if(isset($related_publications) && $related_publications != FALSE): ?>
+                <li>
                     <div class="a-list">
                         <a href="<?php echo site_url('publications') ?>" class="a-heading"><h3><?php echo lang('related_publication_label'); ?></h3></a>
                         <?php $firstPublication = array_shift($related_publications); ?>
@@ -190,18 +216,9 @@
                             <?php endforeach; ?>
                         </ul>
                     </div>
+                </li>
                 <?php endif; ?><!-- Related Publication -->
-            </div>
-
-        </div>​ <!-- atricle box -->
-
-        <div class="clearfix"></div>
-
-        <?php if($check_related == TRUE): ?>
-        <div class="content">
-            <h3 class="a-title"><?php echo lang('related_label'); ?><span class="title-line">&nbsp;</span></h3>
-
-            <ul class="a-connect">
+                
                  <?php if(isset($related_videos) && $related_videos != FALSE): ?>
                 <li>
                     <div class="a-list">
@@ -274,23 +291,6 @@
                     </div>
                 </li>
                 <?php endif; ?><!-- Related Job -->
-                
-                <?php if(isset($people) && $people != FALSE): ?>
-                <li>
-                    <div class="a-list">
-                        <a href="#" class="a-heading"><h3><?php echo lang('related_people_label'); ?></h3></a>
-                        <ul>
-                            <?php foreach ($people as $p):?>
-                            <li>
-                                <span class="p-name"><?php echo anchor('people-info/'.$p->people_id, $p->name, array('target' => '_blank'));?></span>
-                                <span class="p-position"><?php echo $p->position;?></span>
-                                <span class="p-tel"><?php echo $p->telephone;?></span>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </li>
-                <?php endif; ?><!-- Related People -->
                 
                 <?php if(isset($abs) && $abs != FALSE): ?>
                 <li>

@@ -21,6 +21,7 @@
             <li <?php echo isset($account_menu) ? 'class="active"' : ''; ?>>
                 <a href="#"><i class="fa fa-user fa-fw"></i> <?php echo lang('admin_menu_label'); ?><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
+                    <?php if(check_admin($this->session->userdata('identity'))): ?>
                     <li>
                         <a <?php echo isset($user_create_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('auth/create-user'); ?>"><i class="fa fa-plus-square fa-fw"></i> <?php echo lang('create_user_menu_label'); ?></a>
                     </li>
@@ -30,16 +31,21 @@
                     </li>
                     
                     <li>
-                        <a <?php echo isset($member_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('auth/members'); ?>"><i class="fa fa-user fa-fw"></i> <?php echo lang('member_label'); ?></a>
-                    </li>
-                    
-                    <li>
                         <a <?php echo isset($group_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('groups'); ?>"><i class="fa fa-users fa-fw"></i> <?php echo lang('group_menu_label'); ?></a>
                     </li>
                     
                     <li>
-                        <a <?php echo isset($member_type_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('member_type'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('member_type_menu_label'); ?></a>
+                        <a <?php echo isset($login_attempt_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('auth/login-attempts'); ?>"><i class="fa fa-lock fa-fw"></i> <?php echo lang('login_attempt_menu_label'); ?></a>
                     </li>
+                    <?php endif; ?>
+                    
+                    <li>
+                        <a <?php echo isset($member_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('auth/members'); ?>"><i class="fa fa-user fa-fw"></i> <?php echo lang('member_label'); ?></a>
+                    </li>
+                    
+<!--                    <li>
+                        <a <?php echo isset($member_type_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('member_type'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('member_type_menu_label'); ?></a>
+                    </li>-->
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

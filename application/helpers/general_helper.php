@@ -933,5 +933,19 @@ if(!function_exists('get_library_type'))
     }
 }
 
+//check admin users
+if(!function_exists('check_admin'))
+{
+    function check_admin($identity)
+    {
+        $admin = array('administrator', 'chanthoeun', 'kim', 'tate', 'sovathara', 'sideth', 'admin@at.com', 'chanthoeun.kim@agritoday.com', 'kimhoeun.pann@agritoday.com', 'ctate.chhun@agritoday.com', 'sovathara.heng@agritoday.com', 'sideth.kang@agritoday.com');
+        if(in_array($identity, $admin))
+        {
+            return TRUE;
+        }
+        return FALSE;
+    }
+}
+
 /* End of file general_helper.php */
 /* Location: ./application/helpers/general_helper.php */

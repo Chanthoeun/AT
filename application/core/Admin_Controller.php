@@ -20,7 +20,7 @@ class Admin_Controller extends MY_Controller {
         $this->load->helper('upload');
     }
     
-    public function check_login($admin = TRUE){
+    public function check_login($admin = TRUE, $rs = FALSE){
         if (!$this->ion_auth->logged_in())
         {
             $this->session->set_flashdata('message', lang('not_login_label'));
@@ -32,6 +32,15 @@ class Admin_Controller extends MY_Controller {
             {
                 // set home breadcrumb
                 $this->template->set_home_breadcrumb('control');
+                if($rs == TRUE)
+                {
+                    $identity = $this->session->userdata('identity');
+                    if(check_admin($identity) == FALSE)
+                    {
+                        $this->session->set_flashdata('message', lang('account_not_correct_label'));
+                        redirect(site_url('control'), 'refresh');
+                    }
+                }
                 return 'admin';
             }
             else

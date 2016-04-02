@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = ENVIRONMENT == 'development' ? 'http://localhost.agritoday.com/' : 'http://agritoday.com/test/';
+$config['base_url'] = ENVIRONMENT == 'development' ? 'http://localhost.agritoday.com/' : 'http://agritoday.com/';
 
 /*
 |--------------------------------------------------------------------------

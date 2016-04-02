@@ -26,11 +26,11 @@ $lang['all_label'] = 'បង្ហាញ​ទាំង​អស់';
 //About Us
 $lang['about'] = 'អំពី';
 $lang['mission_title'] = 'បេសកកម្ម';
-$lang['mission_text'] = 'ធ្វើឲ្យអ្នកប្រើប្រាស់ទទួលបាន ព័ត៌មាន និងសេវា ផ្នែកកសិកម្ម';
+$lang['mission_text'] = '<strong>AgriToday</strong> ធ្វើឲ្យអ្នកប្រើប្រាស់ទទួលបាន ព័ត៌មាន និងសេវា ផ្នែកកសិកម្ម។';
 $lang['goal_title'] = 'គោលបំណង';
 $lang['goal_text_1'] = 'បង្កើតប្រភពព័ត៌មាន';
-$lang['goal_text_2'] = 'ប្រមូលផ្តុំ​ និង បំលែងព័ត៌មានបច្ចេកទេសឲ្យសាមញ្ញ និងសមស្របតាមតំរូវការអ្នកប្រើប្រាស់';
-$lang['goal_text_3'] = 'បង្កើតនូវវេទិការដែលអ្នកប្រើប្រាស់អាចចែករំលែកព័ត៌មាន';
+$lang['goal_text_2'] = 'ប្រមូលផ្តុំ​ និង កែសម្រួលព័ត៌មានបច្ចេកទេសឲ្យសាមញ្ញ និងសមស្របតាមតម្រូវការអ្នកប្រើប្រាស់';
+$lang['goal_text_3'] = 'បង្កើតនូវវេទិការដែលអ្នកប្រើប្រាស់អាចចែករម្លែកព័ត៌មាន';
 $lang['goal_text_4'] = 'ដើរតួនាទីជាអ្នក ផ្សារភ្ជាប់អ្នកប្រើប្រាស់';
 
 //contact us
@@ -44,7 +44,7 @@ $lang['contact_text_label'] = 'ប្រសិន​បើ​លោក​អ្�
 $lang['news_label'] = 'ព័ត៌មានពេញនិយម';
 $lang['techniques_label'] = 'សម្រង់​បច្ចេកទេស';
 $lang['publish_label'] = 'ឯកសារផ្សព្វផ្សាយ';
-$lang['sale_rent_product_label'] = 'សម្ភារៈ និងកសិផល';
+$lang['sale_rent_product_label'] = 'សម្ភារ និងកសិផល';
 $lang['sale_rent_land_label'] = 'ស្រែ ចំការ កសិដ្ឋាន';
 $lang['job_label'] = 'ទំព័រការងារ';
 $lang['video_label'] = 'វីដេអូ អនុវត្តផ្ទាល់';
@@ -134,7 +134,7 @@ $lang['share_label'] = 'ចែករំលែកជាមួយ៖';
 $lang['footer_policy_label'] = "ភាពជាឯកជន ";
 $lang['footer_condition_label'] = "កិច្ចព្រមព្រៀងនិងលក្ខខណ្ឌ ";
 $lang['footer_information_label'] = 'ព័ត៌មាន';
-$lang['footer_account_label'] = 'ព័ត៌មាន​គណនី';
+$lang['footer_account_label'] = 'គណនី';
 $lang['footer_join_us_label'] = 'ចូលរួម​ជាមួយយើង';
 
 // search

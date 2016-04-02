@@ -43,12 +43,12 @@
                 js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=443032809216230";
                 fjs.parentNode.insertBefore(js, fjs);
               }(document, 'script', 'facebook-jssdk'));</script>
-                            <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/"></div>
+                            <div class="fb-like" data-href="<?php echo current_url(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
                         </li>
-                        <li>
+<!--                        <li>
                             <script src="//platform.linkedin.com/in.js" type="text/javascript"> lang: en_US</script>
                             <script type="IN/Share" data-url="https://github.com/tmort/Socialite"></script>
-                        </li>
+                        </li>-->
 
                     </ul>
                 </div>

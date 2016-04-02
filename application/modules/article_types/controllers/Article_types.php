@@ -130,14 +130,13 @@ class Article_types extends Admin_Controller {
         generate_template($this->data, $layout_property); 
     }
 
-
     // save
     public function store()
     {
         parent::check_login();
         $parentId = trim($this->input->post('parent'));
         $data = array(
-            'caption' => ucwords(trim($this->input->post('caption'))),
+            'caption' => trim($this->input->post('caption')),
             'slug'    => str_replace(' ', '-', strtolower(trim($this->input->post('caption')))),
             'parent_id' => $parentId,
             'order'     => $this->get_next_order('order', array('parent_id' => $parentId)),
@@ -210,7 +209,7 @@ class Article_types extends Admin_Controller {
         $id = $this->input->post('article_type_id');
         $parentId = trim($this->input->post('parent'));
         $data = array(
-            'caption' => ucwords(strtolower(trim($this->input->post('caption')))),
+            'caption' => trim($this->input->post('caption')),
             'slug'    => str_replace(' ', '-', strtolower(trim($this->input->post('caption')))),
             'parent_id' => $parentId
         );

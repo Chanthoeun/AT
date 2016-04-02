@@ -26,7 +26,7 @@ class Auth extends Admin_Controller {
     //redirect if needed, otherwise display the user list
     function index()
     {
-        parent::check_login();
+        parent::check_login(TRUE, TRUE);
 
         //set the flash data error message if there is one
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
@@ -478,6 +478,9 @@ class Auth extends Admin_Controller {
         else if ($this->ion_auth->is_admin())
         {
             $activation = $this->ion_auth->activate($id);
+            //clear login attempts
+            $user = $this->ion_auth->user($id)->row();
+            $this->ion_auth->clear_login_attempts($user->email);
         }
 
         if ($activation)
@@ -576,7 +579,7 @@ class Auth extends Admin_Controller {
     //create a new user
     function create_user($m = FALSE)
     {
-        parent::check_login();        
+        parent::check_login(TRUE, TRUE);        
         //validate form input
         $this->form_validation->set_rules('username', $this->lang->line('create_user_validation_username_label'), 'trim|required|is_unique[users.username]|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន', 'is_unique' => '%s នេះ​មាន​រួច​ហើយ'));
         $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'trim|required|valid_email|is_unique[users.email]|xss_clean', array('required' => '%s តម្រូវ​ឲ្យ​មាន', 'is_unique' => '%s នេះ​មាន​រួច​ហើយ'));
@@ -851,6 +854,38 @@ class Auth extends Admin_Controller {
                 redirect("auth/members", 'refresh');
             }
         }
+    }
+    
+    function login_attempts()
+    {
+        parent::check_login();
+        $this->data['login_attempts'] = Modules::run('login_attempts/get_all');
+        
+        //set the flash data error message if there is one
+        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        
+        // process template
+        $this->data['title'] = $this->lang->line('login_attempt_heading');
+        
+        $layout_property = parent::load_index_script();
+        
+        $layout_property['breadcrumb'] = array($this->lang->line('login_attempt_heading'));
+        
+        $layout_property['content']  = 'login_attempts';
+        
+        // menu
+        $this->data['account_menu'] = TRUE; $this->data['login_attempt_menu'] = TRUE;
+        generate_template($this->data, $layout_property); 
+    }
+    
+    function del_login_attempt($id)
+    {
+        parent::check_login();
+        if(Modules::run('login_attempts/delete', $id))
+        {
+            $this->session->set_flashdata('message', $this->lang->line('login_attempt_report_label'));
+        }
+        redirect('auth/login_attempts', 'refresh');
     }
     
     public function _reditect_back($currentUrl = FALSE)

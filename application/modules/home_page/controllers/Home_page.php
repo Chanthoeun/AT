@@ -682,7 +682,7 @@ class Home_page extends Front_Controller {
         }
         else
         {
-            $pagination = get_pagination('video/page', count(Modules::run('videos/get_all_records')), 20, 5, 4);
+            $pagination = get_pagination('video/page', count(Modules::run('videos/get_all_records')), 20, 5, 3);
             $videos = Modules::run('videos/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         

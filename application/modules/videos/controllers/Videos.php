@@ -331,20 +331,15 @@ class Videos extends Admin_Controller {
             'category_id' => $category
         );
         
+        // delete old image
+        delete_uploaded_file($video->picture);
+        
         $dataVideo = array(
             'caption'   => $videoTitle,
             'slug'      => $data['slug'],
+            'file'      => $url,
+            'picture'   => get_video_thumbnail($videoInfo['thumb'])
         );
-        
-        //check url
-        if($video->file != $url)
-        {
-            //delete old picute
-            delete_uploaded_file($video->picture);
-            $dataVideo['file'] = $url;
-            $dataVideo['picture'] = get_video_thumbnail($videoInfo['thumb']);
-        }
-        
         
         if(($this->update($id, $data) != FALSE) && (Modules::run('library/update', $video->lid, $dataVideo, TRUE)))
         {           

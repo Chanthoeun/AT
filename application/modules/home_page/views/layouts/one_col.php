@@ -2,13 +2,13 @@
 <html lang="en">
     <head> 
         <meta charset="utf-8">
+        <title class="title"><?php echo $this->template->print_title(); ?></title>
+        <?php echo $this->template->print_meta(); ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <?php echo $this->template->print_meta(); ?>
-
-        <title><?php echo $this->template->print_title(); ?></title>
-       <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('favicon.ico'); ?>" />
+        <link rel="alternate" href="http://agritoday.com" hreflang="km-kh" />   
+        <link rel="alternate" href="http://agritoday.com" hreflang="en-kh" />       
+         <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('favicon.ico'); ?>" />
         
         <!--basic styles-->
         <link href='http://fonts.googleapis.com/css?family=Hanuman:400,700|Open+Sans:400,600,600italic,700,700italic,400italic' rel='stylesheet' type='text/css'>

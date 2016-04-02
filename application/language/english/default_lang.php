@@ -22,6 +22,7 @@ $lang['create_user_menu_label']  = 'បង្កើតអ្នកប្រើ';
 $lang['user_menu_label']  = 'តារាងអ្នកប្រើ';
 $lang['member_label']  = 'សមាជិក';
 $lang['group_menu_label']  = 'ក្រុមអ្នកប្រើ';
+$lang['login_attempt_menu_label']  = 'Login មិនចូល';
 $lang['member_type_menu_label']  = 'ប្រភេទសមាជិក';
 $lang['setting_menu_label']  = 'ការគ្រប់គ្រង';
 $lang['location_menu_label']  = 'ទីតាំង';

@@ -26,7 +26,7 @@
                     <strong><?php echo $message;?></strong>
                 </div>
                 <?php } ?>
-                <?php echo form_open_multipart("agribooks/store", 'role="form"');?>
+                <?php echo form_open_multipart("agribooks/store", 'role="form"', $members);?>
                 <div class="row">
                     <div class="col-lg-2">
                         <div class="form-group">

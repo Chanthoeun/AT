@@ -70,6 +70,13 @@ class Members extends Admin_Controller {
         if($this->data['people'] != FALSE && $this->data['people']->organization != FALSE)
         {
             $this->data['organization'] = Modules::run('agribooks/get_detail', "name = '{$this->data['people']->organization}' OR name_en ='{$this->data['people']->organization}'");
+            
+            if($this->data['people']->people_group_id == 4 && $this->data['organization'] == FALSE)
+            {
+                $this->session->set_userdata('organization', $this->data['people']->organization);
+                redirect('agribooks/create/'.$this->data['user']->id, 'refresh');
+            }
+            
             // if it's has organization
             if($this->data['organization'] != FALSE)
             {
@@ -170,6 +177,11 @@ class Members extends Admin_Controller {
         if($this->data['people'] != FALSE && $this->data['people']->organization != FALSE)
         {
             $this->data['organization'] = Modules::run('agribooks/get_detail', "name = '{$this->data['people']->organization}' OR name_en ='{$this->data['people']->organization}'");
+            if($this->data['people']->people_group_id == 4 && $this->data['organization'] == FALSE)
+            {
+                $this->session->set_userdata('organization', $this->data['people']->organization);
+                redirect('agribooks/create/'.$this->data['user']->id, 'refresh');
+            }
             // if it's has organization
             if($this->data['organization'] != FALSE)
             {

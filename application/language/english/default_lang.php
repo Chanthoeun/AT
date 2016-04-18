@@ -57,15 +57,16 @@ $lang['agribook_menu_label']  = 'សៀវ​ភៅ​កសិកម្ម';
 $lang['agribook_fillter_by_location_menu_label']  = 'ស្វែងរកតាមទីតាំង';
 $lang['agribook_filter_by_group_menu_label']  = 'ស្វែងរកតាមក្រុម';
 $lang['question_menu_label'] = 'សំនួរ​ និង​ចម្លើយ';
-$lang['advertise_menu_label'] = 'ផ្សាព្វផ្សាយ​ពាណិជ្ជកម្ម';
-$lang['advertise_expired_menu_label'] = 'ការផ្សាព្វផ្សាយ​ហួស​កាល​បរិច្ឋេត';
-$lang['advertise_will_expire_menu_label'] = 'ការផ្សាព្វផ្សាយ​ជិត​ហួស​កាល​បរិច្ឆេត';
-$lang['advertise_paid_menu_label'] = 'ការផ្សាព្វផ្សាយ​បាន​បង់​ប្រាក់​';
-$lang['advertise_unpaid_menu_label'] = 'ការផ្សាព្វផ្សាយ​មិនទាន់​បង់​ប្រាក់';
-$lang['advertise_deactivated_menu_label'] = 'ការផ្សាព្វផ្សាយ​ផ្អាក់​ដំណើរ​ការ';
+$lang['advertise_banner_menu_label'] = 'ផ្ទាំង​ពាណិជ្ជកម្ម';
+$lang['advertise_menu_label'] = 'ផ្សាយ​ពាណិជ្ជកម្ម';
+$lang['advertise_expired_menu_label'] = 'ផ្ទាំង​ហួស​កាល​បរិច្ឋេត';
+$lang['advertise_will_expire_menu_label'] = 'ផ្ទាំង​ជិត​ហួស​កាល​បរិច្ឆេត';
+$lang['advertise_paid_menu_label'] = 'ផ្ទាំង​បាន​បង់​ប្រាក់​';
+$lang['advertise_unpaid_menu_label'] = 'ផ្ទាំង​មិនទាន់​បង់​ប្រាក់';
+$lang['advertise_deactivated_menu_label'] = 'ផ្ទាំង​ផ្អាក់​ដំណើរ​ការ';
 $lang['page_menu_label'] = 'ទំព័រ​ផ្សាយ';
 $lang['layout_menu_label'] = 'ទីតាំង​ផ្សាយ';
-$lang['advertisor_menu_label'] = 'ក្រុម​ហ៊ុន​ផ្សព្វផ្សាយ';
+$lang['advertiser_menu_label'] = 'អ្នក​ផ្សព្វផ្សាយ';
 
 
 $lang['organization_label'] = 'ស្ថាប័ន';

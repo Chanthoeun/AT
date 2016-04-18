@@ -205,14 +205,23 @@
     
 </section>
 
+<?php if($advertises != FALSE): ?>
 <section class="container">
     <div class="row">
         <div class="col-lg-12">
-            <div class="ads-horizontal">
-                <a href="#">
-                    <img src="<?php echo get_image('ads-top-1140x100.png') ?>" />
-                </a>
-            </div>
+                <?php $ad_header = search_array($advertises, 'layout', 'ក្បាល​ទំព័រ 1140 x 100'); ?>
+                <div class="ads-horizontal">
+                        <?php if($ad_header == FALSE): ?>
+                        <a href="<?php echo site_url('contact-us'); ?>">
+                            <img src="<?php echo get_image('ads-top-1140x100.png') ?>" />
+                        </a>
+                        <?php else: ?>
+                        <a href="<?php echo $ad_header['link']; ?>" target="_blank">
+                            <img src="<?php echo base_url(get_uploaded_file($ad_header['banner'])); ?>" />
+                        </a>
+                        <?php endif; ?>
+                </div>
         </div>
     </div>
 </section>
+<?php endif; ?>

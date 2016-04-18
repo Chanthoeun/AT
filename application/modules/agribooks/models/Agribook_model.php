@@ -57,10 +57,7 @@ class Agribook_model extends MY_Model {
         array(
             'field' => 'address',
             'label' => 'lang:form_agribook_validation_address_label',
-            'rules' => 'trim|required|xss_clean',
-            'errors'=> array(
-                'required'  => '%s តម្រូវឲ្យ​មាន'
-                )
+            'rules' => 'trim|xss_clean'
         ),
         array(
             'field' => 'telephone',

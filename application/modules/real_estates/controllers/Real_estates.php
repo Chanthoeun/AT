@@ -602,7 +602,7 @@ class Real_estates extends Admin_Controller {
         $this->form_validation->set_rules('real_estate_id', 'Real Estate Id', 'trim|xss_clean');
         if($this->form_validation->run() == TRUE)
         {
-            $uploaded = upload_file('picture', 'image', $this->data['real_estate']->slug);
+            $uploaded = upload_file('picture', 'image', random_string());
             if($uploaded == FALSE)
             {
                 $this->session->set_flashdata('message', print_upload_error());
@@ -983,7 +983,7 @@ class Real_estates extends Admin_Controller {
         return $this->real_estate->get_all_records($where);
     }
     
-    public function get_like($like, $where = FALSE,$condition = 'both')
+    public function get_like($like, $where = FALSE, $condition = 'both')
     {
         return $this->real_estate->get_like($like, $where, $condition);
     }

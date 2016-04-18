@@ -65,9 +65,21 @@ class Agribooks extends Admin_Controller {
     }
 
     // create
-    public function create()
+    public function create($memberid = FALSE)
     {
-        parent::check_login();        
+        parent::check_login(FALSE);
+        
+        if($memberid != FALSE)
+        {
+            $this->data['members'] = array('members' => $memberid);
+            $organization = $this->session->userdata('organization');
+        }
+        else
+        {
+            $this->data['members'] = array('members' => FALSE);
+            $organization = FALSE;
+        }
+        
         // display form
         $this->data['member_type'] = form_dropdown('member_type', Modules::run('agribook_member_types/dropdown', 'id', 'caption'), empty($this->validation_errors['post_data']['member_type']) ? NULL : $this->validation_errors['post_data']['member_type'], array('class' => 'form-control', 'id' => 'member_type'));
         $this->data['parent'] = form_dropdown('parent', Modules::run('agribooks/dropdown', 'id', 'name', $this->lang->line('form_agribook_validation_parent_label'), array('parent' => TRUE)), empty($this->validation_errors['post_data']['parent']) ? NULL : $this->validation_errors['post_data']['parent'], array('class' => 'form-control', 'id' => 'parent'));
@@ -83,14 +95,14 @@ class Agribooks extends Admin_Controller {
             'name'  => 'name',
             'id'    => 'name',
             'class' => 'form-control',
-            'value' => empty($this->validation_errors['post_data']['name']) ? NULL : $this->validation_errors['post_data']['name']
+            'value' => empty($this->validation_errors['post_data']['name']) ? (is_english($organization) == FALSE ? $organization : NULL) : $this->validation_errors['post_data']['name']
         );
         
         $this->data['name_en'] = array(
             'name'  => 'name_en',
             'id'    => 'name_en',
             'class' => 'form-control',
-            'value' => empty($this->validation_errors['post_data']['name_en']) ? NULL : $this->validation_errors['post_data']['name_en']
+            'value' => empty($this->validation_errors['post_data']['name_en']) ? (is_english($organization) == TRUE ? $organization : NULL) : $this->validation_errors['post_data']['name_en']
         );
         
         $this->data['profile'] = array(
@@ -166,12 +178,33 @@ class Agribooks extends Admin_Controller {
         $this->data['group'] = form_dropdown('group', $group, empty($this->validation_errors['post_data']['group']) ? FALSE : $this->validation_errors['post_data']['group'], 'class="form-control" id="group"');
         
         $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), empty($this->validation_errors['post_data']['province']) ? FALSE : $this->validation_errors['post_data']['province'], array('class' => 'form-control', 'id' => 'province'));
-              
-        $this->data['khan'] = form_dropdown('khan', array('ជ្រើស'.$this->lang->line('khan_label')), empty($this->validation_errors['post_data']['khan']) ? FALSE : $this->validation_errors['post_data']['khan'], array('class' => 'form-control', 'id' => 'khan'));
         
-        $this->data['sangkat'] = form_dropdown('sangkat', array('ជ្រើស'.$this->lang->line('sangkat_label')), empty($this->validation_errors['post_data']['sangkat']) ? FALSE : $this->validation_errors['post_data']['sangkat'], array('class' => 'form-control', 'id' => 'sangkat'));
+        if(!empty($this->validation_errors['post_data']['province']))
+        {
+            $this->data['khan'] = form_dropdown('khan', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('khan_label'), array('parent_id' => $this->validation_errors['post_data']['province'])), empty($this->validation_errors['post_data']['khan']) ? FALSE : $this->validation_errors['post_data']['khan'], array('class' => 'form-control', 'id' => 'khan'));
+        }
+        else
+        {
+            $this->data['khan'] = form_dropdown('khan', array('ជ្រើស'.$this->lang->line('khan_label')), empty($this->validation_errors['post_data']['khan']) ? FALSE : $this->validation_errors['post_data']['khan'], array('class' => 'form-control', 'id' => 'khan'));
+        }
         
-        $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), empty($this->validation_errors['post_data']['phum']) ? FALSE : $this->validation_errors['post_data']['phum'], array('class' => 'form-control', 'id' => 'phum'));
+        if(!empty($this->validation_errors['post_data']['khan']))
+        {
+            $this->data['sangkat'] = form_dropdown('sangkat', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('sangkat_label'), array('parent_id' => $this->validation_errors['post_data']['khan'])), empty($this->validation_errors['post_data']['sangkat']) ? FALSE : $this->validation_errors['post_data']['sangkat'], array('class' => 'form-control', 'id' => 'sangkat'));
+        }
+        else
+        {
+            $this->data['sangkat'] = form_dropdown('sangkat', array('ជ្រើស'.$this->lang->line('sangkat_label')), empty($this->validation_errors['post_data']['sangkat']) ? FALSE : $this->validation_errors['post_data']['sangkat'], array('class' => 'form-control', 'id' => 'sangkat'));
+        }
+        
+        if(!empty($this->validation_errors['post_data']['sangkat']))
+        {
+            $this->data['phum'] = form_dropdown('phum', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('phum_label'), array('parent_id' => $this->validation_errors['post_data']['sangkat'])), empty($this->validation_errors['post_data']['phum']) ? FALSE : $this->validation_errors['post_data']['phum'], array('class' => 'form-control', 'id' => 'phum'));
+        }
+        else
+        {
+            $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), empty($this->validation_errors['post_data']['phum']) ? FALSE : $this->validation_errors['post_data']['phum'], array('class' => 'form-control', 'id' => 'phum'));
+        }
         
         
         $latlng = empty($this->validation_errors['post_data']['latlng']) ? NULL : $this->validation_errors['post_data']['latlng'];
@@ -224,7 +257,7 @@ class Agribooks extends Admin_Controller {
     // save
     public function store()
     {
-        parent::check_login();
+        parent::check_login(FALSE);
         $province = trim($this->input->post('province'));
         $khan = trim($this->input->post('khan'));
         $sangkat = trim($this->input->post('sangkat'));
@@ -295,7 +328,16 @@ class Agribooks extends Admin_Controller {
             set_log('Created Agribook', $data); 
 
             $this->session->set_flashdata('message', $this->lang->line('form_agribook_report_success'));
-            redirect('agribooks/view/'.$abid, 'refresh');
+            
+            $member = $this->input->post('members');
+            if($member != FALSE)
+            {
+                redirect('members/'.$member, 'refresh');
+            }
+            else
+            {
+                redirect('agribooks/view/'.$abid, 'refresh');
+            }
         }
         else
         {

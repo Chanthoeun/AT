@@ -50,5 +50,5 @@
                 </section>
             </div>
             
-            <p class="copyright">&copy; <?php echo date('Y') == '2015' ? date('Y') : '2015 - '.date('Y'). ' '.lang('copyrights_label'); ?></p>
+            <p class="copyright">&copy; <?php echo date('Y') == '2015' ? date('Y') : '2015 - '.date('Y'). ' '.lang('copyrights_label').' | '.lang('power_by_label').' '.  anchor('http://www.graphicroots.net/', 'Graphic Roots'); ?></p>
         </footer><!-- footer -->

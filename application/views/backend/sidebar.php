@@ -301,49 +301,63 @@
             <li <?php echo isset($advertise_group_menu) ? 'class="active"' : ''; ?>>
                 <a href="#"><i class="fa fa-bullhorn fa-fw"></i> <?php echo lang('advertise_menu_label'); ?><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>
-                        <a <?php echo isset($advertise_create_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise/create'); ?>"><i class="fa fa-plus-square fa-fw"></i> <?php echo lang('create_menu_label'); ?></a>
-                    </li>
-                    <li>
-                        <a <?php echo isset($advertise_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo sprintf(lang('recently_post_menu_label'), lang('advertise_menu_label')); ?></a>
-                    </li>
-                    <li>
-                        <a <?php echo isset($advertise_expired_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise/expired'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_expired_menu_label'); ?></a>
-                    </li>
-                    <li>
-                        <a <?php echo isset($advertise_will_expire_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise/will-expire'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_will_expire_menu_label'); ?></a>
-                    </li>
-                    <li>
-                        <a <?php echo isset($advertise_paid_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise/paid'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_paid_menu_label'); ?></a>
-                    </li>
-                    <li>
-                        <a <?php echo isset($advertise_unpaid_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise/unpaid'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_unpaid_menu_label'); ?></a>
-                    </li>
-                    <li>
-                        <a <?php echo isset($advertise_deactivated_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise/deactivated'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_deactivated_menu_label'); ?></a>
-                    </li>
-                    <li>
-                        <a <?php echo isset($page_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('pages'); ?>"><i class="fa fa-copy fa-fw"></i> <?php echo lang('page_menu_label'); ?></a>
-                    </li>
-                    <li>
-                        <a <?php echo isset($layout_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('layouts'); ?>"><i class="fa fa-file fa-fw"></i> <?php echo lang('layout_menu_label'); ?></a>
-                    </li>
-                    <li <?php echo isset($advertisor_group_menu) ? 'class="active"' : ''; ?>>
-                        <a href="#"><i class="fa fa-group fa-fw"></i> <?php echo lang('advertisor_menu_label'); ?> <span class="fa arrow"></span></a>
+                    <li <?php echo isset($advertiser_group_menu) ? 'class="active"' : ''; ?>>
+                        <a href="#"><i class="fa fa-group fa-fw"></i> <?php echo lang('advertiser_menu_label'); ?> <span class="fa arrow"></span></a>
                         <ul class="nav nav-third-level">
                             <li>
-                                <a <?php echo isset($advertisor_create_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertisors/create'); ?>"><i class="fa fa-plus-square fa-fw"></i> <?php echo lang('create_menu_label'); ?></a>
+                                <a <?php echo isset($advertiser_create_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertisers/create'); ?>"><i class="fa fa-plus-square fa-fw"></i> <?php echo lang('create_menu_label'); ?></a>
                             </li>
 
                             <li>
-                                <a <?php echo isset($advertisor_recently_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertisors'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo sprintf(lang('recently_post_menu_label'), lang('advertisor_menu_label')); ?></a>
+                                <a <?php echo isset($advertiser_recently_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertisers'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo sprintf(lang('recently_post_menu_label'), lang('advertiser_menu_label')); ?></a>
                             </li>
 
                             <li>
-                                <a <?php echo isset($advertisor_search_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertisors/search'); ?>"><i class="fa fa-search fa-fw"></i> <?php echo lang('search_menu_label'); ?></a>
+                                <a <?php echo isset($advertiser_search_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertisers/search'); ?>"><i class="fa fa-search fa-fw"></i> <?php echo lang('search_menu_label'); ?></a>
                             </li>
                         </ul>
                     </li>
+                    <li <?php echo isset($advertise_banner_group_menu) ? 'class="active"' : ''; ?>>
+                        <a href="#"><i class="fa fa-file-image-o fa-fw"></i> <?php echo lang('advertise_banner_menu_label'); ?> <span class="fa arrow"></span></a>
+                        <ul class="nav nav-third-level">
+                            <li>
+                                <a <?php echo isset($advertise_create_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertises/create'); ?>"><i class="fa fa-plus-square fa-fw"></i> <?php echo lang('create_menu_label'); ?></a>
+                            </li>
+                            
+                            <li>
+                                <a <?php echo isset($advertise_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertises'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo sprintf(lang('recently_post_menu_label'), lang('advertise_banner_menu_label')); ?></a>
+                            </li>
+                            
+                            <li>
+                                <a <?php echo isset($advertise_expired_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertises/expired'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_expired_menu_label'); ?></a>
+                            </li>
+                            
+                            <li>
+                                <a <?php echo isset($advertise_will_expire_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertises/will-expire'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_will_expire_menu_label'); ?></a>
+                            </li>
+                            
+                            <li>
+                                <a <?php echo isset($advertise_paid_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertises/paid'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_paid_menu_label'); ?></a>
+                            </li>
+                            
+                            <li>
+                                <a <?php echo isset($advertise_unpaid_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertises/unpaid'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_unpaid_menu_label'); ?></a>
+                            </li>
+                            
+                            <li>
+                                <a <?php echo isset($advertise_deactivated_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertises/deactivated'); ?>"><i class="fa fa-list fa-fw"></i> <?php echo lang('advertise_deactivated_menu_label'); ?></a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    
+                    <li>
+                        <a <?php echo isset($advertise_page_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise-pages'); ?>"><i class="fa fa-copy fa-fw"></i> <?php echo lang('page_menu_label'); ?></a>
+                    </li>
+                    <li>
+                        <a <?php echo isset($advertise_layout_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('advertise-layouts'); ?>"><i class="fa fa-file fa-fw"></i> <?php echo lang('layout_menu_label'); ?></a>
+                    </li>
+                    
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

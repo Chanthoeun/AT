@@ -18,11 +18,25 @@
 <div class="job-list">
     <?php 
       $adsCount = 0;
+      $position = 1;
       foreach ($jobs as $job):
           if($adsCount == 4):
            $adsCount = 0;
+           $ad_content = search_array($advertises, 'layout', 'ការងារ 846 x 110 '.$position);
+           if($ad_content == FALSE)
+           { 
   ?>
-    <a href="<?php echo site_url('contact-us'); ?>" class="ads"><img src="<?php echo get_image('ads-job-846x110.png') ?>" /></a>
+    <a href="<?php echo site_url('contact-us'); ?>" class="ads"><img src="<?php echo get_image('ads-job-846x110.png'); ?>" /></a>
+    <?php
+           }
+           else
+           {
+  ?>
+    <a href="<?php echo $ad_content['link']; ?>" class="ads" target="_blank"><img src="<?php echo base_url(get_uploaded_file($ad_content['banner'])); ?>" /></a>
+    <?php
+           }
+           $position += 1;
+  ?>
     <?php endif; ?>
     
     <figure class="jobs clearfix">

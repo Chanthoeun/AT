@@ -117,9 +117,9 @@ class Job_model extends MY_Model {
         return parent::get_many_by($where);
     }
     
-    public function get_like($like, $where = FALSE)
+    public function get_like($like, $where = FALSE, $condition = 'both')
     {
-        $this->db->like($like);
+        $this->db->like($like, $condition);
         return $this->get_all_records($where);
     }
     

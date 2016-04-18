@@ -2,6 +2,8 @@
         <div class="article-box">
             <div class="article-detail" itemscope itemtype="http://schema.org/NewsArticle">
                 <meta itemscope itemprop="mainEntityOfPage"  itemType="https://schema.org/WebPage" itemid="<?php echo site_url('view/'.$article->id); ?>"/>
+                <meta itemprop="datePublished" content="<?php echo date('Y-m-d', $article->created_at); ?>"/>
+                <meta itemprop="dateModified" content="<?php echo date('Y-m-d', $article->updated_at); ?>"/>
                 <h3 class="new-title" itemprop="headline"><?php echo $article->title; ?></h3>
                 <p class="date">
                     <span itemprop="dateCreated"><?php echo date('d M Y', strtotime($article->published_on)); ?></span> 
@@ -116,9 +118,16 @@
                 </fieldset>
                 <?php endif; ?><!-- end Video -->
 
+                <?php if($advertises != FALSE): ?>
                 <ul class="ads">
-                    <li><a href="<?php echo site_url('contact-us'); ?>"><img src="<?php echo get_image('ads-detail-505x120.png'); ?>" /></a></li>
+                    <?php 
+            $ad_content_bottom = search_array($advertises, 'layout', 'ខាងក្រោម​ព័ត៌មាន​ 505 x 120');
+            if($ad_content_bottom != FALSE):
+         ?>
+                    <li><a href="<?php echo $ad_content_bottom['link']; ?>"><img src="<?php echo base_url(get_uploaded_file($ad_content_bottom['banner'])); ?>" /></a></li>
+                    <?php endif; ?>
                 </ul><!--end ads -->
+                <?php endif; ?>
                 
                 <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
                     <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
@@ -127,8 +136,6 @@
                       <meta itemprop="height" content="120">
                     </div>
                     <meta itemprop="name" content="<?php echo site_name(); ?>">
-                  <meta itemprop="datePublished" content="<?php echo date('Y-m-d', $article->created_at); ?>"/>
-                  <meta itemprop="dateModified" content="<?php echo date('Y-m-d', $article->updated_at); ?>"/>
                 </div><!-- Publisher -->
 
             </div><!-- atricle Detail -->
@@ -151,10 +158,17 @@
                     </ul>
                 </div>
                 <?php endif; ?><!-- Related News -->
-
+                
+                <?php if($advertises != FALSE): ?>
                 <ul class="a-list ads">
-                    <li><a href="<?php echo site_url('contact-us'); ?>"><img src="<?php echo get_image('ads-detail-338x180.png'); ?>" /></a></li>
+                    <?php 
+            $ad_content_right = search_array($advertises, 'layout', 'ខាង​ស្តាំ​ព័ត៌មាន 338 x 180');
+            if($ad_content_right != FALSE):
+        ?>
+                    <li><a href="<?php echo $ad_content_right['link']; ?>"><img src="<?php echo base_url(get_uploaded_file($ad_content_right['banner'])); ?>" /></a></li>
+                    <?php endif; ?>
                 </ul><!--end ads -->
+                <?php endif; ?>
                 
                 <?php if(isset($related_techniques) && $related_techniques != FALSE): ?>
                     <div class="a-list">
@@ -316,12 +330,55 @@
         </div>
         <?php endif; ?>
     </div>
+
 <div class="content-right">
+    <div class="facebook-like">
+        <h4><?php echo sprintf(lang('like_label'), lang('like_artilce_label')); ?></h4>
+        <div class="fb-page" data-href="https://www.facebook.com/agritoday.magazine/" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="false"><div class="fb-xfbml-parse-ignore"><blockquote cite="https://www.facebook.com/agritoday.magazine/"><a href="https://www.facebook.com/agritoday.magazine/">គ្រប់​យ៉ាង​អំពី​កសិកម្ម</a></blockquote></div></div>
+    </div>
+    <?php if($advertises != FALSE): ?>
     <ul class="ads">
-        <li><a href="<?php echo site_url('contact-us'); ?>"><img src="<?php echo get_image('ads-detail-273x379.png'); ?>" /></a></li>
-        <li><a href="<?php echo site_url('contact-us'); ?>"><img src="<?php echo get_image('ads-detail-273x379.png'); ?>" /></a></li>
+        <?php 
+        $ad_content_1 = search_array($advertises, 'layout', 'ខាង​ស្តាំ​ទំព័រ 273 x 379 1');
+        if($ad_content_1 != FALSE):
+    ?>
+        <li><a href="<?php echo $ad_content_1['link']; ?>" target="_blank"><img src="<?php echo base_url(get_uploaded_file($ad_content_1['banner'])); ?>" /></a></li>
+        <?php endif; ?>
+        
+        <?php 
+        $ad_content_2 = search_array($advertises, 'layout', 'ខាង​ស្តាំ​ទំព័រ 273 x 379 2');
+        if($ad_content_2 != FALSE):
+    ?>
+        <li><a href="<?php echo $ad_content_2['link']; ?>" target="_blank"><img src="<?php echo base_url(get_uploaded_file($ad_content_2['banner'])); ?>" /></a></li>
+        <?php endif; ?>
+        
+        <?php 
+        $ad_content_3 = search_array($advertises, 'layout', 'ខាង​ស្តាំ​ទំព័រ 273 x 379 3');
+        if($ad_content_3 != FALSE):
+    ?>
+        <li><a href="<?php echo $ad_content_3['link']; ?>" target="_blank"><img src="<?php echo base_url(get_uploaded_file($ad_content_3['banner'])); ?>" /></a></li>
+        <?php endif; ?>
+        
+        <?php 
+        $ad_content_4 = search_array($advertises, 'layout', 'ខាង​ស្តាំ​ទំព័រ 273 x 379 4');
+        if($ad_content_4 != FALSE):
+    ?>
+        <li><a href="<?php echo $ad_content_4['link']; ?>" target="_blank"><img src="<?php echo base_url(get_uploaded_file($ad_content_4['banner'])); ?>" /></a></li>
+        <?php endif; ?>
+        
+        <?php 
+        $ad_content_5 = search_array($advertises, 'layout', 'ខាង​ស្តាំ​ទំព័រ 273 x 379 5');
+        if($ad_content_5 != FALSE):
+    ?>
+        <li><a href="<?php echo $ad_content_5['link']; ?>" target="_blank"><img src="<?php echo base_url(get_uploaded_file($ad_content_5['banner'])); ?>" /></a></li>
+        <?php endif; ?>
         <li><a href="<?php echo site_url('contact-us'); ?>"><img src="<?php echo get_image('ads-detail-273x379.png'); ?>" /></a></li>
     </ul>
+    <?php else: ?>
+        <ul class="ads">
+            <li><a href="<?php echo site_url('contact-us'); ?>"><img src="<?php echo get_image('ads-detail-273x379.png'); ?>" /></a></li>
+        </ul>
+    <?php endif; ?>
 </div><!-- content-right -->
 
 <!-- Modal -->

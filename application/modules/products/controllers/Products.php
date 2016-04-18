@@ -983,9 +983,9 @@ class Products extends Admin_Controller {
         return $this->product->get_many_by($where);
     }
     
-    public function get_like($like, $where = FALSE)
+    public function get_like($like, $where = FALSE, $condition = 'both')
     {
-       return $this->product->get_like($like, $where);
+       return $this->product->get_like($like, $where, $condition);
     }
     
     public function get_field($field, $where = FALSE, $array = FALSE)

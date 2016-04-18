@@ -121,9 +121,9 @@ class Article_model extends MY_Model {
         return parent::get_all();
     }
     
-    public function get_like($like, $where = FALSE)
+    public function get_like($like, $where = FALSE, $condition = 'both')
     {
-        $this->db->like($like);
+        $this->db->like($like, $condition);
         return $this->get_all_records($where);
     }
     

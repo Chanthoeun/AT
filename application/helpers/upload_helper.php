@@ -3,7 +3,7 @@
 if(!function_exists('upload_image'))
 {
 
-    function upload_file($field, $type, $filename, $category = NULL, $amz = FALSE)
+    function upload_file($field, $type, $filename, $category = FALSE, $amz = FALSE, $max_width = FALSE, $max_height = FALSE)
     {
         $CI =& get_instance();
         $CI->load->library('upload_lib', array('amz' => $amz));
@@ -15,6 +15,15 @@ if(!function_exists('upload_image'))
         // set config
         $CI->upload_lib->set_field($field);
         $CI->upload_lib->set_upload_type($type);
+        
+        
+        
+        if($max_width != FALSE && $max_height != FALSE)
+        {
+            $CI->upload_lib->set_max_width($max_width);
+            $CI->upload_lib->set_max_height($max_height);
+        }
+        
         if(mulit_array($_FILES[$field]) == TRUE)
         {
             foreach ($_FILES[$field]['name'] as $name)

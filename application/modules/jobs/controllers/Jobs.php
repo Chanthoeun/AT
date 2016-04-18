@@ -607,19 +607,9 @@ class Jobs extends Admin_Controller {
         return $this->job->get_many_by($where);
     }
     
-    public function get_like($like, $where = FALSE, $order_by = FALSE, $limit = FALSE, $offset = 0)
-    {
-        if($order_by != FALSE)
-        {
-            $this->job->order_by($order_by);
-        }
-        
-        if($limit != FALSE)
-        {
-            $this->job->limit($limit, $offset);
-        }
-        
-        return $this->job->get_like($like, $where);
+    public function get_like($like, $where = FALSE, $condition = 'both')
+    {        
+        return $this->job->get_like($like, $where, $condition);
     }
     
     public function get_field($field, $where = FALSE, $array = FALSE)

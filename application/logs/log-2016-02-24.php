@@ -242,3 +242,8 @@ ERROR - 2016-02-24 13:36:43 --> Could not find the language line "advertise_will
 ERROR - 2016-02-24 13:36:43 --> Could not find the language line "advertise_paid_menu_label"
 ERROR - 2016-02-24 13:36:43 --> Could not find the language line "advertise_unpaid_menu_label"
 ERROR - 2016-02-24 13:36:43 --> Could not find the language line "advertise_deactivated_menu_label"
+ERROR - 2016-02-24 15:52:35 --> Query error: Column 'who' cannot be null - Invalid query: INSERT INTO `log` (`who`, `action`, `description`, `created_at`, `updated_at`) VALUES (NULL, 'Log Out', NULL, 1456303955, 1456303955)
+ERROR - 2016-02-24 15:57:34 --> Severity: Parsing Error --> syntax error, unexpected ';' C:\xampp\htdocs\agritoday-new.dev\application\modules\auth\controllers\Auth.php 88
+ERROR - 2016-02-24 16:17:54 --> Could not find the language line "news_lang"
+ERROR - 2016-02-24 16:42:41 --> 404 Page Not Found: /index
+ERROR - 2016-02-24 16:42:52 --> 404 Page Not Found: /index

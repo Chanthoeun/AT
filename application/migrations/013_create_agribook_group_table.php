@@ -75,8 +75,8 @@ class Migration_Create_agribook_group_table extends CI_Migration {
                     'updated_at' => time()
                 ),
                 array(
-                    'caption' => 'ក្រុមហ៊ុន​ឯកជន',
-                    'slug' => 'ក្រុមហ៊ុន​ឯកជន',
+                    'caption' => 'ក្រុមហ៊ុន​',
+                    'slug' => 'ក្រុមហ៊ុន​',
                     'order' => 4,
                     'created_at' => time(),
                     'updated_at' => time()

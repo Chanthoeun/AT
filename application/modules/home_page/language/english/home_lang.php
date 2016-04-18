@@ -36,7 +36,7 @@ $lang['goal_text_4'] = 'ដើរតួនាទីជាអ្នក ផ្ស�
 //contact us
 $lang['contact_address_label'] = 'ផ្ទះ​លេខ 1C ក្នុងសំណង់​ផ្ទះ​ល្វែង​ហេង​មានជ័យ ផ្លូវ 351A សង្កាត់​ និរោធន៍ ខ័ណ្ឌ ច្បារអំពៅ​​';
 $lang['contact_city_label'] = 'ក្រុង​ភ្នំ​ពេញ';
-$lang['contact_telephone_label'] = '+855-12-336-382 / +855-69-336​-382';
+$lang['contact_telephone_label'] = '012336382,  069336​382';
 $lang['contact_email_label'] = 'info@agritoday.com';
 $lang['contact_text_label'] = 'ប្រសិន​បើ​លោក​អ្នក​មាន​ចម្ងល់​ សំណួរ បញ្ហា មតិយោបល់​ផ្សេងៗ ឫចង់​កែលំអរ​ យើង​ខ្ញុំ​រីករាយ​នឹងទទួលយក​រាល់​មតិយោបល់​របស់​លោកអ្នក។ សូម​បំពេញនូវ​ព័ត៌មាន​ខាងក្រោមមុន​នឹង​ផ្ញើរ​ទៅ​យើងខ្ញុំ។ សូម​អរគុណ​យ៉ាងជ្រៀលជ្រៅ ចំពោះការចំណាយពេលវេលាដ៏មានតំលៃ ក្នុងការផ្តល់​ជា​មតិយោបល់​របស់​លោកអ្នក។ ';
 
@@ -142,9 +142,22 @@ $lang['home_search'] = "ស្វែង​រក​តាម​ពាក្យ�
 $lang['home_search_headding'] = "ការស្វែង​រក​";
 $lang['home_search_result_not_found'] = "មិន​មាន​ទិន្នន័យ​ដែល​លោក​អ្នក​កំពុង​ស្វែងរក​ទេ​ សូម​ព្យាយាម​ម្តង​ទៀត។";
 $lang['home_search_result_found'] = "លទ្ធផល​ដែល​បាន​ស្វែងរក​មាន​​ %s";
+$lang['form_search_title_label'] = 'ស្វែង​រក​តាម​ចំណងជើង';
+$lang['form_search_type_label'] = 'ប្រភេទ​ស្វែងរក';
+$lang['form_search_province_label'] = 'ខេត្ត/ក្រុង';
+$lang['form_search_khan_label'] = 'ខ័ណ្ឌ';
+$lang['form_search_sangkat_label'] = 'សង្កាត់';
+$lang['form_search_phum_label'] = 'ភូមិ';
+$lang['form_search_btn'] = 'ស្វែង​រក';
+
+//like message
+$lang['like_label'] = 'ចូលចិត្ត​%sកសិកម្មសូមចុច';
+$lang['like_product_label'] = 'ផលិតផល';
+$lang['like_land_label'] = 'ព័ត៌មាន​លក់​ជួលដី';
+$lang['like_job_label'] = 'ព័ត៌មាន​ការងារ';
+$lang['like_video_label'] = 'វិដេអូ';
 
 // Meta Tag
-
 $lang['home_meta_keyword']  = 'agriculture information in Cambodia, agricultural implements in Cambodia, agricultural produce in Cambodia, agriculture today in Cambodia, organic agriculture in Cambodia, precision agriculture in Cambodia, agriculture websites in Cambodia, agricultural education in Cambodia, agriculture projects in Cambodia, agriculture sites in Cambodia, agricultural field in Cambodia, agriculture work in Cambodia, work in agriculture in Cambodia, best agricultural websites in Cambodia, agriculture implement in Cambodia, agriculture topics in Cambodia, information of agriculture in Cambodia, agricultural professions in Cambodia, about agriculture in Cambodia, agriculture articles in Cambodia, farming in Cambodia';
 $lang['news_meta_keyword'] = 'agricultural news in Cambodia, news in agriculture in Cambodia, news on agriculture in Cambodia, agriculture in the news in Cambodia, news of agriculture in Cambodia, news related to agriculture in Cambodia, news for agriculture in Cambodia, agriculture related news in Cambodia, agriculture business news in Cambodia, global agriculture news in Cambodia, food and agriculture news in Cambodia, agriculture technology news in Cambodia, agricultural economics news in Cambodia, organic agriculture news in Cambodia, agriculture news paper in Cambodia, agriculture magazines in Cambodia, agriculture today magazine in Cambodia, current agriculture news in Cambodia, current agricultural issues in Cambodia, farm news in Cambodia, farming news in Cambodia, farming news daily in Cambodia, agriculture today in Cambodia, latest agricultural news in Cambodia, latest agri news in Cambodia, agriculture articles in Cambodia, articles on agriculture in Cambodia, agriculture news articles in Cambodia, article of agriculture in Cambodia, articles of agriculture in Cambodia, sustainable agriculture articles in Cambodia, agriculture related articles in Cambodia, agriculture current events articles in Cambodia, article in agriculture in Cambodia'; 
 $lang['techniques_meta_keyword'] = 'methods of agriculture in cambodia, agriculture methods in cambodia, agricultural methods of farming in cambodia, agriculture techniques in cambodia, modern agricultural techniques in cambodia, new techniques of agriculture in cambodia, advanced agricultural techniques in cambodia, agricultural technique in cambodia, modern technique of agriculture in cambodia, information about modern techniques of agriculture in cambodia, farming techniques in cambodia, organic farming techniques in cambodia, improved farming techniques in cambodia, basic farming techniques in cambodia, efficient farming techniques in cambodia, agricultural practices in cambodia, organic farming information in cambodia, what kind of farming methods do farmers use in cambodia, information on organic farming in cambodia, agriculture farming information in cambodia, traditional farming information in cambodia, rice techniques in cambodia';

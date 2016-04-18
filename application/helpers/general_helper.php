@@ -590,12 +590,8 @@ if(!function_exists('check_primary_product_price'))
         }
         else 
         {
-            if($product_price > 0)
-            {
-                return FALSE;
-            }
+            return FALSE;
         }
-        return TRUE;
     }
 }
 
@@ -613,12 +609,8 @@ if(!function_exists('check_primary_real_estate_picture'))
         }
         else 
         {
-            if($real_estate_picture > 0)
-            {
-                return FALSE;
-            }
+            return FALSE;
         }
-        return TRUE;
     }
 }
 
@@ -947,5 +939,84 @@ if(!function_exists('check_admin'))
     }
 }
 
+// check string is English
+if(!function_exists('is_english'))
+{
+    function is_english($str)
+    {
+        if (strlen($str) != strlen(utf8_decode($str))) 
+        {
+            return false;
+        } 
+        else 
+        {
+            return true;
+        }
+    }
+}
+
+// click to call
+if(!function_exists('click_to_call'))
+{
+    function click_to_call($telephones)
+    {
+        $get_telephone = explode(',', str_replace(' ', '', $telephones));
+        $result = '';
+        if(count($get_telephone) == 1)
+        {
+            $result = '<a href="tel:'.trim($get_telephone[0]).'">'.$get_telephone[0].'</a>';
+        }
+        else
+        {
+            $firstTelephone = array_shift($get_telephone);
+            $result = '<a href="tel:'.trim($firstTelephone).'">'.$firstTelephone.'</a>';
+            foreach ($get_telephone as $telephones)
+            {
+                $result .= ' | '.'<a href="tel:'.trim($telephones).'">'.$telephones.'</a>';
+            }
+        }
+        return $result;
+    }
+}
+
+//day remains alert
+if(!function_exists('day_remain_alert'))
+{
+    function day_remain_alert($day)
+    {
+        if($day <= 10)
+        {
+            return ' class="danger" ';
+        }
+        else if($day <= 30 )
+        {
+            return ' class="warning" ';
+        }
+    }
+}
+
+
+//search array
+if(!function_exists('search_array'))
+{
+    function search_array($array, $key, $value)
+    {
+        if($array == FALSE)
+        {
+            return FALSE;
+        }
+        $result = array();   
+        foreach ($array as $item)
+        {
+            if($item->$key == $value)
+            {
+                $result['link'] = $item->link;
+                $result['banner'] = $item->banner;
+                return $result;
+            }
+        }
+        return FALSE;
+    }
+}
 /* End of file general_helper.php */
 /* Location: ./application/helpers/general_helper.php */

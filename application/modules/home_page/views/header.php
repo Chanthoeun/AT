@@ -13,7 +13,12 @@
                         <section class="menu">
                             <?php echo $this->load->view('top_menu'); ?>
                             
-                             <?php //echo $this->load->view('search_box'); ?>
+                             <?php
+                if($this->uri->segment(1) != 'search')
+                {
+                    echo $this->load->view('search_box');
+                }
+             ?>
                         </section>
                 </div>
                 </div>

@@ -78,7 +78,7 @@ class Migration_Create_Article extends CI_Migration {
             ),
             'location_id' => array(
                 'type' => 'VARCHAR',
-                'constraint' => 15,
+                'constraint' => 250,
                 'null' => TRUE
             ),
 

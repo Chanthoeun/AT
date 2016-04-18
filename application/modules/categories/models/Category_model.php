@@ -173,7 +173,7 @@ class Category_model extends MY_Model {
     {
         $this->db->select($this->_table.'.*, p.caption as p_caption, count(job.id) as job_count');
         $this->db->join('category as p', $this->_table.'.parent_id = p.id', 'left');
-        $this->db->join('job', 'job.category_id = '.$this->_table.'.id', 'left');
+        $this->db->join('job', "job.expire_date >= '".date('Y-m-d')."' AND job.category_id = ".$this->_table.".id", 'left');
         $this->db->group_by($this->_table.'.caption');
         $this->db->order_by($this->_table.'.id');
         if($where != FALSE)

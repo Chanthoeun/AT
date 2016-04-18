@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 // custom uri
-//$route['article/(:num)'] = 'home_page/articles/$1';
+$route['search'] = 'home_page/search';
 $route['view/(:num)'] = 'home_page/view/$1';
 //
 $route['news'] = 'home_page/news';

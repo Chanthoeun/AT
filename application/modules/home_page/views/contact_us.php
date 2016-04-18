@@ -12,11 +12,11 @@
                                 </p>
                                 <p>
                                     <span><i class="fa fa-phone"></i> <?php echo lang('telephone_label'); ?></span>
-                                    <strong itemprop="telephone"><?php echo lang('contact_telephone_label'); ?></strong>
+                                    <strong itemprop="telephone"><?php echo click_to_call(lang('contact_telephone_label')); ?></strong>
                                 </p>
                                 <p>
                                     <span><i class="fa fa-envelope"></i> <?php echo lang('email_label'); ?></span>
-                                    <strong itemprop="email"><?php echo lang('contact_email_label'); ?></strong>
+                                    <strong itemprop="email"><?php echo mailto(trim(lang('contact_email_label')), lang('contact_email_label')); ?></strong>
                                 </p>
                             </li>
                             <li>

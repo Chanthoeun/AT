@@ -31,6 +31,12 @@ class Home_page extends Front_Controller {
             $this->data['checkId'] = FALSE;
         }
         
+        // get adervertise
+        $this->data['advertises'] = Modules::run('advertises/get_advertises', array('ap.slug' => $this->uri->segment(1)));
+        
+        //dump($this->data['advertises']);
+        
+        
         // message
         $this->validation_errors = $this->session->flashdata('validation_errors');
         $this->data['message'] = empty($this->validation_errors['errors']) ? $this->session->flashdata('message') : $this->validation_errors['errors'];
@@ -75,12 +81,12 @@ class Home_page extends Front_Controller {
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('news/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
+            $pagination = get_pagination('news/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 5, 4);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('news/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 20, 5, 3);
+            $pagination = get_pagination('news/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 5, 3);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -119,12 +125,12 @@ class Home_page extends Front_Controller {
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('technique/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
+            $pagination = get_pagination('technique/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 5, 4);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('technique/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 20, 5, 3);
+            $pagination = get_pagination('technique/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 5, 3);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -163,12 +169,12 @@ class Home_page extends Front_Controller {
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('publications/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 20, 5, 4);
+            $pagination = get_pagination('publications/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 5, 4);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('publications/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 20, 5, 3);
+            $pagination = get_pagination('publications/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 5, 3);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -210,10 +216,10 @@ class Home_page extends Front_Controller {
         $this->data['audios'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(2));
         $this->data['videos'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(3));
         
-        $this->data['related_news'] = Modules::run('articles/get_all_records', array('article_type_id' => 1, 'category_id' => $cat->id, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
-        $this->data['related_techniques'] = Modules::run('articles/get_all_records', array('article_type_id' => 2, 'category_id' => $cat->id, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
-        $this->data['related_publications'] = Modules::run('articles/get_all_records', array('article_type_id' => 3, 'category_id' => $cat->id, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
-        $this->data['related_videos'] = Modules::run('videos/get_all_records', array('category_id' => $cat->id), array('created_at' => 'random'), 6);
+        $this->data['related_news'] = Modules::run('articles/get_all_records', array('article_type_id' => 1, 'category_id' => $cat != FALSE ? $cat->id : 0, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_techniques'] = Modules::run('articles/get_all_records', array('article_type_id' => 2, 'category_id' => $cat != FALSE ? $cat->id : 0, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_publications'] = Modules::run('articles/get_all_records', array('article_type_id' => 3, 'category_id' => $cat != FALSE ? $cat->id : 0, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_videos'] = Modules::run('videos/get_all_records', array('category_id' => $cat != FALSE ? $cat->id : 0), array('created_at' => 'random'), 6);
         
         //get linked data
         $this->data['products'] = Modules::run('article_products/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
@@ -284,13 +290,20 @@ class Home_page extends Front_Controller {
                                     );
         $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
         
-        if($cat->parent_id == FALSE)
+        if($cat == FALSE)
         {
             $layout_property['breadcrumb'] = array($url => $label, $title);
         }
         else
         {
-            $layout_property['breadcrumb'] = array($url => $label, $url.'/'.$cat->id => $cat->caption, $title);
+            if($cat->parent_id == FALSE)
+            {
+                $layout_property['breadcrumb'] = array($url => $label, $title);
+            }
+            else 
+            {
+                $layout_property['breadcrumb'] = array($url => $label, $url.'/'.$cat->id => $cat->caption, $title);
+            }
         }        
         
         
@@ -307,12 +320,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('product-sale-rent/'.$cat->id.'/page', count(Modules::run('products/get_all_records', array('category_id' => $cat->id))), 20, 5, 4);
+            $pagination = get_pagination('product-sale-rent/'.$cat->id.'/page', count(Modules::run('products/get_all_records', array('category_id' => $cat->id))), 22, 5, 4);
             $products = Modules::run('products/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('product-sale-rent/page', count(Modules::run('products/get_all_records')), 20, 5, 4);
+            $pagination = get_pagination('product-sale-rent/page', count(Modules::run('products/get_all_records')), 22, 5, 4);
             $products = Modules::run('products/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -435,12 +448,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('land-sale-rent/'.$cat->id.'/page', count(Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+            $pagination = get_pagination('land-sale-rent/'.$cat->id.'/page', count(Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 22, 5, 4);
             $realestates = Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('land-sale-rent/page', count(Modules::run('real_estates/get_all_records', array('expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+            $pagination = get_pagination('land-sale-rent/page', count(Modules::run('real_estates/get_all_records', array('expire_date >=' => date('Y-m-d')))), 22, 5, 4);
             $realestates = Modules::run('real_estates/get_all_records', array('expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -564,12 +577,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('job/'.$cat->id.'/page', count(Modules::run('jobs/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+            $pagination = get_pagination('job/'.$cat->id.'/page', count(Modules::run('jobs/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 22, 5, 4);
             $jobs = Modules::run('jobs/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+            $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('expire_date >=' => date('Y-m-d')))), 22, 5, 4);
             $jobs = Modules::run('jobs/get_all_records', array('expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -638,7 +651,7 @@ class Home_page extends Front_Controller {
     public function filter_location($lid)
     {
         $location = Modules::run('locations/get', $lid);
-        $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('location_id' => $lid, 'expire_date >=' => date('Y-m-d')))), 20, 5, 4);
+        $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('location_id' => $lid, 'expire_date >=' => date('Y-m-d')))), 22, 5, 4);
         $jobs = Modules::run('jobs/get_all_records', array('location_id' => $lid, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
 
         $this->data['pagination'] = $pagination['v_pagination'];
@@ -677,12 +690,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('video/'.$cat->id.'/page', count(Modules::run('videos/get_all_records', array('category_id' => $cat->id))), 20, 5, 4);
+            $pagination = get_pagination('video/'.$cat->id.'/page', count(Modules::run('videos/get_all_records', array('category_id' => $cat->id))), 22, 5, 4);
             $videos = Modules::run('videos/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('video/page', count(Modules::run('videos/get_all_records')), 20, 5, 3);
+            $pagination = get_pagination('video/page', count(Modules::run('videos/get_all_records')), 22, 5, 3);
             $videos = Modules::run('videos/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -767,43 +780,147 @@ class Home_page extends Front_Controller {
     
     public function search()
     {
-        $this->form_validation->set_rules('search', $this->lang->line('home_search_headding'), 'trim|required|xss_clean');
+        $this->load->helper('text');
+        $this->form_validation->set_rules('search_title', $this->lang->line('form_search_title_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('search_type', $this->lang->line('form_search_type_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('province', $this->lang->line('form_search_province_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('khan', $this->lang->line('form_search_khan_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('sangkat', $this->lang->line('form_search_sangkat_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('phum', $this->lang->line('form_search_phum_label'), 'trim|xss_clean');
         if($this->form_validation->run() === TRUE)
         {
-            $search_keywords = $this->input->post('search', TRUE);
-            if(empty($search_keywords))
+            $searchTitle = trim($this->input->post('search_title'));
+            $get_searchType = trim($this->input->post('search_type'));
+            $searchType = $get_searchType == FALSE ? 1 : $get_searchType;
+            
+            $province = trim($this->input->post('province'));
+            $khan = trim($this->input->post('khan'));
+            $sangkat = trim($this->input->post('sangkat'));
+            $phum = trim($this->input->post('phum'));
+
+            if($province != FALSE)
             {
-                $this->data['search_result'] = $this->lang->line('home_search_result_not_found');
+                $getLoc = $province;
+                if($khan != FALSE)
+                {
+                    $getLoc .= '/'.$khan;
+                    if($sangkat != FALSE)
+                    {
+                        $getLoc .= '/'.$sangkat;
+                        if($phum != FALSE)
+                        {
+                            $getLoc .= '/'.$phum;
+                        }
+                    }
+                }
             }
             else
             {
-                $this->data['result_articles'] = Modules::run('articles/get_like', array('title' => $search_keywords), array('created_at' => 'desc'));
+                $getLoc = FALSE;
+            }
+            
+            switch ($searchType)
+            {
+                case 2:
+                    $this->data['get_result'] = $this->_search_product($searchTitle);
+                    break;
                 
-                $this->data['result_products'] = Modules::run('classifieds/get_like', array('title' => $search_keywords), array('classifieds.type' => 0), array('created_at' => 'desc'));
+                case 3:
+                    $this->data['get_result'] = $this->_search_land($searchTitle, $getLoc);
+                    break;
                 
-                $this->data['result_real_estates'] = Modules::run('classifieds/get_like', array('title' => $search_keywords), array('classifieds.type' => 1), array('created_at' => 'desc'));
+                case 4:
+                    $this->data['get_result'] = $this->_search_job($searchTitle, $getLoc);
+                    break;
                 
-                $count_all_result = count($this->data['result_articles']) + count($this->data['result_products']) + count($this->data['result_real_estates']);
+                case 5:
+                    $this->data['get_result'] = $this->_search_video($searchTitle);
+                    break;
+
+                default:
+                    $this->data['get_result'] = $this->_search_article($searchTitle, $getLoc);
+                    break;
+            }
+            
+        }
+        
+        // message error
+        $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+        
+        $this->data['get_searchTitle'] = isset($searchTitle) ? $searchTitle : NULL;
+        $this->data['get_searchType'] = isset($searchType) ? $searchType : NULL;
+        
+        // display form
+        $this->data['search_title'] = array(
+            'name'  => 'search_title',
+            'id'    => 'search_title',
+            'class' => 'form-control',
+            'value' => set_value('search_title')
+        );
+        
+        $search_type = array(
+            1 => $this->lang->line('article_menu_label'),
+            2 => $this->lang->line('sale_rent_product_label'),
+            3 => $this->lang->line('sale_rent_land_label'),
+            4 => 'ការងារ',
+            5 => $this->lang->line('video_label'),
+        );
+        
+        $this->data['search_type'] = form_dropdown('search_type', $search_type, set_value('search_type'), array('class' => 'form-control', 'id' => 'search_type'));
+        
+        if(isset($province) && $province != FALSE)
+        {
+            $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), set_value('province'), array('class' => 'form-control', 'id' => 'province'));
+
+            $this->data['khan'] = form_dropdown('khan', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('khan_label'), array('parent_id' => $province)), set_value('khan'), array('class' => 'form-control', 'id' => 'khan'));
+
+            $this->data['sangkat'] = form_dropdown('sangkat', array('ជ្រើស'.$this->lang->line('sangkat_label')), set_value('sangkat'), array('class' => 'form-control', 'id' => 'sangkat'));
+
+            $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), set_value('phum'), array('class' => 'form-control', 'id' => 'phum'));
+            
+            if(isset($khan) && $khan != FALSE)
+            {
+                $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), set_value('province'), array('class' => 'form-control', 'id' => 'province'));
+
+                $this->data['khan'] = form_dropdown('khan', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => $province)), set_value('khan'), array('class' => 'form-control', 'id' => 'khan'));
+
+                $this->data['sangkat'] = form_dropdown('sangkat', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('sangkat_label'), array('parent_id' => $khan)), set_value('sangkat'), array('class' => 'form-control', 'id' => 'sangkat'));
+
+                $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), set_value('phum'), array('class' => 'form-control', 'id' => 'phum'));
                 
-                $this->data['search_result'] = sprintf($this->lang->line('home_search_result_found'), $count_all_result);
+                if(isset($sangkat) && $sangkat != FALSE)
+                {
+                    $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), set_value('province'), array('class' => 'form-control', 'id' => 'province'));
+
+                    $this->data['khan'] = form_dropdown('khan', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => $province)), set_value('khan'), array('class' => 'form-control', 'id' => 'khan'));
+
+                    $this->data['sangkat'] = form_dropdown('sangkat', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => $khan)), set_value('sangkat'), array('class' => 'form-control', 'id' => 'sangkat'));
+
+                    $this->data['phum'] = form_dropdown('phum', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('phum_label'), array('parent_id' => $sangkat)), set_value('phum'), array('class' => 'form-control', 'id' => 'phum'));
+                }
             }
         }
-        
-        if(!isset($search_keywords))
+        else
         {
-            $this->data['search_result'] = $this->lang->line('home_search_result_not_found');
+            $this->data['province'] = form_dropdown('province', Modules::run('locations/dropdown', 'id', 'caption', 'ជ្រើស'.$this->lang->line('province_label'), array('parent_id' => FALSE)), set_value('province'), array('class' => 'form-control', 'id' => 'province'));
+              
+            $this->data['khan'] = form_dropdown('khan', array('ជ្រើស'.$this->lang->line('khan_label')), set_value('khan'), array('class' => 'form-control', 'id' => 'khan'));
+
+            $this->data['sangkat'] = form_dropdown('sangkat', array('ជ្រើស'.$this->lang->line('sangkat_label')), set_value('sangkat'), array('class' => 'form-control', 'id' => 'sangkat'));
+
+            $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), set_value('phum'), array('class' => 'form-control', 'id' => 'phum'));
         }
         
-        $this->_default();
         // process template
         $title = $this->lang->line('home_search_headding');
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
-                                        'css/fontawsome.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
                                         'css/style.min.css'
                                     );
-        $layout_property['js']  = array('js/bootstrap.min.js');
+        $layout_property['js']  = array('js/bootstrap.min.js', 'js/script.min.js');
         
         $layout_property['breadcrumb'] = array($title);
         
@@ -1119,6 +1236,120 @@ class Home_page extends Front_Controller {
             array('name' => 'twitter:image:height', 'content' => '252'),
             array('name' => 'twitter:widgets:csp', 'content' => 'on'),
         );
+    }
+    
+    public function _search_article($title = FALSE, $location = FALSE)
+    {
+        if($title == FALSE && $location == FALSE)
+        {
+            return FALSE;
+        }
+        
+        
+        if($title != FALSE && $location == FALSE)
+        {
+            return Modules::run('articles/get_like', array('title' => $title), FALSE, 'after');
+        }
+        else if($title == FALSE && $location != FALSE)
+        {
+            if(strlen($location) <= 2)
+            {
+                return Modules::run('articles/get_like', array('location_id' => $location), FALSE, 'after');
+            }
+            else
+            {
+                return Modules::run('articles/get_all_records', array('location_id' => $location));
+            }
+        }
+        
+        else 
+        {
+            if(strlen($location) <= 2)
+            {
+                return Modules::run('articles/get_like', array('title' => $title, 'location_id' => $location), FALSE, 'after');
+            }
+            else
+            {
+                return Modules::run('articles/get_like', array('title' => $title), array('location_id' => $location), 'after');
+            }
+        }
+    }
+    
+    public function _search_product($title)
+    {
+        if($title == FALSE)
+        {
+            return FALSE;
+        }
+        
+        return Modules::run('products/get_like', array('title' => $title), FALSE, 'after');
+    }
+    
+    public function _search_land($title = FALSE, $location = FALSE)
+    {
+        if($title == FALSE && $location == FALSE)
+        {
+            return FALSE;
+        }
+        
+        if($title != FALSE && $location == FALSE)
+        {
+            return Modules::run('real_estates/get_like', array('title' => $title), FALSE, 'after');
+        }
+        else if($title == FALSE && $location != FALSE)
+        {
+            if(strlen($location) <= 2)
+            {
+                return Modules::run('real_estates/get_like', array('location_id' => $location), FALSE, 'after');
+            }
+            else
+            {
+                return Modules::run('real_estates/get_all_records', array('location_id' => $location));
+            }
+        }
+        
+        else 
+        {
+            if(strlen($location) <= 2)
+            {
+                return Modules::run('real_estates/get_like', array('title' => $title, 'location_id' => $location), FALSE, 'after');
+            }
+            else
+            {
+                return Modules::run('real_estates/get_like', array('title' => $title), array('location_id' => $location), 'after');
+            }
+        }
+    }
+    
+    public function _search_job($title = FALSE, $location = FALSE)
+    {
+        if($title == FALSE && $location == FALSE)
+        {
+            return FALSE;
+        }
+        
+        if($title != FALSE && $location == FALSE)
+        {
+            return Modules::run('jobs/get_like', array('title' => $title), FALSE, 'after');
+        }
+        else if($title == FALSE && $location != FALSE)
+        {
+            return Modules::run('jobs/get_all_records', array('location_id' => $location));
+        }
+        
+        else 
+        {
+            return Modules::run('jobs/get_like', array('title' => $title), array('location_id' => $location), 'after');
+        }
+    }
+    
+    public function _search_video($title)
+    {
+        if($title == FALSE)
+        {
+            return FALSE;
+        }
+        return Modules::run('videos/get_like', array('title' => $title), FALSE, 'after');
     }
     
 }

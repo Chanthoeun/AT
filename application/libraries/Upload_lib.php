@@ -22,6 +22,8 @@ class Upload_lib {
     private $file_name = array();
     private $quality = 100;
     private $max_size = 0;
+    private $max_width = FALSE;
+    private $max_height= FALSE;
     private $upload_error = NULL;
     private $uploded_info = array();
     
@@ -123,6 +125,13 @@ class Upload_lib {
         $this->upload_type = $upload_type;
     }
     
+    public function set_max_width($width) {
+        $this->max_width = $width;
+    }
+    
+    public function set_max_height($height) {
+        $this->max_height = $height;
+    }
     
     public function clear()
     {
@@ -132,25 +141,27 @@ class Upload_lib {
         $this->file_name    = array();
         $this->quality      = 100;
         $this->max_size     = 0;
+        $this->max_width    = FALSE;
+        $this->max_height   = FALSE;
         $this->upload_error = NULL;
         $this->uploded_info = array();
     }
 
 
-    public function set_file_name($file_name, $category = NULL)
+    public function set_file_name($file_name, $category = FALSE)
     {
         if(is_array($file_name))
         {
             foreach ($file_name as $name)
             {
                 $name = (string) url_title($name, '-', TRUE);
-                $this->file_name[] = $category == NULL ? $name : $category.'-'.$name;
+                $this->file_name[] = $category == FALSE ? $name : $category.'-'.$name;
             }
         }
         else
         {
             $file_name = (string) url_title($file_name, '-', TRUE);
-            $this->file_name = $category == NULL ? $file_name : $category.'-'.$file_name;
+            $this->file_name = $category == FALSE ? $file_name : $category.'-'.$file_name;
         }
     } 
 
@@ -178,6 +189,12 @@ class Upload_lib {
         if($rename == TRUE)
         {
             $config['file_name'] = url_title($this->file_name, '-', TRUE);
+        }
+        
+        if($this->max_width != FALSE && $this->max_height != FALSE)
+        {
+            $config['max_width']            = $this->max_width;
+            $config['max_height']           = $this->max_height;
         }
         
         $this->CI->upload->initialize($config);
@@ -219,6 +236,12 @@ class Upload_lib {
         if($rename == TRUE)
         {
             $config['file_name'] = $this->file_name;
+        }
+        
+        if($this->max_width != FALSE && $this->max_height != FALSE)
+        {
+            $config['max_width']            = $this->max_width;
+            $config['max_height']           = $this->max_height;
         }
         
         $this->CI->upload->initialize($config);

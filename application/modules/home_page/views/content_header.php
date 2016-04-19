@@ -216,7 +216,7 @@
                             <img src="<?php echo get_image('ads-top-1140x100.png') ?>" />
                         </a>
                         <?php else: ?>
-                        <a href="<?php echo $ad_header['link']; ?>" target="_blank">
+                        <a href="<?php echo $ad_header['link']; ?>" target="_blank" <?php echo $ad_header['class']; ?>>
                             <img src="<?php echo base_url(get_uploaded_file($ad_header['banner'])); ?>" />
                         </a>
                         <?php endif; ?>

@@ -1012,6 +1012,7 @@ if(!function_exists('search_array'))
             {
                 $result['link'] = $item->link;
                 $result['banner'] = $item->banner;
+                $result['class'] = $item->link == '#' ? ' class="not-active" ' : '';
                 return $result;
             }
         }

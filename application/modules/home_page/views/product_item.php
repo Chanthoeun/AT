@@ -23,7 +23,7 @@
                    {
         ?>
                     <li>
-                        <a href="<?php echo $ad_content['link']; ?>" target="_blank">
+                        <a href="<?php echo $ad_content['link']; ?>" target="_blank" <?php echo $ad_content['class']; ?>>
                             <figure>
                                 <img src="<?php echo base_url(get_uploaded_file($ad_content['banner'])); ?>" />
                             </figure>

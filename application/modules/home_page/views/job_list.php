@@ -32,7 +32,7 @@
            else
            {
   ?>
-    <a href="<?php echo $ad_content['link']; ?>" class="ads" target="_blank"><img src="<?php echo base_url(get_uploaded_file($ad_content['banner'])); ?>" /></a>
+    <a href="<?php echo $ad_content['link']; ?>" class="ads" target="_blank" <?php echo $ad_content['class']; ?>><img src="<?php echo base_url(get_uploaded_file($ad_content['banner'])); ?>" /></a>
     <?php
            }
            $position += 1;

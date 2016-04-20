@@ -27,14 +27,8 @@
                     <strong><?php echo $message;?></strong>
                 </div>
                 <?php } ?>
-                <?php echo form_open("locations/store", 'role="form"');?>
+                <?php echo form_open("locations/store", 'role="form"', $parent);?>
                 <div class="row">
-                    <div class="col-lg-3 col-md-3">
-                        <div class="form-group">
-                            <?php echo lang('form_location_parent_label', 'parent');?> <br />
-                            <?php echo $parent;?>
-                        </div>
-                    </div>
                     <div class="col-lg-3 col-md-3">
                         <div class="form-group">
                             <?php echo lang('form_location_area_code_label', 'erea_code');?> <br />
@@ -112,15 +106,18 @@
                 </div>
    
                 <div class="form-group">
+                    <script type="text/javascript">
+		var centreGot = false;
+         </script>
                     <?php echo lang('form_location_latlng_label', 'latlng');?> <br />
                     <?php 
-                        echo $map['js'];
-                        echo $map['html'];
-                    ?>
+            echo $map['js'];
+            echo $map['html'];
+         ?>
                     <?php echo form_input($latlng);?>
                 </div>
                 
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
+                <button type="submit" class="btn btn-primary"​​​ onclick="<?php echo lang('location_alert_label');?>"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
                 <?php echo btn_cancel('locations/'.$this->uri->segment(3)) ?>
                 <?php echo form_close();?>
             </div>

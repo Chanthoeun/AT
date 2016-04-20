@@ -35,8 +35,8 @@
                                 <th class="text-center"><?php echo lang('id_th'); ?></th>
                                 <th><?php echo lang('index_location_caption_th');?></th>
                                 <th><?php echo lang('index_location_caption_en_th');?></th>
-                                <th class="col-lg-2 text-center"><?php echo lang('index_location_parent_th');?></th>
-                                <th class="col-lg-2 text-center"><?php echo lang('index_location_area_code_th');?></th>
+                                <th class="text-center"><?php echo lang('index_location_parent_th');?></th>
+                                <th class="text-center"><?php echo lang('index_location_area_code_th');?></th>
                                 <th><?php echo lang('index_location_latlng_th');?></th>
                                 <th class="col-lg-2 text-center"><?php echo lang('index_location_action_th');?></th>
                             </tr>
@@ -59,7 +59,7 @@
                 <?php }else{ ?>
                 <div class="alert alert-info"><?php echo lang('no_record_label');?></div>
                 <?php } ?>
-                <p><?php echo link_add('locations/create/'.$this->uri->segment(2), lang('index_location_create_link'), array('class' => 'btn btn-primary'));?></p>
+                <p><?php echo link_add('locations/create/'.$this->uri->segment(2), lang('index_location_create_link'), array('class' => 'btn btn-primary'));?> | <?php echo link_add('locations/import/'.$this->uri->segment(2), lang('index_location_import_link'), array('class' => 'btn btn-primary'));?></p>
             </div>
             <!-- /.panel-body -->
         </div>

@@ -183,7 +183,7 @@ class Real_estates extends Admin_Controller {
         
         $this->data['phum'] = form_dropdown('phum', array('ជ្រើស'.$this->lang->line('phum_label')), empty($this->validation_errors['post_data']['phum']) ? FALSE : $this->validation_errors['post_data']['phum'], array('class' => 'form-control', 'id' => 'phum'));        
         
-        $map_value = empty($this->validation_errors['post_data']['map']) ? NULL : $this->validation_errors['post_data']['map'];
+        $map_value = empty($this->validation_errors['post_data']['map']) ? FALSE : $this->validation_errors['post_data']['map'];
         $this->data['location_map'] = array(
             'name'  => 'map',
             'id'    => 'map',
@@ -194,16 +194,36 @@ class Real_estates extends Admin_Controller {
         
         // google map
         $config['minifyJS'] = TRUE;
-        $config['center']   = $map_value == NULL ? '11.57608800178964, 104.92318770585052' : $map_value;
-        $config['zoom']     = '7';
-        
-        $marker = array(
-            'position'  => $map_value == NULL ? '11.57608800178964, 104.92318770585052' : $map_value,
-            'draggable' => TRUE,
-            'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
-            'animation' => 'DROP'            
-        );        
-        
+        if($map_value == FALSE)
+        {
+            $config['center']   = 'auto';
+            $config['onboundschanged'] = 'if (!centreGot) {
+                                    var mapCentre = map.getCenter();
+                                    marker_0.setOptions({
+                                            position: new google.maps.LatLng(mapCentre.lat(), mapCentre.lng()) 
+                                    });
+                                    document.getElementById(\'map\').value = mapCentre.lat() + \', \' + mapCentre.lng();
+                            }
+                            centreGot = true;';
+            
+            $marker = array(
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            ); 
+        }
+        else
+        {
+            $config['center']   = $map_value;
+            $config['zoom']   = '13';
+            
+            $marker = array(
+                'position' => $map_value,
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );  
+        }
         $this->data['map'] = get_google_map($config, $marker);
         
         // process template
@@ -452,16 +472,36 @@ class Real_estates extends Admin_Controller {
         
         // google map
         $config['minifyJS'] = TRUE;
-        $config['center']   = $map_value == NULL ? '11.57608800178964, 104.92318770585052' : $map_value;
-        $config['zoom']     = '15';
-        
-        $marker = array(
-            'position'  => $map_value == NULL ? '11.57608800178964, 104.92318770585052' : $map_value,
-            'draggable' => TRUE,
-            'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
-            'animation' => 'DROP'            
-        );        
-        
+        if($map_value == FALSE)
+        {
+            $config['center']   = 'auto';
+            $config['onboundschanged'] = 'if (!centreGot) {
+                                    var mapCentre = map.getCenter();
+                                    marker_0.setOptions({
+                                            position: new google.maps.LatLng(mapCentre.lat(), mapCentre.lng()) 
+                                    });
+                                    document.getElementById(\'map\').value = mapCentre.lat() + \', \' + mapCentre.lng();
+                            }
+                            centreGot = true;';
+
+            $marker = array(
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );  
+        }
+        else
+        {
+            $config['center']   = $map_value;
+            $config['zoom']     = '15';
+
+            $marker = array(
+                'position'  => $map_value,
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );  
+        }
         $this->data['map'] = get_google_map($config, $marker);
         
         // process template

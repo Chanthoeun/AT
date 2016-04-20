@@ -111,7 +111,7 @@ class Upload_lib {
         }
         else if($upload_type == 'document')
         {
-            $this->file_type = 'pdf|doc|docx|xls|xlsx|zip|tar|tgz';
+            $this->file_type = 'pdf|doc|docx|csv|xls|xlsx|zip|tar|tgz';
         }
         else if($upload_type == 'audio')
         {

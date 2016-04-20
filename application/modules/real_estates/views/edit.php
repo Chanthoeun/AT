@@ -60,8 +60,8 @@
                             <?php echo lang('form_real_estate_desc_label', 'desc');?> <br />
                             <?php echo form_textarea($desc);?>
                             <script>
-                                    CKEDITOR.replace( 'desc', {height: 300} );
-                            </script>   
+                CKEDITOR.replace( 'desc', {height: 300} );
+            </script>   
                         </div>
                     </div>
                 </div>
@@ -104,17 +104,20 @@
                 <h3 class="page-header"><?php echo lang('form_real_estate_map_label'); ?></h3>
                 <div class="row">
                     <div class="col-lg-12">
+                        <script type="text/javascript">
+		var centreGot = false;
+           </script>
                         <?php 
-                            echo $map['js'];
-                            echo $map['html'];
-                            echo form_input($location_map);
-                        ?>
+                echo $map['js'];
+                echo $map['html'];
+                echo form_input($location_map);
+            ?>
                     </div>
                 </div>
                 
                 <div class="row">
                     <div class="col-lg-12">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
+                        <button type="submit" class="btn btn-primary" onclick="<?php echo lang('location_alert_label');?>"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
                         <?php echo btn_cancel('real-estates/view/'.$real_estate->user_id) ?>
                     </div>
                 </div>

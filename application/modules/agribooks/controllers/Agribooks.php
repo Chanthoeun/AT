@@ -207,7 +207,7 @@ class Agribooks extends Admin_Controller {
         }
         
         
-        $latlng = empty($this->validation_errors['post_data']['latlng']) ? NULL : $this->validation_errors['post_data']['latlng'];
+        $latlng = empty($this->validation_errors['post_data']['latlng']) ? FALSE : $this->validation_errors['post_data']['latlng'];
         $this->data['latlng'] = array(
             'name'  => 'latlng',
             'id'    => 'map',
@@ -218,16 +218,37 @@ class Agribooks extends Admin_Controller {
         
         // map
         $config['minifyJS'] = TRUE;
-        $config['center']   = '12.485542832326306, 105.18771788773529';
-        $config['zoom']     = '7';
-        
-        $marker[] = array(
-            'position'  => '12.485542832326306, 105.18771788773529',
-            'draggable' => TRUE,
-            'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
-            'animation' => 'DROP'            
-        );        
-        
+        if($latlng == FALSE)
+        {
+            $config['center']   = 'auto';
+            $config['onboundschanged'] = 'if (!centreGot) {
+                                    var mapCentre = map.getCenter();
+                                    marker_0.setOptions({
+                                            position: new google.maps.LatLng(mapCentre.lat(), mapCentre.lng()) 
+                                    });
+                                    document.getElementById(\'map\').value = mapCentre.lat() + \', \' + mapCentre.lng();
+                            }
+                            centreGot = true;';
+
+            $marker[] = array(
+                'position'  => '12.485542832326306, 105.18771788773529',
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );  
+        }
+        else
+        {
+            $config['center']   = $latlng;
+            $config['zoom']     = '7';
+
+            $marker[] = array(
+                'position'  => $latlng,
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );  
+        }
         $this->data['map'] = get_google_map($config, $marker);
         
         // process template
@@ -532,16 +553,36 @@ class Agribooks extends Admin_Controller {
         
         // map
         $config['minifyJS'] = TRUE;
-        $config['center']   = $latlng == FALSE ? '12.485542832326306, 105.18771788773529' : $latlng;
-        $config['zoom']     = '13';
-        
-        $marker[] = array(
-            'position'  => $latlng == FALSE ? '12.485542832326306, 105.18771788773529' : $latlng,
-            'draggable' => TRUE,
-            'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
-            'animation' => 'DROP'            
-        );        
-        
+        if($latlng == FALSE)
+        {
+            $config['center']   = 'auto';
+            $config['onboundschanged'] = 'if (!centreGot) {
+                                    var mapCentre = map.getCenter();
+                                    marker_0.setOptions({
+                                            position: new google.maps.LatLng(mapCentre.lat(), mapCentre.lng()) 
+                                    });
+                                    document.getElementById(\'map\').value = mapCentre.lat() + \', \' + mapCentre.lng();
+                            }
+                            centreGot = true;';
+
+            $marker[] = array(
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );
+        }
+        else
+        {
+            $config['center']   = $latlng;
+            $config['zoom']     = '13';
+
+            $marker[] = array(
+                'position'  => $latlng,
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );
+        }
         $this->data['map'] = get_google_map($config, $marker);
         
         // process template

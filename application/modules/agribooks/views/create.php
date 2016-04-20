@@ -162,8 +162,8 @@
                             <?php echo lang('form_agribook_profile_label', 'profile');?> <br />
                             <?php echo form_textarea($profile);?>
                             <script>
-                                CKEDITOR.replace( 'profile', {height: 250} );
-                            </script>
+                CKEDITOR.replace( 'profile', {height: 250} );
+            </script>
                         </div>
                     </div>
                 </div> 
@@ -171,11 +171,14 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
+                             <script type="text/javascript">
+                    var centreGot = false;
+             </script>
                             <?php echo lang('form_agribook_map_label', 'latlng');?> <br />
                             <?php 
-                                echo $map['js'];
-                                echo $map['html'];
-                            ?>
+                echo $map['js'];
+                echo $map['html'];
+             ?>
                             <?php echo form_input($latlng);?>
                         </div>
                     </div>
@@ -183,7 +186,7 @@
                 
                 <div class="row">
                     <div class="col-lg-12">
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
+                        <button type="submit" class="btn btn-primary" onclick="<?php echo lang('location_alert_label');?>"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
                         <?php echo btn_cancel('agribooks') ?>
                     </div>
                 </div>

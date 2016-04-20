@@ -12,6 +12,7 @@ $lang['index_location_area_code_th']  = 'លេខ​កូដតំបន់';
 $lang['index_location_latlng_th']  = 'ទីតាំងលើ​ផែនទី';
 $lang['index_location_action_th']  = 'សកម្មភាព';
 $lang['index_location_create_link']= 'បង្កើតទីតាំង​ថ្មី';
+$lang['index_location_import_link']= 'Improt ទីតាំង';
 
 // Location Form
 $lang['form_location_create_heading']           = 'បង្កើតទីតាំង​ថ្មី';
@@ -53,3 +54,9 @@ $lang['form_location_report_success']          = 'ទីតាំង​រក្
 // Delete Group
 $lang['del_location_report_success']           = 'ទីតាំងលុប​រួចរាល់!';
 $lang['del_location_report_error']             = 'ទីតាំងកំពុង​លុប​មាន​បញ្ហា!';
+
+//import
+$lang['import_location_subheading']          = 'ជ្រើស​រើស​ទីតាំង​ខាង​ក្រោម';
+$lang['import_location_province_label']        = 'ខេត្ត​/ក្រុង:';
+$lang['import_location_excel_label']          = 'ជ្រើស​រើស​ឯកសារ​សំរាប់​Upload (only excel file):';
+$lang['import_location_validation_province_label']  = 'ខេត្ត​/ក្រុង';

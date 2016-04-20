@@ -91,17 +91,8 @@ class Locations extends Admin_Controller {
     public function create($pid = FALSE)
     {
         parent::check_login();
-        $this->load->helper('menu');
         
-        //get parent
-        if($pid != FALSE)
-        {
-            $parent = $this->get($pid);
-        }
-        
-        
-        // display form 
-        $this->data['parent'] = form_dropdown('parent', get_dropdown(prepareList($this->get_dropdown()), 'ជ្រើស​​ក្រុម'), empty($this->validation_errors['post_data']['parent']) ? $pid : $this->validation_errors['post_data']['parent'], 'class="form-control" id="parent"');
+        $this->data['parent'] = array('parent' => $pid);
         
         $this->data['caption'] = array(
             'name'  => 'caption',
@@ -182,7 +173,7 @@ class Locations extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['north']) ? NULL : $this->validation_errors['post_data']['north']
         );
         
-        $latlng = empty($this->validation_errors['post_data']['latlng']) ? NULL : $this->validation_errors['post_data']['latlng'];
+        $latlng = empty($this->validation_errors['post_data']['latlng']) ? FALSE : $this->validation_errors['post_data']['latlng'];
         $this->data['latlng'] = array(
             'name'  => 'latlng',
             'id'    => 'map',
@@ -192,17 +183,38 @@ class Locations extends Admin_Controller {
         );
         
         // map
-        $defaultMap = isset($parent) && $parent->latlng != FALSE ? $parent->latlng : '12.485542832326306, 105.18771788773529';
         $config['minifyJS'] = TRUE;
-        $config['center']   = $latlng == NULL ? $defaultMap : $latlng;
-        $config['zoom']     = isset($parent) && $parent->latlng != FALSE ? '12' : '7';
-        
-        $marker[] = array(
-            'position'  => $latlng == NULL ? $defaultMap : $latlng,
-            'draggable' => TRUE,
-            'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
-            'animation' => 'DROP'            
-        );        
+        if($latlng == FALSE)
+        {
+            $config['center']   = 'auto';
+            $config['onboundschanged'] = 'if (!centreGot) {
+                                var mapCentre = map.getCenter();
+                                marker_0.setOptions({
+                                        position: new google.maps.LatLng(mapCentre.lat(), mapCentre.lng()) 
+                                });
+                                document.getElementById(\'map\').value = mapCentre.lat() + \', \' + mapCentre.lng();
+                        }
+                        centreGot = true;';
+
+            $marker[] = array(
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );
+        }
+        else
+        {
+            $config['center']   = $latlng;
+            $config['zoom']   = '13';
+
+            $marker[] = array(
+                'position' => $latlng,
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );
+        }
+                
         
         $this->data['map'] = get_google_map($config, $marker);
         
@@ -223,17 +235,10 @@ class Locations extends Admin_Controller {
                                         );
         $layout_property['script'] = '$(\'#issue\').datepicker()';
         
-        if($pid == FALSE)
-        {
-            $layout_property['breadcrumb'] = array('locations' => $this->lang->line('index_location_heading'), $title);
-        }
-        else
-        {
-            $layout_property['breadcrumb'] = array_merge(array('locations' => $this->lang->line('index_location_heading')),
+        $layout_property['breadcrumb'] = array_merge(array('locations' => $this->lang->line('index_location_heading')),
                                                 generate_breadcrumb($pid, 'locations', 'locations', 'location'),
                                                 array($title)
                                             );
-        }
         
         $layout_property['content']  = 'create';
         
@@ -271,11 +276,11 @@ class Locations extends Admin_Controller {
             set_log('Created Location', $data);
 
             $this->session->set_flashdata('message', $this->lang->line('form_location_report_success'));
-            redirect('locations/'.$parentId, 'refresh');
+            redirect($parentId == FALSE ? 'locations' : 'locations/'.$parentId, 'refresh');
         }
         else
         {
-            redirect_form_validation(validation_errors(), $this->input->post(), 'locations/create/'.$parentId);
+            redirect_form_validation(validation_errors(), $this->input->post(), $parentId == FALSE ? 'locations/create' : 'locations/create/'.$parentId);
         }
     }
     
@@ -286,21 +291,11 @@ class Locations extends Admin_Controller {
         
         $location = $this->get($id);
         $this->data['location'] = $location;
-        
-        if($location->parent_id != FALSE)
-        {
-            $parent = $this->get($location->parent_id);
-        }
-        
         $this->data['location_id'] = array('location_id' => $location->id);
         // set log
         set_log('View for update Location', $location);
         
-        $this->load->helper('menu');
-        
-        // display form 
-        $this->data['parent'] = form_dropdown('parent', get_dropdown(prepareList($this->get_dropdown()), 'ជ្រើស​ក្រុម'), empty($this->validation_errors['post_data']['parent']) ? $location->parent_id : $this->validation_errors['post_data']['parent'], 'class="form-control" id="parent"');
-        
+        // display form         
         $this->data['caption'] = array(
             'name'  => 'caption',
             'id'    => 'caption',
@@ -390,20 +385,39 @@ class Locations extends Admin_Controller {
         );
         
         // map
-        $defaultMap = isset($parent) && $parent->latlng != FALSE ? $parent->latlng : '12.485542832326306, 105.18771788773529';
-                
-        
-        $config['minifyJS'] = TRUE;
-        $config['center']   = $latlng == NULL ? $defaultMap : $latlng;
-        $config['zoom']     = $latlng == FALSE ? '7' : '13';
-        
-        $marker[] = array(
-            'position'  => $latlng == NULL ? $defaultMap : $latlng,
-            'draggable' => TRUE,
-            'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
-            'animation' => 'DROP'            
-        );        
-        
+        if($latlng == FALSE)
+        {
+            $config['minifyJS'] = TRUE;
+            $config['center']   = 'auto';
+            $config['onboundschanged'] = 'if (!centreGot) {
+                                    var mapCentre = map.getCenter();
+                                    marker_0.setOptions({
+                                            position: new google.maps.LatLng(mapCentre.lat(), mapCentre.lng()) 
+                                    });
+                                    document.getElementById(\'map\').value = mapCentre.lat() + \', \' + mapCentre.lng();
+                            }
+                            centreGot = true;';
+
+            $marker[] = array(
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );
+        }
+        else
+        {
+            $config['minifyJS'] = TRUE;
+            $config['center']   = $latlng;
+            $config['zoom']     = '13';
+
+            $marker[] = array(
+                'position'  => $latlng,
+                'draggable' => TRUE,
+                'ondragend' => 'document.getElementById(\'map\').value =  event.latLng.lat() + \', \' + event.latLng.lng();',
+                'animation' => 'DROP'            
+            );       
+        }
+
         $this->data['map'] = get_google_map($config, $marker);
         
         // process template
@@ -432,10 +446,8 @@ class Locations extends Admin_Controller {
     public function modify()
     {
         parent::check_login();
-        $id = $this->input->post('location_id');
-        $parentId = trim($this->input->post('parent'));
+        $location = $this->get($this->input->post('location_id'));
         $data = array(
-            'parent_id' => $parentId,
             'caption'   => trim($this->input->post('caption')),
             'caption_en'    => ucwords(trim($this->input->post('caption_en'))),
             'area_code'    => trim($this->input->post('area_code')),
@@ -450,18 +462,18 @@ class Locations extends Admin_Controller {
             'latlng'    => trim($this->input->post('latlng'))
         );
         
-        if($this->update($id, $data))
+        if($this->update($location->id, $data))
         {
             // set log
-            array_unshift($data, $id);
+            array_unshift($data, $location->id);
             set_log('Updated Location', $data);
 
             $this->session->set_flashdata('message', $this->lang->line('form_location_report_success'));
-            redirect('locations/'.$parentId, 'refresh');
+            redirect($location->parent_id == FALSE ? 'locations' : 'locations/'.$location->parent_id, 'refresh');
         }
         else
         {
-            redirect_form_validation(validation_errors(), $this->input->post(), 'locations/edit/'.$id);
+            redirect_form_validation(validation_errors(), $this->input->post(), 'locations/edit/'.$location->id);
         }
     }
     
@@ -504,7 +516,171 @@ class Locations extends Admin_Controller {
         {
             $this->session->set_flashdata('message', $this->lang->line('del_location_report_success'));
         }
-        redirect('locations/'.$location->parent_id, 'refresh');
+        redirect($location->parent_id == FALSE ? 'locations' : 'locations/'.$location->parent_id, 'refresh');
+    }
+    
+    public function import($id = FALSE) 
+    {
+        parent::check_login();
+        $this->load->library(array('excel', 'table'));
+        $this->form_validation->set_rules('province', $this->lang->line('import_location_validation_province_label'), 'trim|required|xss_clean', array('required' => 'សូម​ជ្រើស​រើស​%s'));
+        if($this->form_validation->run() == TRUE)
+        {
+            $province = $this->input->post('province');
+            
+            $uploaded = upload_file('excel', 'document', 'import');
+            if($uploaded == FALSE)
+            {
+                $this->session->set_flashdata('message', print_upload_error());
+                redirect(current_url(), 'refresh');
+            }
+            else
+            {
+                $file = get_uploaded_file($uploaded);
+
+                //read file from path
+                $objPHPExcel = PHPExcel_IOFactory::load($file);
+
+                //get only the Cell Collection
+                $cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection();
+
+                //extract to a PHP readable array format
+                foreach ($cell_collection as $cell) {
+                    $columns = $objPHPExcel->getActiveSheet()->getCell($cell)->getColumn();
+                    $row = $objPHPExcel->getActiveSheet()->getCell($cell)->getRow();
+                    $data_value = $objPHPExcel->getActiveSheet()->getCell($cell)->getValue();
+
+                    //header will/should be in row 1 only. of course this can be modified to suit your need.
+//                    if ($row == 1) {
+//                        $header[$row][$columns] = $data_value;
+//                    } else {
+//                        $arr_data[$row][$columns] = $data_value;
+//                    }
+                    if($row != 1)
+                    {
+                       $arr_data[$row][$columns] = $data_value; 
+                    }
+                }
+
+                //send the data in an array format
+                //echo $this->table->generate($arr_data);
+                
+            }
+            foreach ($arr_data as $excelrow)
+            {
+                switch ($excelrow['A']) {
+                    case 'ក្រុង':
+                        $parentId = $this->_parent_id($excelrow['B']);
+                        if($province != $parentId)
+                        {
+                            $this->session->set_flashdata('message', 'សុំទោស​ File ដែល​បាន​ upload មិនត្រូវនិង​ទីតាំង​ដែល​អ្នក​បាន​ជ្រើស​រើសទេ។');
+                            redirect(current_url(), 'refresh');
+                        }
+                        
+                        $caption = 'ក្រុង'.$excelrow['C'];
+                        $caption_en = ucwords($excelrow['D'].' Municipality');
+                        break;
+                    case 'ស្រុក':
+                        $parentId = $this->_parent_id($excelrow['B']);
+                        if($province != $parentId)
+                        {
+                            $this->session->set_flashdata('message', 'សុំទោស​ File ដែល​បាន​ upload មិនត្រូវនិង​ទីតាំង​ដែល​អ្នក​បាន​ជ្រើស​រើសទេ។');
+                            redirect(current_url(), 'refresh');
+                        }
+                        
+                        $caption = 'ស្រុក'.$excelrow['C'];
+                        $caption_en = ucwords($excelrow['D'].' District');
+                        break;
+                    case 'ខណ្ឌ':
+                        $parentId = $this->_parent_id($excelrow['B']);
+                        if($province != $parentId)
+                        {
+                            $this->session->set_flashdata('message', 'សុំទោស​ File ដែល​បាន​ upload មិនត្រូវនិង​ទីតាំង​ដែល​អ្នក​បាន​ជ្រើស​រើសទេ។');
+                            redirect(current_url(), 'refresh');
+                        }
+                        $caption = 'ខណ្ឌ'.$excelrow['C'];
+                        $caption_en = ucwords($excelrow['D'].' Khan');
+                        break;
+                    case 'សង្កាត់':
+                        $parentId = $this->_parent_id($excelrow['B']);
+                        $caption = 'សង្កាត់'.$excelrow['C'];
+                        $caption_en = ucwords($excelrow['D'].' Sangkat');
+                        break;
+                    case 'ឃុំ':
+                        $parentId = $this->_parent_id($excelrow['B']);
+                        $caption = 'ឃុំ'.$excelrow['C'];
+                        $caption_en = ucwords($excelrow['D'].' Commune');
+                        break;
+                    default:
+                        $parentId = $this->_parent_id($excelrow['B']);
+                        $caption = 'ភូមិ'.$excelrow['C'];
+                        $caption_en = ucwords($excelrow['D'].' Village');
+                        break;
+                }
+                $data = array(
+                    'parent_id' => $parentId,
+                    'caption'       => $caption,
+                    'caption_en'    => $caption_en,
+                    'area_code'    => $this->_add_zero($excelrow['B']),
+                    'reference'    => $excelrow['E'] == 'ប្រកាសលេខ ៤៩៣ ប្រ.ក របស់ក្រសួងមហាផ្ទៃ' ? 'ប្រកាសលេខ ៤៩៣ ប្រ.ក តាមប្រកាសក្រសួងមហាផ្ទៃ' : $excelrow['E'],
+                    'issue_date'    => $excelrow['E'] == 'ប្រកាសលេខ ៤៩៣ ប្រ.ក របស់ក្រសួងមហាផ្ទៃ' ? '2001-04-30' : '',
+                    'note'    => $excelrow['F'],
+                    'order'     => $this->get_next_order('order', array('parent_id' => $parentId))
+                );
+                
+                $get_location = $this->get_by(array('caption' => $data['caption'], 'area_code' => $data['area_code']));
+                if($get_location == FALSE)
+                {
+                    $this->insert($data, TRUE);
+                }
+                else
+                {
+                    $update_data = array(
+                        'parent_id' => $parentId,
+                        'caption'       => $caption,
+                        'caption_en'    => $caption_en,
+                        'area_code'    => $this->_add_zero($excelrow['B'])
+                    );
+                    $this->update($get_location->id, $update_data, TRUE);
+                }
+            }            
+            delete_uploaded_file($file);
+            
+            $this->session->set_flashdata('message', 'Import ទីតាំង​ជោគជ័យ');
+           redirect('locations/'.$province, 'refresh');
+        }
+        //message
+        $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+        
+        //display form
+        $this->data['province'] = form_dropdown('province', $this->dropdown('id', 'caption', 'ជ្រើស​រើស​ខេត្ត/ក្រុង', array('parent_id' => FALSE)), set_value('province', $id), array('id' => 'province', 'class' => 'form-control'));
+        $this->data['excel'] = array(
+            'name' => 'excel',
+            'id' => 'excel',
+            'accept' => '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+        );
+        
+        // process template
+        $title = $this->lang->line('index_location_import_link');
+        $this->data['title'] = $title;
+        $layout_property['css'] = array('https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' => FALSE,
+                                        'css/plugins/metisMenu/metisMenu.min.css',
+                                        'css/sb-admin-2.css',
+                                        'font-awesome-4.1.0/css/font-awesome.min.css'
+                                        );
+        $layout_property['js']  = array('https://code.jquery.com/jquery-1.11.1.min.js' => FALSE,
+                                        'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' => FALSE,
+                                        'js/plugins/metisMenu/metisMenu.min.js',
+                                        'js/sb-admin-2.js'
+                                        );
+        
+        $layout_property['breadcrumb'] = array('locations' => $this->lang->line('index_location_heading'), $title);
+        
+        $layout_property['content']  = 'import';
+        
+        // menu
+        $this->data['setting_menu'] = TRUE; $this->data['location_menu'] = TRUE;
+        generate_template($this->data, $layout_property); 
     }
     
     // get khan
@@ -623,5 +799,45 @@ class Locations extends Admin_Controller {
     public function get_next_order($field, $where = FALSE)
     {
         return $this->location->get_next_order($field, $where);
+    }
+    
+    public function _parent_id($code) {
+        parent::check_login();
+        if(strlen($code) == 3 || strlen($code) == 5 || strlen($code) == 7 )
+        {
+            $num_padded = '0'.$code;
+        }
+        else
+        {
+            $num_padded = $code;
+        }
+        
+        switch (strlen($num_padded)) {
+            case 4:
+                $parent_code = substr($num_padded, 0, 2);
+                break;
+            case 6:
+                $parent_code = substr($num_padded, 0, 4);
+                break;
+            case 8:
+                $parent_code = substr($num_padded, 0, 6);
+                break;
+        }
+        
+        $location = $this->get_by(array('area_code' => $parent_code));
+        if($location != FALSE)
+        {
+            return $location->id;
+        }
+        return FALSE;
+    }
+    
+    public function _add_zero($number) {
+        parent::check_login();
+        if(strlen($number) == 3 || strlen($number) == 5 || strlen($number) == 7 )
+        {
+            return '0'.$number;
+        }
+        return $number;
     }
 }

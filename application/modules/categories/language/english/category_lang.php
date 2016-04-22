@@ -42,3 +42,7 @@ $lang['form_cagetory_report_success']          = 'ក្រុមអត្ថប
 // Delete Group
 $lang['del_cagetory_report_success']           = 'ក្រុម​អត្ថបទលុប​រួចរាល់​!';
 $lang['del_cagetory_report_error']             = 'ក្រុម​អត្ថបទកំពុង​លុប​មាន​បញ្ហា!';
+
+//sortable
+$lang['sortable_category_heading']   = 'តម្រៀបតាម​លំដាប់';
+$lang['sortable_category_subheading'] = 'ចូល​ទាញក្រុម​អត្ថបទ​ខាង​ក្រោម';

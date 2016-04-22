@@ -482,7 +482,7 @@ class Jobs extends Admin_Controller {
         {            
             $this->session->set_flashdata('message', $this->lang->line('del_job_report_error'));
         }
-        redirect('jobs/ad', 'refresh');
+        redirect('jobs', 'refresh');
     }
     
     public function search()

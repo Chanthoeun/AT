@@ -353,16 +353,16 @@ if(!function_exists('get_pagination')){
         
         $config['full_tag_open'] = '<ul class="pagination">';
         $config['full_tag_close'] = '</ul>';
-        $config['first_link'] = '<i class="fa fa-step-backward"></i> First';
+        $config['first_link'] = '<i class="fa fa-step-backward"></i><span class="hidden-xs"> ដំបូង</span>';
         $config['first_tag_open'] = '<li>';
         $config['first_tag_close'] = '</li>';
-        $config['last_link'] = 'Last <i class="fa fa-step-forward"></i>';
+        $config['last_link'] = '<span class="hidden-xs">ចុងក្រោយ </span><i class="fa fa-step-forward"></i>';
         $config['last_tag_open'] = '<li>';
         $config['last_tag_close'] = '</li>';
-        $config['next_link'] = 'Next <i class="fa fa-arrow-right"></i>';
+        $config['next_link'] = '<span class="hidden-xs">បន្ទាប់ </span><i class="fa fa-arrow-right"></i>';
         $config['next_tag_open'] = '<li>';
         $config['next_tag_close'] = '</li>';
-        $config['prev_link'] = '<i class="fa fa-arrow-left"></i> Previous';
+        $config['prev_link'] = '<i class="fa fa-arrow-left"></i><span class="hidden-xs"> មុន</span>';
         $config['prev_tag_open'] = '<li>';
         $config['prev_tag_close'] = '</li>';
         $config['cur_tag_open'] = '<li class="active"><a href="#">';

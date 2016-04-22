@@ -81,22 +81,22 @@ class Home_page extends Front_Controller {
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('news/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 5, 4);
+            $pagination = get_pagination('news/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 2, 4);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('news/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 5, 3);
+            $pagination = get_pagination('news/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 2, 3);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['articles'] = $articles;
         
-        $this->data['categories'] = Modules::run('categories/get_news_categories', array('category.article' => TRUE));
+        $this->data['categories'] = Modules::run('categories/get_news_categories', array('category.article' => TRUE), 'order');
         
         // process template
-        $title =  isset($cat) && $cat != FALSE ? $type->caption.' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $type->caption;
+        $title =  isset($cat) && $cat != FALSE ? $type->caption.' <small>'.$cat->caption.'</small>' : $type->caption;
         $this->data['title'] = $title;
         $layout_property['css'] = array(
                                         'css/bootstrap.min.css',
@@ -125,19 +125,19 @@ class Home_page extends Front_Controller {
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('technique/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 5, 4);
+            $pagination = get_pagination('technique/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 2, 4);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('technique/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 5, 3);
+            $pagination = get_pagination('technique/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 2, 3);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['articles'] = $articles;
         
-        $this->data['categories'] = Modules::run('categories/get_technique_categories', array('category.article' => TRUE));
+        $this->data['categories'] = Modules::run('categories/get_technique_categories', array('category.article' => TRUE), 'order');
         
         // process template
         $title =  isset($cat) && $cat != FALSE ? $type->caption.' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $type->caption;
@@ -169,19 +169,19 @@ class Home_page extends Front_Controller {
         if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
         {
             $cat = Modules::run('categories/get', $cat_id);
-            $pagination = get_pagination('publications/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 5, 4);
+            $pagination = get_pagination('publications/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 2, 4);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('publications/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 5, 3);
+            $pagination = get_pagination('publications/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 2, 3);
             $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['articles'] = $articles;
         
-        $this->data['categories'] = Modules::run('categories/get_publication_categories', array('category.article' => TRUE));
+        $this->data['categories'] = Modules::run('categories/get_publication_categories', array('category.article' => TRUE), 'order');
                 
         // process template
         $title =  isset($cat) && $cat != FALSE ? $type->caption.' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $type->caption;
@@ -202,6 +202,50 @@ class Home_page extends Front_Controller {
         $this->data['menu_pubish'] = TRUE;
         
         $meta = $this->_generate_meta($title, $this->lang->line('publish_meta_description'), $this->lang->line('publication_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('publications/'.$cat->id) : site_url('publications'));
+        
+        generate_template($this->data, $layout_property, FALSE, $meta);
+    }
+    
+    public function health($cat_id = FALSE)
+    {
+        $type = Modules::run('article_types/get', 4);
+        
+        if(isset($cat_id) && $cat_id != FALSE && $cat_id != 'page')
+        {
+            $cat = Modules::run('categories/get', $cat_id);
+            $pagination = get_pagination('health/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 2, 4);
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+        }
+        else
+        {
+            $pagination = get_pagination('health/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 2, 3);
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+        }
+        
+        $this->data['pagination'] = $pagination['v_pagination'];
+        $this->data['articles'] = $articles;
+        
+        $this->data['categories'] = Modules::run('categories/get_health_categories', array('category.article' => TRUE), 'order');
+        
+        // process template
+        $title =  isset($cat) && $cat != FALSE ? $type->caption.' <small>'.$cat->caption.'</small>' : $type->caption;
+        $this->data['title'] = $title;
+        $layout_property['css'] = array(
+                                        'css/bootstrap.min.css',
+                                        'css/font-awesome.min.css',
+                                        'css/agritodayicon.css',
+                                        'css/style.min.css'
+                                    );
+        $layout_property['js']  = array('js/bootstrap.min.js','js/script.min.js');
+        
+        $layout_property['breadcrumb'] = isset($cat) && $cat != FALSE ? array('news' => $type->caption, $cat->caption) : array($title);
+        
+        $layout_property['content']     = 'article_list';
+        $this->data['content_header']   = TRUE;
+        
+        $this->data['menu_health'] = TRUE;
+        
+        $meta = $this->_generate_meta($title, $this->lang->line('health_meta_description'), $this->lang->line('health_meta_keyword'), FALSE, isset($cat) && $cat != FALSE ? site_url('health/'.$cat->id) : site_url('health'));
         
         generate_template($this->data, $layout_property, FALSE, $meta);
     }
@@ -320,19 +364,19 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('product-sale-rent/'.$cat->id.'/page', count(Modules::run('products/get_all_records', array('category_id' => $cat->id))), 22, 5, 4);
+            $pagination = get_pagination('product-sale-rent/'.$cat->id.'/page', count(Modules::run('products/get_all_records', array('category_id' => $cat->id))), 22, 2, 4);
             $products = Modules::run('products/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('product-sale-rent/page', count(Modules::run('products/get_all_records')), 22, 5, 4);
+            $pagination = get_pagination('product-sale-rent/page', count(Modules::run('products/get_all_records')), 22, 2, 4);
             $products = Modules::run('products/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['products'] = $products;
         
-        $this->data['categories'] = Modules::run('categories/get_product_categories', array('category.market' => TRUE));
+        $this->data['categories'] = Modules::run('categories/get_product_categories', array('category.market' => TRUE), 'order');
                 
         // process template
         $title =  isset($cat) && $cat != FALSE ? $this->lang->line('sale_rent_product_label').' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $this->lang->line('sale_rent_product_label');
@@ -448,12 +492,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('land-sale-rent/'.$cat->id.'/page', count(Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 22, 5, 4);
+            $pagination = get_pagination('land-sale-rent/'.$cat->id.'/page', count(Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 22, 2, 4);
             $realestates = Modules::run('real_estates/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('land-sale-rent/page', count(Modules::run('real_estates/get_all_records', array('expire_date >=' => date('Y-m-d')))), 22, 5, 4);
+            $pagination = get_pagination('land-sale-rent/page', count(Modules::run('real_estates/get_all_records', array('expire_date >=' => date('Y-m-d')))), 22, 2, 4);
             $realestates = Modules::run('real_estates/get_all_records', array('expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -577,12 +621,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('job/'.$cat->id.'/page', count(Modules::run('jobs/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 22, 5, 4);
+            $pagination = get_pagination('job/'.$cat->id.'/page', count(Modules::run('jobs/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')))), 22, 2, 4);
             $jobs = Modules::run('jobs/get_all_records', array('category_id' => $cat->id, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('expire_date >=' => date('Y-m-d')))), 22, 5, 4);
+            $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('expire_date >=' => date('Y-m-d')))), 22, 2, 4);
             $jobs = Modules::run('jobs/get_all_records', array('expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -651,7 +695,7 @@ class Home_page extends Front_Controller {
     public function filter_location($lid)
     {
         $location = Modules::run('locations/get', $lid);
-        $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('location_id' => $lid, 'expire_date >=' => date('Y-m-d')))), 22, 5, 4);
+        $pagination = get_pagination('job/page', count(Modules::run('jobs/get_all_records', array('location_id' => $lid, 'expire_date >=' => date('Y-m-d')))), 22, 2, 4);
         $jobs = Modules::run('jobs/get_all_records', array('location_id' => $lid, 'expire_date >=' => date('Y-m-d')), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
 
         $this->data['pagination'] = $pagination['v_pagination'];
@@ -690,12 +734,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
         
-            $pagination = get_pagination('video/'.$cat->id.'/page', count(Modules::run('videos/get_all_records', array('category_id' => $cat->id))), 22, 5, 4);
+            $pagination = get_pagination('video/'.$cat->id.'/page', count(Modules::run('videos/get_all_records', array('category_id' => $cat->id))), 22, 2, 4);
             $videos = Modules::run('videos/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
-            $pagination = get_pagination('video/page', count(Modules::run('videos/get_all_records')), 22, 5, 3);
+            $pagination = get_pagination('video/page', count(Modules::run('videos/get_all_records')), 22, 2, 3);
             $videos = Modules::run('videos/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
@@ -703,7 +747,7 @@ class Home_page extends Front_Controller {
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['videos'] = $videos;
         
-        $this->data['categories'] = Modules::run('categories/get_video_categories', array('category.article' => TRUE));
+        $this->data['categories'] = Modules::run('categories/get_video_categories', array('category.article' => TRUE), 'order');
                 
         // process template
         $title =  isset($cat) && $cat != FALSE ? $cat->caption : $this->lang->line('video_label');

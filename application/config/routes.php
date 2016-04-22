@@ -77,6 +77,14 @@ $route['publications/(:num)']    = 'home_page/publications/$1';
 $route['publications/(:num)/page']    = 'home_page/publications/$1/page';
 $route['publications/(:num)/page/(:num)']    = 'home_page/publications/$1/page/$2';
 
+$route['health'] = 'home_page/health';
+$route['health/page'] = 'home_page/health/page';
+$route['health/page/(:num)'] = 'home_page/health/page/$1';
+
+$route['health/(:num)']    = 'home_page/health/$1';
+$route['health/(:num)/page']    = 'home_page/health/$1/page';
+$route['health/(:num)/page/(:num)']    = 'home_page/health/$1/page/$2';
+
 //$route['policy-regulation'] = 'home_page/policy_regulation';
 //$route['policy-regulation/page'] = 'home_page/policy_regulation/page';
 //$route['policy-regulation/page/(:num)'] = 'home_page/policy_regulation/page/$1';

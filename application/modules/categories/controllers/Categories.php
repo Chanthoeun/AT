@@ -46,13 +46,13 @@ class Categories extends Admin_Controller {
     public function index()
     {
         parent::check_login();
-        $this->data['categories'] = $this->get_all_records(array('category.parent_id' => 0));
+        $this->data['categories'] = $this->get_all_records(array('category.parent_id' => 0), 'order');
         
         // process template
         $title = $this->lang->line('index_cagetory_heading');
         $this->data['title'] = $title;
         
-        $layout_property = parent::load_index_script();
+        $layout_property = parent::load_index_script(FALSE, FALSE, FALSE, '{"order": [[ 7, "asc" ]]}');
         
         $layout_property['breadcrumb'] = array($title);
         
@@ -67,13 +67,13 @@ class Categories extends Admin_Controller {
     {
         parent::check_login();
         $parent_category = $this->get($pid);
-        $this->data['categories'] = $this->get_all_records(array('category.parent_id' => $pid));
+        $this->data['categories'] = $this->get_all_records(array('category.parent_id' => $pid), 'order');
         
         // process template
         $title = $parent_category->caption;
         $this->data['title'] = $title;
         
-        $layout_property = parent::load_index_script();
+        $layout_property = parent::load_index_script(FALSE, FALSE, FALSE, '{"order": [[ 7, "asc" ]]}');
         
         $layout_property['breadcrumb'] = array_merge(array('categories' => $this->lang->line('index_cagetory_heading')), generate_breadcrumb($pid, 'categories', 'categories', 'category'));
         
@@ -381,6 +381,67 @@ class Categories extends Admin_Controller {
         }
     }
     
+    //re-order
+    public function reorder() {
+        parent::check_login();
+        $this->load->helper('menu');
+        $this->data['categories'] = $this->get_list(FALSE, 'order');
+        
+        // process template
+        $title = $this->lang->line('sortable_category_heading');
+        $this->data['title'] = $title;
+        $layout_property['css'] = array('https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' => FALSE,
+                                        'css/plugins/metisMenu/metisMenu.min.css',
+                                        'css/sb-admin-2.css',
+                                        'font-awesome-4.1.0/css/font-awesome.min.css',
+                                        'css/jquery-ui.css',
+                                        'css/sortable.css'
+                                        );
+        $layout_property['js']  = array('https://code.jquery.com/jquery-1.11.1.min.js' => FALSE,
+                                        'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' => FALSE,
+                                        'js/plugins/metisMenu/metisMenu.min.js',
+                                        'js/sb-admin-2.js',
+                                        'js/jquery-ui.min.js',
+                                        'js/jquery.mjs.nestedSortable.js'
+                                        );  
+        $layout_property['script'] = "$(document).ready(function(){ $('.sortable').nestedSortable({ handle: 'div',  items: 'li', toleranceElement: '> div', maxLevels: 2 }); });";
+        $layout_property['breadcrumb'] = array('categories' => $this->lang->line('index_cagetory_heading'), $title);
+        
+        
+        $layout_property['content']  = 'order';
+        
+        // menu
+        $this->data['setting_menu'] = TRUE; $this->data['category_menu'] = TRUE;
+        generate_template($this->data, $layout_property);
+               
+    }
+    
+    public function order_ajax() {
+        parent::check_login();
+        $this->load->helper('menu');
+        if(isset($_POST['sortable']))
+        {
+            $this->_save_order($_POST['sortable']);
+        }
+        $this->output->enable_profiler(FALSE);
+    }
+    
+    public function _save_order($categories) {
+        parent::check_login();
+        if(count($categories))
+        {
+            foreach ($categories as $order => $category)
+            {
+                if($category['item_id'] != '')
+                {
+                    $data = array('parent_id' => (int) $category['parent_id'], 'order' => $order);
+                    $this->update($category['item_id'], $data, TRUE);
+                }
+            }
+        }
+        
+    }
+    
     public function get($id, $array = FALSE)
     {
         if($array == TRUE){
@@ -435,48 +496,93 @@ class Categories extends Admin_Controller {
         return $this->category->get_all_records($where);
     }
     
-    public function get_dropdown($where = FALSE)
+    public function get_dropdown($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_dropdown($where);
     }
     
-    public function get_list($where = FALSE)
+    public function get_list($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_list($where);
     }
     
-    public function get_news_categories($where = FALSE)
+    public function get_news_categories($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_news_categories($where);
     }
     
-    public function get_technique_categories($where = FALSE)
+    public function get_technique_categories($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_technique_categories($where);
     }
     
-    public function get_publication_categories($where = FALSE)
+    public function get_publication_categories($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_publication_categories($where);
     }
     
-    public function get_product_categories($where = FALSE)
+    public function get_health_categories($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
+        return $this->category->get_health_categories($where);
+    }
+    
+    public function get_product_categories($where = FALSE, $order_by = FALSE)
+    {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_product_categories($where);
     }
     
-    public function get_land_categories($where = FALSE)
+    public function get_land_categories($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_land_categories($where);
     }
     
-    public function get_job_categories($where = FALSE)
+    public function get_job_categories($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_job_categories($where);
     }
     
-    public function get_video_categories($where = FALSE)
+    public function get_video_categories($where = FALSE, $order_by = FALSE)
     {
+        if($order_by != FALSE)
+        {
+            $this->category->order_by($order_by);
+        }
         return $this->category->get_video_categories($where);
     }
     

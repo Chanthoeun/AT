@@ -95,7 +95,7 @@ class Articles extends Admin_Controller {
         );
         
         
-        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE))), 'ជ្រើស​ក្រុមអត្ថបទ');
+        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE), 'order')), 'ជ្រើស​ក្រុមអត្ថបទ');
         $this->data['category'] = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? FALSE : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
         
         $articleTypes = get_dropdown(prepareList(Modules::run('article_types/get_dropdown')), 'ជ្រើស​ប្រភេទ​អត្ថបទ');
@@ -301,7 +301,7 @@ class Articles extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['source']) ? utf8_decode($article->source) : $this->validation_errors['post_data']['source']
         );
         
-        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE))), 'ជ្រើស​ក្រុមអត្ថបទ');
+        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE), 'order')), 'ជ្រើស​ក្រុមអត្ថបទ');
         $this->data['category'] = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? $article->category_id : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
         
         $articleTypes = get_dropdown(prepareList(Modules::run('article_types/get_dropdown')), 'ជ្រើស​ប្រភេទ​អត្ថបទ');
@@ -1310,7 +1310,7 @@ class Articles extends Admin_Controller {
         // message error
         $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
         
-        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE))), $this->lang->line('filter_cat_caption_label'));
+        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE), 'order')), $this->lang->line('filter_cat_caption_label'));
         $this->data['category'] = form_dropdown('category', $categories, set_value('category'), 'class="form-control" id="category"');
         
         // process template
@@ -1342,17 +1342,26 @@ class Articles extends Admin_Controller {
         // message error
         $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
         
-        $categories_all = get_dropdown(prepareList(Modules::run('categories/get_dropdown')), $this->lang->line('filter_cat_caption_label'));
+        $categories_all = get_dropdown(prepareList(Modules::run('categories/get_dropdown', FALSE, 'order')), $this->lang->line('filter_cat_caption_label'));
         $this->data['category'] = form_dropdown('category', $categories_all, set_value('category'), 'class="form-control" id="category"');
         
-        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE))), $this->lang->line('filter_cat_caption_label'));
+        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE), 'order')), $this->lang->line('filter_cat_caption_label'));
         $this->data['category_update'] = form_dropdown('category_update', $categories, empty($this->validation_errors['post_data']['category_update']) ? NULL : $this->validation_errors['post_data']['category_update'], 'class="form-control" id="category_update"');
         
         // process template
         $title = $this->lang->line('change_cat_heading_label');
         $this->data['title'] = $title;
         
-        $layout_property = parent::load_index_script();
+        $layout_property['css'] = array('https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' => FALSE,
+                                        'css/plugins/metisMenu/metisMenu.min.css',
+                                        'css/sb-admin-2.css',
+                                        'font-awesome-4.1.0/css/font-awesome.min.css'
+                                        );
+        $layout_property['js']  = array('https://code.jquery.com/jquery-1.11.1.min.js' => FALSE,
+                                        'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' => FALSE,
+                                        'js/plugins/metisMenu/metisMenu.min.js',
+                                        'js/sb-admin-2.js'
+                                        );
         
         $layout_property['breadcrumb'] = array('articles' => $this->lang->line('index_article_heading'), $title);
         

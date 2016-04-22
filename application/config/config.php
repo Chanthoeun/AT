@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = ENVIRONMENT == 'development' ? 'http://localhost.agritoday.com/' : 'http://agritoday.com/';
+$config['base_url'] = ENVIRONMENT == 'development' ? 'http://localhost.agritoday.com/' : 'http://agritoday.com/test/';
 
 /*
 |--------------------------------------------------------------------------
@@ -431,7 +431,7 @@ $config['csrf_token_name'] = 'csrfagritoday';
 $config['csrf_cookie_name'] = 'csrf_cookie_name';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array('locations/get-ajax', 'search', 'advertises/get-layout', 'advertises/get-price');
+$config['csrf_exclude_uris'] = array('locations/get-ajax', 'categories/order-ajax', 'search', 'advertises/get-layout', 'advertises/get-price');
 
 /*
 |--------------------------------------------------------------------------

@@ -67,7 +67,7 @@ class Admin_Controller extends MY_Controller {
         }
     }
     
-    public function load_index_script($css = FALSE, $script = FALSE, $js = FALSE)
+    public function load_index_script($css = FALSE, $script = FALSE, $js = FALSE, $sortable = '')
     {
         if($this->agent->is_mobile())
         {
@@ -133,7 +133,7 @@ class Admin_Controller extends MY_Controller {
                                             'js/sb-admin-2.js',
                                             $script
                                             );
-            $layout_property['script']  = $js == FALSE ? '$(document).ready(function() {$(\'#dataTables-example\').dataTable();});' : '$(document).ready(function() {$(\'#dataTables-example\').dataTable();});'. $js;
+            $layout_property['script']  = $js == FALSE ? '$(document).ready(function() {$(\'#dataTables-example\').dataTable('.$sortable.');});' : '$(document).ready(function() {$(\'#dataTables-example\').dataTable('.$sortable.');});'. $js;
         }
         return $layout_property;
     }

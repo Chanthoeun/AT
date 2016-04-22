@@ -1,6 +1,7 @@
 <ul>
     <li <?php echo isset($menu_about_us) && $menu_about_us == TRUE ? 'class="active"' : ''; ?>><a href="<?php echo site_url('about-us'); ?>" title="<?php echo lang('about_us_menu_label'); ?>"><i class="fa fa-user fa-fw fa-lg"></i> <span><?php echo lang('about_us_menu_label'); ?></span></a></li>
     <li <?php echo isset($menu_contact_us) && $menu_contact_us == TRUE ? 'class="active"' : ''; ?>><a href="<?php echo site_url('contact-us'); ?>" title="<?php echo lang('contact_us_menu_label'); ?>"><i class="fa fa-envelope fa-fw fa-lg"></i> <span><?php echo lang('contact_us_menu_label'); ?></span></a></li>
+    <li <?php echo isset($menu_health) && $menu_health == TRUE ? 'class="active"' : ''; ?>><a href="<?php echo site_url('health'); ?>" title="<?php echo lang('health_menu_label'); ?>"><i class="fa fa-medkit fa-fw fa-lg"></i> <span><?php echo lang('health_menu_label'); ?></span></a></li>
     <!--<li <?php echo isset($menu_agribook) && $menu_agribook == TRUE ? 'class="active"' : ''; ?>><a href="<?php echo site_url('agribook'); ?>" title="<?php echo lang('agribook_menu_label'); ?>"><i class="fa fa-book fa-fw fa-lg"></i> <span><?php echo lang('agribook_menu_label'); ?></span></a></li>-->
     <?php if (!$this->ion_auth->logged_in()){ ?>
     <li<?php echo isset($menu_register) && $menu_register == TRUE ? 'class="active"' : ''; ?>><a href="<?php echo site_url('register'); ?>" title="<?php echo lang('register_menu_label'); ?>"><i class="fa fa-user-plus fa-fw fa-lg"></i> <span><?php echo lang('register_menu_label'); ?></span></a></li>

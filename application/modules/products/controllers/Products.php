@@ -183,7 +183,7 @@ class Products extends Admin_Controller {
         $this->data['userId'] = array('userId' => $this->data['user']->id);
         
         // display form
-        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('market' => TRUE))), 'ជ្រើស​ក្រុម');
+        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('market' => TRUE), 'order')), 'ជ្រើស​ក្រុម');
         $this->data['category'] = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? NULL : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
         
         $this->data['product_title'] = array(
@@ -464,7 +464,7 @@ class Products extends Admin_Controller {
         $this->data['product_id'] = array('product_id' => $this->data['product']->id);
         
         // display form
-        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('market' => TRUE))), 'ជ្រើស​ក្រុម');
+        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('market' => TRUE), 'order')), 'ជ្រើស​ក្រុម');
         $this->data['category'] = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? $this->data['product']->category_id : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
         
         $this->data['product_title'] = array(

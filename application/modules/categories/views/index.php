@@ -65,7 +65,7 @@
                 <?php }else{ ?>
                 <div class="alert alert-info"><?php echo lang('no_record_label');?></div>
                 <?php } ?>
-                <p><?php echo link_add('categories/create/'.$this->uri->segment(2), lang('index_cagetory_create_link'), array('class' => 'btn btn-primary'));?></p>
+                <p><?php echo link_add('categories/create/'.$this->uri->segment(2), lang('index_cagetory_create_link'), array('class' => 'btn btn-primary'));?> | <?php echo anchor('categories/reorder', '<i class="fa fa-list-ol"></i> Re-order', array('class' => 'btn btn-primary')); ?></p>
             </div>
             <!-- /.panel-body -->
         </div>

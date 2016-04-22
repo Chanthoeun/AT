@@ -113,6 +113,31 @@ if(! function_exists('category_form_child')){
      }
  }
  
+ if(!function_exists('get_ol_sortable_list'))
+ {
+     function get_ol_sortable_list($lists, $child = FALSE, $olclass = FALSE, $divclass = FALSE)
+     {
+        $output = '';
+         
+        if (count($lists)>0) {
+            $output .= ($child === false) ? '<ol class="sortable '.$olclass.'">' : '<ol>' ;
+
+            foreach ($lists as $item) {
+                $output .= '<li id="list_'.$item['id'].'">';
+                $output .= '<div '.$divclass.'>' . $item['caption'] . '</div>';
+                
+                //check if there are any children
+                if (isset($item['children']) && count($item['children'])) {
+                    $output .= get_ol_sortable_list($item['children'], true, $olclass, $divclass);
+                }
+                $output .= '</li>'.PHP_EOL;
+            }
+            $output .= '</ol>'.PHP_EOL;
+        }
+        return $output;
+     }
+ }
+ 
  if(!function_exists('get_list_mobile'))
  {
      function get_list_mobile($url, $lists, $child = FALSE, $child_id = FALSE)

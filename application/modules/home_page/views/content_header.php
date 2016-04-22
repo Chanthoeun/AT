@@ -32,6 +32,9 @@
                case 'expert':  
                    echo '<i class="icon-expertise"></i> '.$title;
                    break;
+               case 'health':  
+                   echo '<i class="fa fa-medkit"></i> '.$title;
+                   break;
             }
          ?>
                     <span id="group"><i class="fa fa-align-justify"></i><span class="hidden-xs"> ជ្រើស​រើស​ក្រុម</span></span>
@@ -45,7 +48,7 @@
                     {
                         if($category->parent_id == FALSE)
                         {
-                            echo ' <div class="item"><h4 class="item-title">'.$category->caption.'</h4><ul>';
+                            echo ' <div class="item"><a href="'.site_url('news/'.$category->id).'"><h4 class="item-title">'.$category->caption.' (<span>'.$category->article_count.'</span>)</h4></a><ul>';
                             foreach ($categories as $item)
                             {
                                 if($item->parent_id != FALSE && $item->parent_id == $category->id)
@@ -65,7 +68,7 @@
                     {
                         if($category->parent_id == FALSE)
                         {
-                            echo ' <div class="item"><h4 class="item-title">'.$category->caption.'</h4><ul>';
+                            echo ' <div class="item"><a href="'.site_url('techniques/'.$category->id).'"><h4 class="item-title">'.$category->caption.' (<span>'.$category->article_count.'</span>)</h4></a><ul>';
                             foreach ($categories as $item)
                             {
                                 if($item->parent_id != FALSE && $item->parent_id == $category->id)
@@ -85,7 +88,7 @@
                     {
                         if($category->parent_id == FALSE)
                         {
-                            echo ' <div class="item"><h4 class="item-title">'.$category->caption.'</h4><ul>';
+                            echo ' <div class="item"><a href="'.site_url('publications/'.$category->id).'"><h4 class="item-title">'.$category->caption.' (<span>'.$category->article_count.'</span>)</h4></a><ul>';
                             foreach ($categories as $item)
                             {
                                 if($item->parent_id != FALSE && $item->parent_id == $category->id)
@@ -105,7 +108,7 @@
                     {
                         if($category->parent_id == FALSE)
                         {
-                            echo ' <div class="item"><h4 class="item-title">'.$category->caption.'</h4><ul>';
+                            echo ' <div class="item"><a href="'.site_url('product-sale-rent/'.$category->id).'"><h4 class="item-title">'.$category->caption.' (<span>'.$category->product_count.'</span>)</h4></a><ul>';
                             foreach ($categories as $item)
                             {
                                 if($item->parent_id != FALSE && $item->parent_id == $category->id)
@@ -158,7 +161,7 @@
                     {
                         if($category->parent_id == FALSE)
                         {
-                            echo ' <div class="item"><h4 class="item-title">'.$category->caption.'</h4><ul>';
+                            echo ' <div class="item"><a href="'.site_url('video/'.$category->id).'"><h4 class="item-title">'.$category->caption.' (<span>'.$category->video_count.'</span>)</h4></a><ul>';
                             foreach ($categories as $item)
                             {
                                 if($item->parent_id != FALSE && $item->parent_id == $category->id)
@@ -180,7 +183,7 @@
                         {
                             if($category->parent_id == FALSE)
                             {
-                                echo ' <div class="item"><h4 class="item-title">'.$category->caption.'</h4><ul>';
+                                echo ' <div class="item"><a href="'.site_url('expert/'.$category->id).'"><h4 class="item-title">'.$category->caption.'</h4></a><ul>';
                                 foreach ($categories as $item)
                                 {
                                     if($item->parent_id != FALSE && $item->parent_id == $category->id)
@@ -192,6 +195,25 @@
                                 }
                                 echo '</ul></div>';
                             }
+                        }
+                    }
+                   break;
+               case 'health':
+                   foreach ($categories as $category)
+                    {
+                        if($category->parent_id == FALSE)
+                        {
+                            echo ' <div class="item"><a href="'.site_url('health/'.$category->id).'"><h4 class="item-title">'.$category->caption.' (<span>'.$category->article_count.'</span>)</h4></a><ul>';
+                            foreach ($categories as $item)
+                            {
+                                if($item->parent_id != FALSE && $item->parent_id == $category->id)
+                                {
+                             ?>
+                                                             <li <?php echo $checkId != FALSE && $checkId == $item->id ? 'class="active"' : ''; ?>><a href="<?php echo site_url('health/'.$item->id); ?>"><?php echo $item->caption.' (<span>'.$item->article_count.'</span>)'; ?></a></li>
+                                                          <?php
+                                }
+                            }
+                            echo '</ul></div>';
                         }
                     }
                    break;

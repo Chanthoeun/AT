@@ -141,6 +141,20 @@ class Category_model extends MY_Model {
         return parent::get_all();
     }
     
+    public function get_health_categories($where = FALSE)
+    {
+        $this->db->select($this->_table.'.*, p.caption as p_caption, count(article.id) as article_count');
+        $this->db->join('category as p', $this->_table.'.parent_id = p.id', 'left');
+        $this->db->join('article', 'article.category_id = '.$this->_table.'.id AND article.article_type_id = 4', 'left');
+        $this->db->group_by($this->_table.'.caption');
+        $this->db->order_by($this->_table.'.id');
+        if($where != FALSE)
+        {
+            return parent::get_many_by($where);
+        }
+        return parent::get_all();
+    }
+    
     public function get_product_categories($where = FALSE)
     {
         $this->db->select($this->_table.'.*, p.caption as p_caption, count(product.id) as product_count');

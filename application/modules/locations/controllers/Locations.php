@@ -522,7 +522,7 @@ class Locations extends Admin_Controller {
     public function import($id = FALSE) 
     {
         parent::check_login();
-        $this->load->library(array('excel', 'table'));
+        $this->load->library('excel');
         $this->form_validation->set_rules('province', $this->lang->line('import_location_validation_province_label'), 'trim|required|xss_clean', array('required' => 'សូម​ជ្រើស​រើស​%s'));
         if($this->form_validation->run() == TRUE)
         {
@@ -657,7 +657,7 @@ class Locations extends Admin_Controller {
         $this->data['excel'] = array(
             'name' => 'excel',
             'id' => 'excel',
-            'accept' => '.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+            'accept' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
         );
         
         // process template

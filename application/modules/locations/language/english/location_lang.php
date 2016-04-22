@@ -4,7 +4,6 @@
 // Index
 $lang['index_location_heading'] = 'ទីតាំង';
 $lang['index_location_subheading'] = 'ខាង​ក្រោម​ជា​តារាងទីតាំងទាំង​អស់​';
-$lang['index_location_id_th']      = 'លេខរៀង';
 $lang['index_location_caption_th']    = 'ឈ្មោះ​ទីតាំងជាភាសា​ខ្មែរ';
 $lang['index_location_caption_en_th']    = 'ឈ្មោះ​ទីតាំងជាភាសា​អង់គ្លេស';
 $lang['index_location_parent_th']  = 'ក្រុម';

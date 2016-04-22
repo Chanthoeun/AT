@@ -81,7 +81,7 @@
                 <?php }else{ ?>
                 <div class="alert alert-info"><?php echo lang('no_record_label');?></div>
                 <?php } ?>
-                <p><?php echo link_add('people/create', lang('index_people_create_link'), array('class' => 'btn btn-primary'));?></p>
+                <p><?php echo link_add('people/create', lang('index_people_create_link'), array('class' => 'btn btn-primary'));?> | <?php echo link_add('people/import/'.$this->uri->segment(2), lang('index_people_import_link'), array('class' => 'btn btn-primary'));?></p>
             </div>
             <!-- /.panel-body -->
         </div>

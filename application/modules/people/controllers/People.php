@@ -64,6 +64,140 @@ class People extends Admin_Controller {
         generate_template($this->data, $layout_property); 
     }
 
+    // import
+    public function import() 
+    {
+        parent::check_login();
+        $this->load->library('excel');
+        $this->form_validation->set_rules('group', $this->lang->line('import_people_validation_group_label'), 'trim|required|xss_clean', array('required' => 'សូម​ជ្រើស​រើស​%s'));
+        if($this->form_validation->run() == TRUE)
+        {
+            $group = $this->input->post('group');
+            
+            $uploaded = upload_file('excel', 'document', 'import');
+            if($uploaded == FALSE)
+            {
+                $this->session->set_flashdata('message', print_upload_error());
+                redirect(current_url(), 'refresh');
+            }
+            else
+            {
+                $file = get_uploaded_file($uploaded);
+
+                //read file from path
+                $objPHPExcel = PHPExcel_IOFactory::load($file);
+
+                //get only the Cell Collection
+                $cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection();
+
+                //extract to a PHP readable array format
+                foreach ($cell_collection as $cell) {
+                    $columns = $objPHPExcel->getActiveSheet()->getCell($cell)->getColumn();
+                    $row = $objPHPExcel->getActiveSheet()->getCell($cell)->getRow();
+                    $data_value = $objPHPExcel->getActiveSheet()->getCell($cell)->getValue();
+
+                    //header will/should be in row 1 only. of course this can be modified to suit your need.
+//                    if ($row == 1) {
+//                        $header[$row][$columns] = $data_value;
+//                    } else {
+//                        $arr_data[$row][$columns] = $data_value;
+//                    }
+                    if($row != 1)
+                    {
+                       $arr_data[$row][$columns] = $data_value; 
+                    }
+                }
+
+                //send the data in an array format
+                //echo $this->table->generate($arr_data);
+                
+            }
+            foreach ($arr_data as $excelrow)
+            {
+                $province = isset($excelrow['J']) ? Modules::run('locations/get_by', array('caption_en' => $excelrow['J'])) : FALSE;
+                $khan = isset($excelrow['I']) ?  Modules::run('locations/get_by', array('caption_en' => $excelrow['I'])) : FALSE;
+                $sangkat = isset($excelrow['H']) ? Modules::run('locations/get_by', array('caption_en' => $excelrow['H'])) : FALSE;
+                $phum = isset($excelrow['G']) ? Modules::run('locations/get_by', array('caption_en' => $excelrow['G'])) : FALSE;
+                
+                $getLoc = '';
+                
+                if($province != FALSE)
+                {
+                    $getLoc = $province->id;
+                    if($khan != FALSE)
+                    {
+                        $getLoc .= '/'.$khan->id;
+                        if($sangkat != FALSE)
+                        {
+                            $getLoc .= '/'.$sangkat->id;
+                            if($phum != FALSE)
+                            {
+                                $getLoc .= '/'.$phum->id;
+                            }
+                        }
+                    }
+                }
+
+                $data = array(
+                    'name'   => isset($excelrow['A']) ? $excelrow['A'] : '',
+                    'organization'  => isset($excelrow['B']) ? $excelrow['B'] : '',
+                    'position' => isset($excelrow['C']) ? $excelrow['C'] : '',
+                    'telephone'   => isset($excelrow['D']) ? $excelrow['D'] : '',
+                    'email'    => isset($excelrow['E']) ? $excelrow['E'] : '',
+                    'social_media'   => isset($excelrow['F']) ? $excelrow['F'] : '',
+                    'people_group_id' => $group,
+                    'location_id'    => $getLoc
+                );
+
+                $get_people = $this->get_by(array('name' => $data['name'], 'telephone' => $data['telephone'], 'email' => $data['email']));
+                if($get_people == FALSE)
+                {
+                    $this->insert($data, TRUE);
+                }
+                else
+                {
+                    $this->update($get_people->id, $data, TRUE);
+                }
+            }            
+            delete_uploaded_file($file);
+            
+            $this->session->set_flashdata('message', 'Import '.$this->lang->line('index_people_heading').'ជោគជ័យ');
+            redirect('people', 'refresh');
+        }
+        //message
+        $this->data['message'] = (validation_errors() ? validation_errors() : $this->session->flashdata('message'));
+        
+        //display form
+        $this->data['group'] = form_dropdown('group', Modules::run('people_groups/dropdown', 'id', 'caption', 'ជ្រើស​ក្រុម'), set_value('group'), array('id' => 'group', 'class' => 'form-control'));
+        $this->data['excel'] = array(
+            'name' => 'excel',
+            'id' => 'excel',
+            'accept' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+        );
+        
+        // process template
+        $title = $this->lang->line('index_people_import_link');
+        $this->data['title'] = $title;
+        $layout_property['css'] = array('https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' => FALSE,
+                                        'css/plugins/metisMenu/metisMenu.min.css',
+                                        'css/sb-admin-2.css',
+                                        'font-awesome-4.1.0/css/font-awesome.min.css'
+                                        );
+        $layout_property['js']  = array('https://code.jquery.com/jquery-1.11.1.min.js' => FALSE,
+                                        'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js' => FALSE,
+                                        'js/plugins/metisMenu/metisMenu.min.js',
+                                        'js/sb-admin-2.js'
+                                        );
+        
+        $layout_property['breadcrumb'] = array('people' => $this->lang->line('index_people_heading'), $title);
+        
+        $layout_property['content']  = 'import';
+        
+        // menu
+        $this->data['people_group_menu'] = TRUE; $this->data['people_menu'] = TRUE;
+        generate_template($this->data, $layout_property); 
+    }
+    
     // create
     public function create()
     {
@@ -702,14 +836,16 @@ class People extends Admin_Controller {
                 $getLoc = FALSE;
             }
             
-            if(strlen($getLoc) > 2)
-            {
-                $this->data['ps'] = $this->get_like(array('location_id' => $getLoc),FALSE, 'after'); 
-            }
-            else
-            {
-                $this->data['ps'] = $this->get_all_records(array('location_id' => $getLoc)); 
-            }
+//            if(strlen($getLoc) > 2)
+//            {
+//                $this->data['ps'] = $this->get_like(array('location_id' => $getLoc),FALSE, 'after'); 
+//            }
+//            else
+//            {
+//                $this->data['ps'] = $this->get_all_records(array('location_id' => $getLoc)); 
+//            }
+            
+            $this->data['ps'] = $this->get_like(array('location_id' => $getLoc),FALSE, 'after');
         }
         
         // message error
@@ -782,7 +918,15 @@ class People extends Admin_Controller {
         {
             $group = trim($this->input->post('group'));
             $go = trim($this->input->post('go'));
-            $this->data['ps'] = $this->get_all_records(array('people_group_id' => $group, 'go_id' => $go));
+            if($go == FALSE)
+            {
+                $this->data['ps'] = $this->get_all_records(array('people_group_id' => $group));
+            }
+            else
+            {
+                $this->data['ps'] = $this->get_all_records(array('people_group_id' => $group, 'go_id' => $go));
+            }
+            
         }
         
         // message error

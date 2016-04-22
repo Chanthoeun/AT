@@ -103,7 +103,7 @@ $lang['land_address_label'] = $lang['product_seller_address_label'];
 $lang['land_telephone_label'] = $lang['product_seller_telephone_label'];
 $lang['land_location_label'] = 'ទីតាំងលើ​ផែនទី';
 $lang['land_picture_label'] = 'រូបភាព';
-$lang['land_similar_label'] = 'ស្រៃ​ ចំការ និង​កសិដ្ឋាន​ស្រដៀង​គ្នា';
+$lang['land_similar_label'] = 'ស្រែ ចំការ និង​កសិដ្ឋាន​ស្រដៀង​គ្នា';
 
 // job
 $lang['job_location_label'] = 'ស្វែង​រក​តាម​តំបន់​';

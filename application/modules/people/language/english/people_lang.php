@@ -12,6 +12,7 @@ $lang['index_people_social_th'] = 'បណ្តាញ​សង្គម';
 $lang['index_people_status_th']    = 'ស្ថាន​ភាព';
 $lang['index_people_action_th']   = 'សកម្មភាព';
 $lang['index_people_create_link'] = 'បង្កើត​'.$lang['index_people_heading'].'ថ្មី';
+$lang['index_people_import_link']= 'Improt '.$lang['index_people_heading'];
 
 // Cagetory Form
 $lang['form_people_create_heading']           = $lang['index_people_create_link'];
@@ -68,3 +69,10 @@ $lang['index_people_status_th'] = $lang['index_people_name_th'];
 $lang['search_heading_label'] = 'ស្វែងរក';
 $lang['search_caption_label'] = 'ស្វែងរក';
 $lang['search_placeholder_label'] = 'ស្វែងរក​តាម​ឈ្មោះ លេខទូរស័ព្ទ និង​អុីម៉ែល';
+
+//import
+$lang['import_people_heading']          = 'ជ្រើស​រើស​'.lang('people_group_menu_label').'ខាង​ក្រោម';
+$lang['import_people_subheading']          = 'ជ្រើស​រើស​'.lang('people_group_menu_label').'ខាង​ក្រោម';
+$lang['import_people_group_label']        = $lang['form_people_group_label'];
+$lang['import_people_excel_label']          = 'ជ្រើស​រើស​ឯកសារ​សំរាប់​Upload (only excel file):';
+$lang['import_people_validation_group_label']  = lang('people_group_menu_label');

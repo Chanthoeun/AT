@@ -1019,5 +1019,14 @@ if(!function_exists('search_array'))
         return FALSE;
     }
 }
+
+// add zero 
+if(!function_exists('add_zero'))
+{
+    function add_zero($number)
+    {
+        return strlen($number) == 1 ? '0'.$number : $number;
+    }
+}
 /* End of file general_helper.php */
 /* Location: ./application/helpers/general_helper.php */

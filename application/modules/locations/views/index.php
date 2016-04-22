@@ -37,7 +37,7 @@
                                 <th><?php echo lang('index_location_caption_en_th');?></th>
                                 <th class="text-center"><?php echo lang('index_location_parent_th');?></th>
                                 <th class="text-center"><?php echo lang('index_location_area_code_th');?></th>
-                                <th><?php echo lang('index_location_latlng_th');?></th>
+                                <th class="text-center"><?php echo lang('index_location_area_code_th');?></th>
                                 <th class="col-lg-2 text-center"><?php echo lang('index_location_action_th');?></th>
                             </tr>
                         </thead>

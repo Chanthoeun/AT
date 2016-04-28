@@ -94,7 +94,8 @@ $lang['send_email_label']  = 'ផ្ញើរ​អ៊ីម៉ែល';
 $lang['page_not_valid_label']  = 'សុំអភ័យទោស ទំព័រនេះ​មិនមាន​ទេ!';
 $lang['address_label']  = 'អាសយដ្ឋាន:';
 $lang['map_label']  = 'ទីតាំង​នៅលើ​ផែនទី:';
-$lang['email_label']  = 'អីុម៉ែល:';
+$lang['email_form_label']  = 'អីុម៉ែល:';
+$lang['email_label'] = 'អ៊ីម៉ែល';
 $lang['telephone_label']  = 'លេខ​ទូរស័ព្ទៈ';
 
 $lang['source_label'] = 'ប្រភពពី៖';

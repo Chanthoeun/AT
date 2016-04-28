@@ -19,7 +19,6 @@ class Control extends Admin_Controller{
     
     public function index(){
         parent::check_login(); 
-        
         $this->data['title'] = $this->lang->line('dashboard_menu_label');
         
         // message

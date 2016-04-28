@@ -2,3 +2,6 @@
 /application/config/production/database.php
 /application/migrations/
 /application/logs/
+/system_old/
+/application/modules/auth/models/Ion_auth_model_old.php
+/application/libraries/Ion_auth_old.php

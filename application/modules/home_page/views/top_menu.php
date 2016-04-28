@@ -13,13 +13,13 @@
         if($this->ion_auth->is_admin())
         {
   ?>
-    <li><a href="<?php echo site_url('control'); ?>" title="<?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('identity')).')'; ?>" target="_blank"><i class="fa fa-user fa-fw fa-lg"></i> <span><?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('identity')).')'; ?></span></a></li>
+    <li><a href="<?php echo site_url('control'); ?>" title="<?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('username')).')'; ?>" target="_blank"><i class="fa fa-user fa-fw fa-lg"></i> <span><?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('identity')).')'; ?></span></a></li>
     <?php
         }
         else
         {
   ?>
-    <li><a href="<?php echo site_url('members'); ?>" title="<?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('identity')).')'; ?>" target="_blank"><i class="fa fa-user fa-fw fa-lg"></i> <span><?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('identity')).')'; ?></span></a></li>
+    <li><a href="<?php echo site_url('members'); ?>" title="<?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('username')).')'; ?>" target="_blank"><i class="fa fa-user fa-fw fa-lg"></i> <span><?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('identity')).')'; ?></span></a></li>
     <?php
         }
   ?>

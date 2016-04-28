@@ -93,6 +93,9 @@ class Auth extends Admin_Controller {
         // auto login if remember login user
         if($this->ion_auth->login_remembered_user() == TRUE)
         {
+            $userLoggedIn = $this->ion_auth->user()->row();
+            $this->session->set_userdata('username', $userLoggedIn->username);
+            
             // log activities
             set_log('Log In');
 
@@ -132,6 +135,9 @@ class Auth extends Admin_Controller {
             $remember = (bool) $this->input->post('remember');
 
             if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)){  
+                $userLoggedIn = $this->ion_auth->user()->row();
+                $this->session->set_userdata('username', $userLoggedIn->username);
+                
                 // log activities
                 set_log('Log In');
                 
@@ -209,7 +215,7 @@ class Auth extends Admin_Controller {
         $this->data['title'] = "Logout";
         
         // log activities
-        set_log('Log Out');
+        //set_log('Log Out');
         //log the user out
         $this->ion_auth->logout();
         

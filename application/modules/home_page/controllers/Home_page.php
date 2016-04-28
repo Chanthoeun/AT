@@ -1167,11 +1167,11 @@ class Home_page extends Front_Controller {
     
     public function contact_us()
     {
-        $this->form_validation->set_rules('name', $this->lang->line('home_contact_fullname_label'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('email', $this->lang->line('home_contact_email_lable'), 'trim|required|valid_email|xss_clean');
-        $this->form_validation->set_rules('telephone', $this->lang->line('home_contact_telephone_label'), 'trim|xss_clean');
-        $this->form_validation->set_rules('comment', $this->lang->line('home_contact_comment_label'), 'trim|required|xss_clean');
-        $this->form_validation->set_rules('captcha', $this->lang->line('home_signup_validation_captcha'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('name', $this->lang->line('contact_validation_fullname_label'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('email', $this->lang->line('contact_validation_email_label'), 'trim|required|valid_email|xss_clean');
+        $this->form_validation->set_rules('telephone', $this->lang->line('contact_validation_telephone_label'), 'trim|xss_clean');
+        $this->form_validation->set_rules('comment', $this->lang->line('contact_validation_comment_label'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('captcha', $this->lang->line('captcha_validation_label'), 'trim|required|xss_clean');
         if($this->form_validation->run() === TRUE)
         {
             if(check_captcha($this->input->post('captcha')) == FALSE)
@@ -1182,7 +1182,7 @@ class Home_page extends Front_Controller {
             
             $from   = $this->input->post('email', TRUE);
             $name   = $this->input->post('name', TRUE);
-            $to     = array('info@agritoday.com', 'chanthoeun.kim@gmail.com');
+            $to     = array('info@agritoday.com');
             $bcc    = array('chanthoeun.kim@agritoday.com', 'sovathara.heng@agritoday.com', 'sideth.kang@agritoday.com', 'ctate.chhun@agritoday.com', 'kimhoeun.pann@agritoday.com');
             $subject= $this->input->post('subject', TRUE);
             $body   = $this->input->post('comment', TRUE).'<br><br>'
@@ -1199,7 +1199,7 @@ class Home_page extends Front_Controller {
                     redirect('contact-us', 'refresh');
                 }
             }
-            $this->session->set_flashdata('message', $this->lang->line('home_contact_sent_success') );
+            $this->session->set_flashdata('message', $this->lang->line('contact_sent_success') );
             redirect('contact-us', 'refresh');
         }
         
@@ -1210,7 +1210,7 @@ class Home_page extends Front_Controller {
             'name'  => 'name',
             'id'    => 'name',
             'class' => 'form-control',
-            'placeholder' => 'ឈ្មោះ',
+            'placeholder' => $this->lang->line('contact_validation_fullname_label'),
             'value' => set_value('name')
         );
         
@@ -1218,7 +1218,7 @@ class Home_page extends Front_Controller {
             'name'  => 'email',
             'id'    => 'email',
             'class' => 'form-control',
-            'placeholder' => 'អុីម៉ែល',
+            'placeholder' => $this->lang->line('email_form_label'),
             'value' => set_value('email')
         );
         
@@ -1226,7 +1226,7 @@ class Home_page extends Front_Controller {
             'name'  => 'telephone',
             'id'    => 'telephone',
             'class' => 'form-control',
-            'placeholder' => 'លេខទូរស័ព្ទ',
+            'placeholder' => $this->lang->line('contact_validation_telephone_label'),
             'value' => set_value('telephone')
         );
         
@@ -1234,7 +1234,7 @@ class Home_page extends Front_Controller {
             'name'  => 'comment',
             'id'    => 'comment',
             'class' => 'form-control',
-            'placeholder' => 'មតិយោបល់',
+            'placeholder' => $this->lang->line('contact_validation_comment_label'),
             'value' => set_value('comment')
         );
         
@@ -1242,7 +1242,7 @@ class Home_page extends Front_Controller {
             'name'  => 'captcha',
             'id'    => 'captcha',
             'class' => 'form-control',
-            'placeholder' => $this->lang->line('home_signup_placeholder_captcha'),
+            'placeholder' => $this->lang->line('captcha_validation_label'),
             'autocomplete' => 'off'
         );
         

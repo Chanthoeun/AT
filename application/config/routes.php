@@ -160,6 +160,8 @@ $route['video-detail/(:num)'] = 'home_page/video_detail/$1';
 //
 //$route['real-estate-detail/(:num)'] = 'home_page/real_estate_detail/$1';
 //
+
+$route['index'] = 'home_page';
 $route['about-us'] = 'home_page/about_us';
 $route['contact-us'] = 'home_page/contact_us';
 $route['register'] = 'home_page/register';

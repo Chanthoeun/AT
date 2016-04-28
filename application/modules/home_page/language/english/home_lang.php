@@ -41,6 +41,12 @@ $lang['contact_telephone_label'] = '012336382,  069336​382';
 $lang['contact_email_label'] = 'info@agritoday.com';
 $lang['contact_text_label'] = 'ប្រសិន​បើ​លោក​អ្នក​មាន​ចម្ងល់​ សំណួរ បញ្ហា មតិយោបល់​ផ្សេងៗ ឫចង់​កែលំអរ​ យើង​ខ្ញុំ​រីករាយ​នឹងទទួលយក​រាល់​មតិយោបល់​របស់​លោកអ្នក។ សូម​បំពេញនូវ​ព័ត៌មាន​ខាងក្រោមមុន​នឹង​ផ្ញើរ​ទៅ​យើងខ្ញុំ។ សូម​អរគុណ​យ៉ាងជ្រៀលជ្រៅ ចំពោះការចំណាយពេលវេលាដ៏មានតំលៃ ក្នុងការផ្តល់​ជា​មតិយោបល់​របស់​លោកអ្នក។ ';
 
+$lang['contact_validation_fullname_label'] = 'ឈ្មោះ';
+$lang['contact_validation_email_label'] = lang('email_label');
+$lang['contact_validation_telephone_label'] = 'លេខទូរស័ព្ទ';
+$lang['contact_validation_comment_label'] = 'មតិយោបល់';
+$lang['contact_sent_success'] = 'សូម​អរគុណ​ដែល​បាន​ទំនាក់ទំនង​មក​កាន់​ក្រុម​ការងារ​ AgriToday។ យើងខ្ញុំ​នឹង​ទាក់ទងទៅលោកអ្នកក្នុង​ពេល​ឆាប់​ៗនេះ';
+
 //home item
 $lang['news_label'] = 'ព័ត៌មានពេញនិយម';
 $lang['techniques_label'] = 'សម្រង់​បច្ចេកទេស';
@@ -153,6 +159,7 @@ $lang['form_search_btn'] = 'ស្វែង​រក';
 
 //like message
 $lang['like_label'] = 'ចូលចិត្ត​%sកសិកម្មសូមចុច';
+$lang['like_artilce_label'] = 'ព័ត៌មាន';
 $lang['like_product_label'] = 'ផលិតផល';
 $lang['like_land_label'] = 'ព័ត៌មាន​លក់​ជួលដី';
 $lang['like_job_label'] = 'ព័ត៌មាន​ការងារ';

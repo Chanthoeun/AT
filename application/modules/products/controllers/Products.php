@@ -957,7 +957,7 @@ class Products extends Admin_Controller {
         return $this->product->get_all();
     }
     
-    public function get_all_records($where, $order_by = FALSE, $limit = FALSE, $offset = 0)
+    public function get_all_records($where = FALSE, $order_by = FALSE, $limit = FALSE, $offset = 0)
     {
         if($order_by != FALSE)
         {

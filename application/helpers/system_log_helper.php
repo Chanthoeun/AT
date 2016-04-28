@@ -19,7 +19,7 @@ if(!function_exists('set_log'))
         $CI =& get_instance();
         $CI->load->library('session');
         $CI->load->model('system_log/system_log_model', 'system_log');
-        $data['who'] = $who == FALSE ?  $CI->session->userdata('username') : $who;
+        $data['who'] = $who == FALSE ?  $CI->session->userdata('identity') : $who;
         $data['action'] = $action;
         $data['description'] = $description == FALSE ? NULL : implode(' | ', (array)$description);
         $CI->system_log->insert($data, TRUE);

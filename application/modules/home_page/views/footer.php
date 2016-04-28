@@ -23,13 +23,13 @@
                     if($this->ion_auth->is_admin())
                     {
              ?>
-                            <li><a href="<?php echo site_url('control'); ?>"><?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('identity')).')'; ?></a></li>
+                            <li><a href="<?php echo site_url('control'); ?>"><?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('username')).')'; ?></a></li>
                             <?php
                     }
                     else
                     {
              ?>
-                            <li><a href="<?php echo site_url('members'); ?>"><?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('identity')).')'; ?></a></li>
+                            <li><a href="<?php echo site_url('members'); ?>"><?php echo lang('access_account_menu_label').' ('.  strtoupper($this->session->userdata('username')).')'; ?></a></li>
                             <?php
                     }
              ?>

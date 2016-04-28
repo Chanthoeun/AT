@@ -12,6 +12,9 @@ $lang['id_th']  = 'លេខ​រៀង';
 $lang['view_th'] = 'មើល';
 $lang['btn_submit_label']  = 'រក្សាទុក';
 $lang['no_record_label']  = 'ពុំ​មាន​ទិន្នន័យ​';
+$lang['date_label'] = 'កាលបរិច្ឆេទ';
+$lang['video_label'] = 'វិដេអូ';
+$lang['social_media_url_label']  = 'URL សំរាប់​បណ្តាញ​សង្គម';
 
 // Sidebar
 $lang['dashboard_menu_label']  = 'ផ្ទាំងព័ត៌មាន';
@@ -47,9 +50,9 @@ $lang['filter_by_category_menu_label']  = 'ស្វែងរកតាមក្�
 $lang['product_menu_label']  = 'លក់​​ ឫជួលសម្ភារៈ និងកសិផល';
 $lang['real_estate_menu_label']  = 'លក់​​ ឫជួលស្រែ ចំការ កសិដ្ឆាន';
 $lang['new_post_label']  = 'តារាងទិញ លក់​ និងជួលថ្នីៗ';
-$lang['video_menu_label']  = 'វីដេអូ អនុវត្តផ្ទាល់';
+$lang['video_menu_label']  = $lang['video_label'].'អនុវត្តផ្ទាល់';
 $lang['job_menu_label']  = 'ទំព័រ​ការងារ';
-$lang['expired_menu_label']  = 'តារាងហួសកាលបរិច្ឆេត';
+$lang['expired_menu_label']  = 'តារាងហួស'.$lang['date_label'];
 $lang['people_menu_label'] = 'អ្នក​ចូល​រួម';
 $lang['people_fillter_by_location_menu_label']  = 'ស្វែងរកតាមទីតាំង';
 $lang['people_filter_by_group_menu_label']  = 'ស្វែងរកតាមក្រុម';

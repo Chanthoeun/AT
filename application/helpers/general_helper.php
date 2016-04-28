@@ -1028,5 +1028,30 @@ if(!function_exists('add_zero'))
         return strlen($number) == 1 ? '0'.$number : $number;
     }
 }
+
+//generate sql where
+if(!function_exists('generate_sql_where'))
+{
+    function generate_sql_where($field, $value)
+    {
+        $where = '';
+        $get_values = explode(', ', $value);
+        if(count($get_values) == 1)
+        {
+            $where .= "{$field} LIKE '%{$get_values[0]}%'";
+        }
+        else
+        {
+            foreach ($get_values as $get_value)
+            {
+                $where .= "{$field} LIKE '%{$get_value}%' OR ";
+            }
+            
+            $where = substr($where, 0, -4);
+        }
+        
+        return $where;
+    }
+}
 /* End of file general_helper.php */
 /* Location: ./application/helpers/general_helper.php */

@@ -6,6 +6,7 @@
         <?php echo $this->template->print_meta(); ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="alexaVerifyID" content="vvkOt5-ZvGV_NhEzDM3-DKOaSiQ"/>
         <link rel="alternate" href="http://agritoday.com" hreflang="km-kh" />   
         <link rel="alternate" href="http://agritoday.com" hreflang="en-kh" />       
          <link rel="shortcut icon" type="image/ico" href="<?php echo base_url('favicon.ico'); ?>" />

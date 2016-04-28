@@ -29,6 +29,12 @@ class Article_model extends MY_Model {
                 )
         ),
         array(
+            'field' => 'keyword',
+            'label' => 'lang:form_article_validation_keyword_label',
+            'rules' => 'trim|xss_clean'
+        ),
+
+        array(
             'field' => 'detail',
             'label' => 'lang:form_article_validation_detail_label',
             'rules' => 'trim|required|xss_clean',
@@ -123,8 +129,33 @@ class Article_model extends MY_Model {
     
     public function get_like($like, $where = FALSE, $condition = 'both')
     {
-        $this->db->like($like, $condition);
+        if($condition == FALSE)
+        {
+            $this->db->like($like);
+        }
+        else
+        {
+            $this->db->like($like, $condition);
+        }
+        
         return $this->get_all_records($where);
+    }
+    
+    public function get_similar_articles($where = FALSE, $special_where = FALSE) {
+        $this->db->select($this->_table.'.*, article_type.caption as artcaption, category.caption as catcaption');
+        $this->db->join('article_type', $this->_table.'.article_type_id = article_type.id', 'left');
+        $this->db->join('category', $this->_table.'.category_id = category.id', 'left');
+        
+        if($special_where != FALSE)
+        {
+            $this->db->where($special_where);
+        }
+        
+        if($where != FALSE)
+        {
+            return parent::get_many_by($where);
+        }
+        return parent::get_all();
     }
     
     public function get_field($field, $where = FALSE, $array = FALSE)

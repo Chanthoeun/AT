@@ -133,7 +133,7 @@
                     </li>
                     
                     <li>
-                        <a <?php echo isset($article_filter_type_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('articles/filter-by_type'); ?>"><i class="fa fa-filter fa-fw"></i> <?php echo lang('fillter_by_article_menu_label'); ?></a>
+                        <a <?php echo isset($article_filter_type_menu) ? 'class="active"' : ''; ?> href="<?php echo site_url('articles/filter-by-type'); ?>"><i class="fa fa-filter fa-fw"></i> <?php echo lang('fillter_by_article_menu_label'); ?></a>
                     </li>
                     
                     <li>

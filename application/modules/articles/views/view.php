@@ -31,6 +31,10 @@
                         <td><?php echo $article->catcaption;?></td>
                     </tr>
                     <tr>
+                        <td class="col-lg-3 warning"><?php echo lang('view_article_keyword_th');?></td>
+                        <td><?php echo $article->keyword;?></td>
+                    </tr>
+                    <tr>
                         <td class="col-lg-3 warning"><?php echo lang('view_article_type_th');?></td>
                         <td><?php echo $article->artcaption;?></td>
                     </tr>
@@ -44,12 +48,11 @@
                     </tr>
                     <tr>
                         <td class="col-lg-3 warning"><?php echo lang('view_article_source_th');?></td>
-                        <td>
-                            <?php 
-                $source = explode(',', utf8_decode($article->source));
-                echo anchor(prep_url(trim($source[1])), trim($source[0]), 'target="_blank"');
-            ?>
-                        </td>
+                        <td><?php echo get_source($article->source); ?></td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-3 warning"><?php echo lang('social_media_url_label');?></td>
+                        <td><?php echo anchor(site_url('view/'.$article->id), site_url('view/'.$article->id), array('target' => '_blank'));?></td>
                     </tr>
                     <tr>
                         <td class="col-lg-3 warning"><?php echo lang('index_article_action_th');?></td>

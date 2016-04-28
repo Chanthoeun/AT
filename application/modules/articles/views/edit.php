@@ -29,14 +29,22 @@
                 <?php } ?>
                 <?php echo form_open_multipart("articles/modify", 'role="form"', $article_id);?>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <?php echo lang('form_article_title_label', 'title');?> <br />
 
                             <?php echo form_input($article_title);?>
                         </div>
                     </div>
+                    
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <?php echo lang('form_article_keyword_label', 'keyword');?> <br />
 
+                            <?php echo form_input($keyword);?>
+                        </div>
+                    </div>
+                    
                     <div class="col-lg-2">
                         <div class="form-group">
                             <?php echo lang('form_article_type_label', 'type');?> <br />
@@ -44,6 +52,7 @@
                             <?php echo $type;?>
                         </div>
                     </div>
+                    
                     <div class="col-lg-2">
                         <div class="form-group">
                             <?php echo lang('form_article_category_label', 'category');?> <br />
@@ -51,7 +60,7 @@
                             <?php echo $category;?>
                         </div>
                     </div>
-
+                    
                     <div class="col-lg-2">
                         <div class="form-group">
                             <?php echo lang('form_article_publish_label', 'publish');?> <br />
@@ -62,6 +71,7 @@
                             </div>
                         </div>
                     </div>
+                    
                 </div>
 
                 <h4 class="page-header"><i class="fa fa-map-marker fa-fw"></i> <?php echo lang('index_article_location_th');?></h4>

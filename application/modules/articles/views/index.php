@@ -33,13 +33,14 @@
                         <thead>
                             <tr>
                                 <th class="text-center"><?php echo lang('id_th'); ?></th>
-                                <th><?php echo lang('index_article_title_th');?></th>
+                                <th class="col-lg-4"><?php echo lang('index_article_title_th');?></th>
+                                <th class="col-lg-1 text-center"><?php echo lang('index_article_keyword_th');?></th>
                                 <th><?php echo lang('index_article_publish_th');?></th>
                                 <th><?php echo lang('index_article_type_th');?></th>
                                 <th><?php echo lang('index_article_category_th');?></th>
                                 <th><?php echo lang('index_article_source_th');?></th>
                                 <th><?php echo lang('view_th');?></th>
-                                <th class="col-lg-2 text-center"><?php echo lang('index_article_action_th');?></th>
+                                <th class="text-center"><?php echo lang('index_article_action_th');?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,6 +48,7 @@
                             <tr>
                                 <td class="text-center"><?php echo $article->id;?></td>
                                 <td><?php echo anchor('articles/view/'.$article->id, $article->title, array('title' => lang('index_article_preview_link')));?></td>
+                                <td class="text-center"><?php echo $article->keyword;?></td>
                                 <td><?php echo $article->published_on;?></td>
                                 <td><?php echo $article->artcaption;?></td>
                                 <td><?php echo $article->catcaption;?></td>

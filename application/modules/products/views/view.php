@@ -59,7 +59,10 @@
                     <td class="col-lg-6"> <?php echo date('l, d F Y', strtotime($product->end_date));?></td>
                 </tr>
                 <?php endif; ?>
-                
+                <tr>
+                        <td class="col-lg-3 success"><?php echo lang('social_media_url_label');?></td>
+                        <td><?php echo site_url('product-detail/'.$product->id);?></td>
+                </tr>
                 <tr>
                     <td class="col-lg-1 success"><strong><?php echo lang('view_action_label'); ?></strong></td>
                     <td class="col-lg-6">

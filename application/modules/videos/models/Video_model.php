@@ -25,6 +25,11 @@ class Video_model extends MY_Model {
             'rules' => 'trim|xss_clean'
         ),
         array(
+            'field' => 'keyword',
+            'label' => 'lang:form_video_validation_keyword_label',
+            'rules' => 'trim|xss_clean'
+        ),
+        array(
             'field' => 'detail',
             'label' => 'lang:form_video_validation_detail_label',
             'rules' => 'trim|xss_clean'
@@ -88,6 +93,26 @@ class Video_model extends MY_Model {
     {
         $this->db->like($like);
         return $this->get_all_records($where);
+    }
+    
+    public function get_similar_videos($where = FALSE, $special_where = FALSE) 
+    {
+        $this->db->select($this->_table.'.*, category.caption as catcaption, l.file, l.picture');
+        $this->db->join('category', $this->_table.'.category_id = category.id', 'left');
+        $this->db->join('video_library as vl', $this->_table.'.id = vl.video_id', 'left');
+        $this->db->join('library as l', 'vl.library_id = l.id', 'left');
+        
+        if($special_where != FALSE)
+        {
+            $this->db->where($special_where);
+        }
+        
+        if($where == FALSE)
+        {
+            return parent::get_all();
+        }
+        
+        return parent::get_many_by($where);
     }
     
     public function get_field($field, $where = FALSE, $array = FALSE)

@@ -5,7 +5,8 @@
 $lang['index_article_heading']     = lang('article_menu_label');
 $lang['index_article_subheading']  = 'ខាងក្រោមនេះជាតារាង'.$lang['index_article_heading'].'ទាំង​អស់';
 $lang['index_article_title_th']    = 'ចំណងជើង';
-$lang['index_article_publish_th']  = 'កាលបរិច្ឆតចេញផ្សាយ';
+$lang['index_article_keyword_th']   = 'ពាក្យ​គន្លឹះ';
+$lang['index_article_publish_th']  = 'កាលបរិច្ឆេទចេញផ្សាយ';
 $lang['index_article_type_th']     = 'ប្រភេទ'.$lang['index_article_heading'];
 $lang['index_article_category_th'] = 'ក្រុម'.$lang['index_article_heading'];
 $lang['index_article_location_th'] = 'ទីតាំងកើតហេតុ';
@@ -19,6 +20,7 @@ $lang['form_article_create_heading']           = 'បង្កើតអត្ថ
 $lang['form_article_edit_heading']             = 'កែប្រែអត្ថបទ';
 $lang['form_article_subheading']               = 'ចូលបំពេញព័ត៌មាន'.$lang['index_article_heading'].'ខាងក្រោម';
 $lang['form_article_title_label']              = $lang['index_article_title_th'].':';
+$lang['form_article_keyword_label']           = $lang['index_article_keyword_th'].':';
 $lang['form_article_detail_label']             = 'ព័ត៌មានលំអិត:';
 $lang['form_article_publish_label']            = $lang['index_article_publish_th'].':';
 $lang['form_article_source_label']             = $lang['index_article_source_th'].': (ឈ្មោះ​ប្រភព, url)';
@@ -34,6 +36,7 @@ $lang['form_article_fb_label'] = 'សម្រង់សង្ខេប​លើ�
 $lang['form_article_fbp_label'] = 'បញ្ចូល​ទៅ​ Facebook:';
 
 $lang['form_article_validation_title_label']   = $lang['index_article_title_th'];
+$lang['form_article_validation_keyword_label']   = $lang['index_article_keyword_th'];
 $lang['form_article_validation_detail_label']  = 'ព័ត៌មានលំអិត';
 $lang['form_article_validation_publish_label'] = $lang['index_article_publish_th'];
 $lang['form_article_validation_source_label']  = $lang['index_article_source_th'];
@@ -58,6 +61,7 @@ $lang['del_article_report_success']           = $lang['index_article_heading'].'
 $lang['del_article_report_error']             = $lang['index_article_heading'].'កំពុងលុបមានបញ្ហា!';
 
 // view article
+$lang['view_article_keyword_th'] = $lang['index_article_keyword_th'];
 $lang['view_article_cateogry_th'] = $lang['index_article_category_th'];
 $lang['view_article_type_th']     = $lang['index_article_type_th'];
 $lang['view_article_location_label'] = $lang['index_article_location_th'];

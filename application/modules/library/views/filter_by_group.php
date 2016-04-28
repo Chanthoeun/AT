@@ -62,7 +62,7 @@
                                 <td class="text-center"><?php echo $library->id;?></td>
                                 <td><?php echo anchor(base_url(get_uploaded_file($library->picture)), $library->caption, 'class="color-box"');?></td>
                                 <td><?php echo $library->group;?></td>
-                                <td class="text-center"><?php echo valid_url($library->file) == TRUE ? anchor(prep_url($library->file), lang('index_library_view_video_th'), 'target="_blank"') : anchor(base_url(get_uploaded_file($library->file)), lang('index_library_download_th'), array('target' => '_blank'));?></td>
+                                <td class="text-center"><?php echo valid_url($library->file) == TRUE ? anchor(prep_url($library->file), lang('index_library_view_video_th'), 'target="_blank"') : anchor(base_url(get_uploaded_file($library->file)), lang('index_library_download_th'), array('target' => '_blank', 'download' => $library->caption));?></td>
                                 <td class="text-center"><?php echo link_edit("library/edit/".$library->id);?> | <?php echo link_delete('library/destroy/'.$library->id); ?></td>
                             </tr>
                             <?php endforeach;?>

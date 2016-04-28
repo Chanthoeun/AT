@@ -40,7 +40,6 @@ class Articles extends Admin_Controller {
     
     public function index()
     {
-        
         parent::check_login();
         $this->data['articles'] = $this->get_all_records(FALSE, array('created_at' => 'desc'), 300);
         
@@ -58,7 +57,7 @@ class Articles extends Admin_Controller {
         $this->data['article_group_menu'] = TRUE; $this->data['article_recently_menu'] = TRUE;
         generate_template($this->data, $layout_property); 
     }
-
+    
     // create
     public function create()
     {
@@ -69,6 +68,14 @@ class Articles extends Admin_Controller {
             'id'    => 'title',
             'class' => 'form-control',
             'value' => empty($this->validation_errors['post_data']['title']) ? NULL : $this->validation_errors['post_data']['title']
+        );
+        
+        $this->data['keyword'] = array(
+            'name'  => 'keyword',
+            'id'    => 'keyword',
+            'class' => 'form-control',
+            'placeholder' => 'ពាក្យ​គន្លឹះទី១, ពាក្យ​គន្លឹះទី២',
+            'value' => empty($this->validation_errors['post_data']['keyword']) ? NULL : $this->validation_errors['post_data']['keyword']
         );
         
         $this->data['detail'] = array(
@@ -212,6 +219,7 @@ class Articles extends Admin_Controller {
         $data = array(
             'title'     => trim($this->input->post('title')),
             'slug'      => $slug,
+            'keyword'     => trim($this->input->post('keyword')),
             'detail'    => $this->input->post('detail'),
             'published_on'  => $this->input->post('publish'),
             'source'    => utf8_encode($this->input->post('source')),
@@ -276,6 +284,14 @@ class Articles extends Admin_Controller {
             'id'    => 'title',
             'class' => 'form-control',
             'value' => empty($this->validation_errors['post_data']['title']) ? $article->title : $this->validation_errors['post_data']['title']
+        );
+        
+        $this->data['keyword'] = array(
+            'name'  => 'keyword',
+            'id'    => 'keyword',
+            'class' => 'form-control',
+            'placeholder' => 'ពាក្យ​គន្លឹះទី១, ពាក្យ​គន្លឹះទី២',
+            'value' => empty($this->validation_errors['post_data']['keyword']) ? $article->keyword : $this->validation_errors['post_data']['keyword']
         );
         
         $this->data['detail'] = array(
@@ -453,6 +469,7 @@ class Articles extends Admin_Controller {
         $data = array(
             'title'     => trim($this->input->post('title')),
             'slug'      => $slug,
+            'keyword'     => trim($this->input->post('keyword')),
             'detail'    => $this->input->post('detail'),
             'published_on'  => $this->input->post('publish'),
             'source'    => utf8_encode($this->input->post('source')),
@@ -500,7 +517,7 @@ class Articles extends Admin_Controller {
             redirect_form_validation(validation_errors(), $this->input->post(), 'articles/edit/'.$id);
         }
     }
-
+    
     // view
     public function view($id)
     {
@@ -678,15 +695,31 @@ class Articles extends Admin_Controller {
         $search = FALSE;
         
         $this->form_validation->set_rules('category', $this->lang->line('search_caption_label'), 'trim|required|xss_clean', array('required' => '%s តម្រូវឲ្យ​មាន'));
+        $this->form_validation->set_rules('all_products', 'All Products', 'trim|xss_clean');
         if($this->form_validation->run() == TRUE)
         {
             $search = trim($this->input->post('category'));
-            $this->data['products'] = Modules::run('products/get_all_records', array('category_id' => $search));
+            $allProducts = $this->input->post('all_products');
+            if($allProducts == TRUE)
+            {
+                $this->data['products'] = Modules::run('products/get_all_records', array('category_id' => $search));
+            }
+            else
+            {
+                $this->data['products'] = Modules::run('products/get_all_records', array('category_id' => $search, 'member_type_id' => 3));
+            }
+            
         }
         
         // message error
         $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('market' => TRUE))), 'ជ្រើស​ក្រុម');
         $this->data['category'] = form_dropdown('category', $categories, set_value('category'), 'class="form-control" id="category"');
+        
+        $this->data['all_products'] = array(
+            'name' => 'all_products',
+            'id'    => 'all_products',
+            'value' => 1
+        );
         
         $title = $this->lang->line('article_link_product_menu_label');
         $this->data['title'] = $title;
@@ -1293,7 +1326,7 @@ class Articles extends Admin_Controller {
         $layout_property['content']  = 'filter_by_type';
         
         // menu
-        $this->data['article_filter_type_menu'] = TRUE;
+        $this->data['article_group_menu'] = TRUE; $this->data['article_filter_type_menu'] = TRUE;
         generate_template($this->data, $layout_property);
     }
     
@@ -1707,6 +1740,20 @@ class Articles extends Admin_Controller {
         }
         
         return $this->article->get_many_by($where);
+    }
+    
+    public function get_similar_articles($where = FALSE, $spcial_where = FALSE, $order_by = FALSE, $limit = FALSE, $offset = 0) {
+        if($order_by != FALSE)
+        {
+            $this->order_by($order_by);
+        }
+        
+        if($limit != FALSE)
+        {
+            $this->article->limit($limit, $offset);
+        }
+        
+        return $this->article->get_similar_articles($where, $spcial_where);
     }
 
     public function get_like($like, $where = FALSE, $condition = 'both')

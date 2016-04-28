@@ -34,6 +34,7 @@
                             <tr>
                                 <th class="text-center"><?php echo lang('id_th'); ?></th>
                                 <th><?php echo lang('index_video_title_th');?></th>
+                                <th><?php echo lang('index_video_keyword_th');?></th>
                                 <th><?php echo lang('index_video_publish_th');?></th>
                                 <th><?php echo lang('index_video_category_th');?></th>
                                 <th><?php echo lang('index_video_source_th');?></th>
@@ -46,6 +47,7 @@
                             <tr>
                                 <td class="text-center"><?php echo $video->id;?></td>
                                 <td><?php echo anchor('videos/view/'.$video->id, $video->title);?></td>
+                                <td><?php echo $video->keyword;?></td>
                                 <td><?php echo $video->published_at;?></td>
                                 <td><?php echo $video->catcaption;?></td>
                                 <td><?php echo $video->source;?></td>

@@ -97,12 +97,15 @@ class Product_model extends MY_Model {
 
     public function get_all_records($where = FALSE)
     {
-        $this->db->select($this->_table.'.*, pp.price, pp.price_type, pd.percent as discount, pd.start_date, pd.end_date, cat.caption as catcaption, ppic.file, users.username');
+        $this->db->select($this->_table.'.*, pp.price, pp.price_type, pd.percent as discount, pd.start_date, pd.end_date, cat.caption as catcaption, ppic.file, users.username, agribook.name as company');
         $this->db->join('product_price as pp', $this->_table.'.id = pp.product_id AND pp.set = 1', 'left');
         $this->db->join('product_discount as pd', 'pp.id = pd.product_price_id', 'left');
         $this->db->join('category as cat', $this->_table.'.category_id = cat.id', 'left');
         $this->db->join('product_picture as ppic', $this->_table.'.id = ppic.product_id AND ppic.set = 1', 'left');
         $this->db->join('users', $this->_table.'.user_id = users.id', 'left');
+        $this->db->join('people', 'users.id = people.user_id', 'left');
+        $this->db->join('agribook', 'people.organization = agribook.name OR people.organization = agribook.name_en', 'left');
+        
         if($where == FALSE)
         {
             return parent::get_all();

@@ -33,10 +33,10 @@
                         <thead>
                             <tr>
                                 <th class="text-center"><?php echo lang('id_th'); ?></th>
-                                <th><?php echo lang('index_people_name_th');?></th>
-                                <th class="text-center"><?php echo lang('index_people_organization_th');?></th>
+                                <th class="col-lg-2"><?php echo lang('index_people_name_th');?></th>
+                                <th class="col-lg-2"><?php echo lang('index_people_organization_th');?></th>
                                 <th class="text-center"><?php echo lang('index_people_telephone_th');?></th>
-                                <th class="text-center"><?php echo lang('index_people_email_th');?></th>
+                                <th class="col-lg-2"><?php echo lang('index_people_email_th');?></th>
                                 <th class="text-center"><?php echo lang('index_people_social_th');?></th>
                                 <th class="text-center"><?php echo lang('index_people_status_th');?></th>
                                 <th class="col-lg-2 text-center"><?php echo lang('index_people_action_th');?></th>
@@ -47,9 +47,9 @@
                             <tr>
                                 <td class="text-center"><?php echo $p->id;?></td>
                                 <td><?php echo anchor('people/view/'.$p->id, $p->name);?></td>
-                                <td class="text-center"><?php echo $p->organization;?></td>
+                                <td ><?php echo $p->organization;?></td>
                                 <td class="text-center"><?php echo $p->telephone;?></td>
-                                <td class="text-center">
+                                <td>
                                     <?php 
                     $email = str_replace(',', ';', $p->email);
                     echo mailto($email, str_replace(',', ' / ', $p->email), array('title' => lang('send_email_label')));

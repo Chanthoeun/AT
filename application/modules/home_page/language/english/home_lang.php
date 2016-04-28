@@ -65,7 +65,7 @@ $lang['related_product_label'] = $lang['sale_rent_product_label'];
 $lang['related_real_estate_label'] = 'លក់​ជួល​ ស្រែ​ចំការ​ កសិដ្ឋាន';
 $lang['related_job_label'] = 'ការងារ​ទាក់ទង់​នឹង​កសិកម្ម';
 $lang['related_organization_label'] = 'ស្ថាប័នធ្វើ​ការខាងកសិកម្ម';
-$lang['related_people_label'] = 'ទំនាក់ទំនង​មន្ត្រី​ប្រចាំ​តំបន់';
+$lang['related_people_label'] = 'ទំនាក់ទំនង​អ្នកជំនាញ';
 
 //request 
 $lang['request_label'] = 'តើមាន​ព័ត៌មាន​អ្វីផ្សេងទៀត ដែល​អ្នក​នឹង​ត្រូវ​ការពេលក្រោយ?';

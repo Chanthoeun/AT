@@ -67,7 +67,7 @@ class Admin_Controller extends MY_Controller {
         }
     }
     
-    public function load_index_script($css = FALSE, $script = FALSE, $js = FALSE, $sortable = '')
+    public function load_index_script($css = FALSE, $script = FALSE, $js = FALSE, $sortable = '{"order": [[ 0, "dasc" ]]}')
     {
         if($this->agent->is_mobile())
         {

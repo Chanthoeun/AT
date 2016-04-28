@@ -54,6 +54,10 @@
                     <td class="col-lg-6"><?php echo $real_estate->expire_date; ?></td>
                 </tr>
                 <tr>
+                        <td class="col-lg-3 success"><?php echo lang('social_media_url_label');?></td>
+                        <td><?php echo site_url('land-detail/'.$real_estate->id);?></td>
+                </tr>
+                <tr>
                     <td class="col-lg-1 success"><strong><?php echo lang('view_action_label'); ?></strong></td>
                     <td class="col-lg-6">
                         <?php echo link_edit('real-estates/edit/'.$real_estate->id). ' | '. link_delete('real-estates/destroy/'.$real_estate->id).' | '.anchor('real_estates/refresh-expire-date/'.$real_estate->id, '<i class=""></i>'.lang('view_update_expire_date_btn')); ?>

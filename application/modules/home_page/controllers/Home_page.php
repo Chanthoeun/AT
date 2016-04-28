@@ -254,22 +254,44 @@ class Home_page extends Front_Controller {
     {
         $article = Modules::run('articles/get_detail', $id);
         $cat = Modules::run('categories/get', $article->category_id);
+        if($cat == FALSE)
+        {
+            $catid = 0;
+        }
+        else
+        {
+            $catid = $cat->id;
+        }
         $this->data['article'] = $article;
         $this->data['details'] = Modules::run('article_details/get_many_by', array('article_id' => $article->id));
         $this->data['documents'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type());
         $this->data['audios'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(2));
         $this->data['videos'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(3));
         
-        $this->data['related_news'] = Modules::run('articles/get_all_records', array('article_type_id' => 1, 'category_id' => $cat != FALSE ? $cat->id : 0, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
-        $this->data['related_techniques'] = Modules::run('articles/get_all_records', array('article_type_id' => 2, 'category_id' => $cat != FALSE ? $cat->id : 0, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
-        $this->data['related_publications'] = Modules::run('articles/get_all_records', array('article_type_id' => 3, 'category_id' => $cat != FALSE ? $cat->id : 0, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
-        $this->data['related_videos'] = Modules::run('videos/get_all_records', array('category_id' => $cat != FALSE ? $cat->id : 0), array('created_at' => 'random'), 6);
+        if($article->keyword != FALSE)
+        {
+            $keyword_news = Modules::run('articles/get_similar_articles', array('article_type_id' => 1, 'article.id != ' => $article->id), generate_sql_where('title', $article->keyword), array('created_at' => 'random'), 6);
+            $keyword_technique = Modules::run('articles/get_similar_articles', array('article_type_id' => 2, 'article.id != ' => $article->id), generate_sql_where('title', $article->keyword), array('created_at' => 'random'), 6);
+            $keyword_publication = Modules::run('articles/get_similar_articles', array('article_type_id' => 3, 'article.id != ' => $article->id), generate_sql_where('title', $article->keyword), array('created_at' => 'random'), 6);
+            $keyword_videos = Modules::run('videos/get_all_records', generate_sql_where('title', $article->keyword), array('created_at' => 'random'), 6);
+        }
+        else
+        {
+            $keyword_news = FALSE;
+            $keyword_technique = FALSE;
+            $keyword_publication = FALSE;
+            $keyword_videos = FALSE;
+        }
+        $this->data['related_news'] = $keyword_news != FALSE ? $keyword_news : Modules::run('articles/get_all_records', array('article_type_id' => 1, 'category_id' => $catid, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_techniques'] = $keyword_technique != FALSE ? $keyword_technique : Modules::run('articles/get_all_records', array('article_type_id' => 2, 'category_id' => $catid, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_publications'] = $keyword_publication != FALSE ? $keyword_publication : Modules::run('articles/get_all_records', array('article_type_id' => 3, 'category_id' => $catid, 'article.id != ' => $article->id), array('created_at' => 'random'), 6);
+        $this->data['related_videos'] = $keyword_videos != FALSE ? $keyword_videos :Modules::run('videos/get_all_records', array('category_id' => $catid), array('created_at' => 'random'), 6);
         
         //get linked data
         $this->data['products'] = Modules::run('article_products/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
         $this->data['real_estates'] = Modules::run('article_real_estates/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
         $this->data['jobs'] = Modules::run('article_jobs/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
-        $this->data['people'] = Modules::run('article_people/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
+        $this->data['people'] = Modules::run('article_people/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article_people.id'=> 'asc'), 6);
         $this->data['abs'] = Modules::run('article_agribooks/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
         
         $this->data['check_related'] = check_related_article($this->data['products'], $this->data['real_estates'], $this->data['jobs'], $this->data['people'], $this->data['abs'], $this->data['related_videos']);
@@ -365,12 +387,12 @@ class Home_page extends Front_Controller {
             $cat = Modules::run('categories/get', $cat_id);
         
             $pagination = get_pagination('product-sale-rent/'.$cat->id.'/page', count(Modules::run('products/get_all_records', array('category_id' => $cat->id))), 22, 2, 4);
-            $products = Modules::run('products/get_all_records', array('category_id' => $cat->id), array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $products = Modules::run('products/get_all_records', array('category_id' => $cat->id), array('product.created_at' => 'desc', 'agribook.member_type_id' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
             $pagination = get_pagination('product-sale-rent/page', count(Modules::run('products/get_all_records')), 22, 2, 4);
-            $products = Modules::run('products/get_all_records', FALSE, array('created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $products = Modules::run('products/get_all_records', FALSE, array('product.created_at' => 'desc', 'agribook.member_type_id' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
@@ -780,17 +802,29 @@ class Home_page extends Front_Controller {
 
         if($cat == FALSE)
         {
-            $this->data['related_news'] = Modules::run('articles/get_all_records',  array('article_type_id' => 1), array('created_at' => 'random'), 6);
-            $this->data['related_techniques'] = Modules::run('articles/get_all_records', array('article_type_id' => 2), array('created_at' => 'random'), 6);
-            $this->data['related_videos'] = Modules::run('videos/get_all_records', array('video.id !=' => $video->id), array('created_at' => 'random'), 6);
+            $catid = 0;
         }
         else
         {
-            $this->data['related_news'] = Modules::run('articles/get_all_records',  array('article_type_id' => 1, 'category_id' => $cat->id), array('created_at' => 'random'), 6);
-            $this->data['related_techniques'] = Modules::run('articles/get_all_records', array('article_type_id' => 2, 'category_id' => $cat->id), array('created_at' => 'random'), 6);
-            $this->data['related_videos'] = Modules::run('videos/get_all_records', array('category_id' => $cat->id, 'video.id !=' => $video->id), array('created_at' => 'random'), 6);
+            $catid = $cat->id;
         }
         
+        if($video->keyword != FALSE)
+        {
+            $keyword_news = Modules::run('articles/get_similar_articles', array('article_type_id' => 1), generate_sql_where('title', $video->keyword), array('created_at' => 'random'), 6);
+            $keyword_technique = Modules::run('articles/get_similar_articles', array('article_type_id' => 2), generate_sql_where('title', $video->keyword), array('created_at' => 'random'), 6);
+            $keyword_videos = Modules::run('videos/get_all_records', generate_sql_where('title', $video->keyword), array('created_at' => 'random'), 6);
+        }
+        else
+        {
+            $keyword_news = FALSE;
+            $keyword_technique = FALSE;
+            $keyword_videos = FALSE;
+        }
+        
+        $this->data['related_news'] = $keyword_news != FALSE ? $keyword_news : Modules::run('articles/get_all_records',  array('article_type_id' => 1, 'category_id' => $catid), array('created_at' => 'random'), 6);
+        $this->data['related_techniques'] = $keyword_technique != FALSE ? $keyword_technique : Modules::run('articles/get_all_records', array('article_type_id' => 2, 'category_id' => $catid), array('created_at' => 'random'), 6);
+        $this->data['related_videos'] = $keyword_videos != FALSE ? $keyword_videos : Modules::run('videos/get_all_records', array('category_id' => $catid, 'video.id !=' => $video->id), array('created_at' => 'random'), 6);
         
         // process template
         $title = $video->title;
@@ -1296,7 +1330,7 @@ class Home_page extends Front_Controller {
         }
         else if($title == FALSE && $location != FALSE)
         {
-            if(strlen($location) <= 2)
+            if(strlen($location) > 2)
             {
                 return Modules::run('articles/get_like', array('location_id' => $location), FALSE, 'after');
             }
@@ -1308,7 +1342,7 @@ class Home_page extends Front_Controller {
         
         else 
         {
-            if(strlen($location) <= 2)
+            if(strlen($location) > 2)
             {
                 return Modules::run('articles/get_like', array('title' => $title, 'location_id' => $location), FALSE, 'after');
             }

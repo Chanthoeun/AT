@@ -75,6 +75,10 @@
                         <td class="col-lg-6"> <?php echo $job->expire_date; ?></td>
                     </tr>
                     <tr>
+                        <td class="col-lg-3 success"><?php echo lang('social_media_url_label');?></td>
+                        <td><?php echo site_url('job-detail/'.$job->id);?></td>
+                    </tr>
+                    <tr>
                         <td class="col-lg-2 success"><strong><?php echo lang('index_job_action_th'); ?></strong></td>
                         <td class="col-lg-6">
                             <?php echo link_edit('jobs/edit/'.$job->id). ' | '. link_delete('jobs/destroy/'.$job->id); ?>

@@ -358,7 +358,10 @@ class Library extends Admin_Controller {
             }
             else
             {
-                $data['file'] = $url;
+                if($url != FALSE)
+                {
+                    $data['file'] = $url;
+                }
             }
             
             

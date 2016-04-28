@@ -193,8 +193,9 @@
                         <a href="#" class="a-heading"><h3><?php echo lang('related_people_label'); ?></h3></a>
                         <ul>
                             <?php foreach ($people as $p):?>
+
                             <li>
-                                <span class="p-name"><?php echo anchor('people-info/'.$p->people_id, $p->name, array('target' => '_blank'));?></span>
+                                <span class="p-name"><?php echo $p->social_media == FALSE ? $p->name : anchor(prep_url($p->social_media), $p->name, array('target' => '_blank'));?></span>
                                 <span class="p-position"><?php echo $p->position;?></span>
                                 <span class="p-tel"><?php echo $p->telephone;?></span>
                             </li>

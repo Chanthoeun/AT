@@ -20,6 +20,11 @@
                     <?php echo $category; ?>
                 </div>
             </div>
+             <div class="checkbox">
+                <label>
+                    <?php echo form_checkbox($all_products).' បង្ហាញ​គ្រប់​ប្រភេទ​'; ?>
+                </label>
+              </div>
             <?php if ($this->agent->is_mobile()) { ?>
             <button type="submit" class="btn btn-primary btn-block visible-xs"><i class="fa fa-search fa-fw fa-lg"></i><?php echo lang('search_caption_label'); ?></button>
             <?php } else { ?>

@@ -69,6 +69,14 @@ class Videos extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['title']) ? NULL : $this->validation_errors['post_data']['title']
         );
         
+        $this->data['keyword'] = array(
+            'name'  => 'keyword',
+            'id'    => 'keyword',
+            'class' => 'form-control',
+            'placeholder' => 'ពាក្យ​គន្លឹះទី១, ពាក្យ​គន្លឹះទី២',
+            'value' => empty($this->validation_errors['post_data']['keyword']) ? NULL : $this->validation_errors['post_data']['keyword']
+        );
+        
         $this->data['detail'] = array(
             'name'  => 'detail',
             'id'    => 'detail',
@@ -166,6 +174,7 @@ class Videos extends Admin_Controller {
         $data = array(
             'title'     => $videoTitle,
             'slug'     => str_replace(' ', '-', strtolower($videoTitle)),
+            'keyword'     => trim($this->input->post('keyword')),
             'detail'    => $this->input->post('detail'),
             'published_at'  => $this->input->post('publish') != FALSE ? $this->input->post('publish') : $videoInfo['p_date'],
             'source'    => $getSource,
@@ -224,6 +233,14 @@ class Videos extends Admin_Controller {
             'id'    => 'title',
             'class' => 'form-control',
             'value' => empty($this->validation_errors['post_data']['title']) ? $video->title : $this->validation_errors['post_data']['title']
+        );
+        
+        $this->data['keyword'] = array(
+            'name'  => 'keyword',
+            'id'    => 'keyword',
+            'class' => 'form-control',
+            'placeholder' => 'ពាក្យ​គន្លឹះទី១, ពាក្យ​គន្លឹះទី២',
+            'value' => empty($this->validation_errors['post_data']['keyword']) ? $video->keyword : $this->validation_errors['post_data']['keyword']
         );
         
         $this->data['detail'] = array(
@@ -324,6 +341,7 @@ class Videos extends Admin_Controller {
         $data = array(
             'title'     => $videoTitle,
             'slug'     => str_replace(' ', '-', strtolower($videoTitle)),
+            'keyword'     => trim($this->input->post('keyword')),
             'detail'    => $this->input->post('detail'),
             'published_at'  => $this->input->post('publish') != FALSE ? $this->input->post('publish') : $videoInfo['p_date'],
             'source'    => $getSource,
@@ -550,6 +568,19 @@ class Videos extends Admin_Controller {
     public function get_like($like, $where = FALSE)
     {
         return $this->video->get_like($like, $where);
+    }
+    
+    public function get_similar_videos($where = FALSE, $spcial_where = FALSE, $order_by = FALSE, $limit = FALSE, $offset = 0) {
+        if($order_by != FALSE)
+        {
+            $this->video->order_by($order_by);
+        }
+        
+        if($limit != FALSE)
+        {
+            $this->video->limit($limit, $offset);
+        }
+        return $this->video->get_similar_videos($where, $spcial_where);
     }
     
     public function get_field($field, $where = FALSE, $array = FALSE)

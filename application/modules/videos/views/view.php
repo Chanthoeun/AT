@@ -19,18 +19,26 @@
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <td class="col-lg-3 warning"><?php echo lang('view_video_cateogry_th');?></td>
+                        <td class="col-lg-3 success"><?php echo lang('view_video_cateogry_th');?></td>
                         <td><?php echo $video->catcaption;?></td>
                     </tr>
                     <tr>
-                        <td class="col-lg-3 warning"><?php echo lang('view_video_published_at_th');?></td>
+                        <td class="col-lg-3 success"><?php echo lang('view_video_keyword_th');?></td>
+                        <td><?php echo $video->keyword;?></td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-3 success"><?php echo lang('view_video_published_at_th');?></td>
                         <td><?php echo $video->published_at;?></td>
                     </tr>
                     <tr>
-                    <td class="col-lg-1 success"><strong><?php echo lang('index_video_action_th'); ?></strong></td>
-                    <td class="col-lg-6">
-                        <?php echo link_edit('videos/edit/'.$video->id). ' | '. link_delete('videos/destroy/'.$video->id); ?>
-                    </td>
+                        <td class="col-lg-3 success"><?php echo lang('social_media_url_label');?></td>
+                        <td><?php echo site_url('video-detail/'.$video->id);?></td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-1 success"><strong><?php echo lang('index_video_action_th'); ?></strong></td>
+                        <td class="col-lg-6">
+                            <?php echo link_edit('videos/edit/'.$video->id). ' | '. link_delete('videos/destroy/'.$video->id); ?>
+                        </td>
                 </tr>
                 </tbody>
             </table>

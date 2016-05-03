@@ -36,22 +36,27 @@ class Category_model extends MY_Model {
         array(
             'field' => 'article',
             'label' => 'lang:form_cagetory_validation_article_label',
-            'rules' => 'trim|is_natural_no_zero|xss_clean'
+            'rules' => 'trim|xss_clean'
         ),
         array(
             'field' => 'market',
             'label' => 'lang:form_cagetory_validation_market_label',
-            'rules' => 'trim|is_natural_no_zero|xss_clean'
+            'rules' => 'trim|xss_clean'
         ),
         array(
             'field' => 'real_estate',
             'label' => 'lang:form_cagetory_validation_real_estate_label',
-            'rules' => 'trim|is_natural_no_zero|xss_clean'
+            'rules' => 'trim|xss_clean'
         ),
         array(
             'field' => 'job',
             'label' => 'lang:form_cagetory_validation_job_label',
-            'rules' => 'trim|is_natural_no_zero|xss_clean'
+            'rules' => 'trim|xss_clean'
+        ),
+        array(
+            'field' => 'document',
+            'label' => 'lang:form_cagetory_validation_document_label',
+            'rules' => 'trim|xss_clean'
         )
     );
     

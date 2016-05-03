@@ -46,6 +46,7 @@ $lang['contact_validation_email_label'] = lang('email_label');
 $lang['contact_validation_telephone_label'] = 'លេខទូរស័ព្ទ';
 $lang['contact_validation_comment_label'] = 'មតិយោបល់';
 $lang['contact_sent_success'] = 'សូម​អរគុណ​ដែល​បាន​ទំនាក់ទំនង​មក​កាន់​ក្រុម​ការងារ​ AgriToday។ យើងខ្ញុំ​នឹង​ទាក់ទងទៅលោកអ្នកក្នុង​ពេល​ឆាប់​ៗនេះ';
+$lang['contact_sent_error'] = 'សូមអភ័យទោស ការស្នើរសុំ​របស់​អ្នក​មាន​បញ្ហា សូម​ពិនិត្យ​មើល​អ៊ីម៉ែលអ្នក​ម្តងទៀត';
 
 //home item
 $lang['news_label'] = 'ព័ត៌មានពេញនិយម';

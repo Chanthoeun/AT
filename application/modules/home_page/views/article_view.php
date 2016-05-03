@@ -5,140 +5,219 @@
                 <meta itemprop="datePublished" content="<?php echo date('Y-m-d', $article->created_at); ?>"/>
                 <meta itemprop="dateModified" content="<?php echo date('Y-m-d', $article->updated_at); ?>"/>
                 <h3 class="new-title" itemprop="headline"><?php echo $article->title; ?></h3>
+                
+                <?php if($article->article_type_id == 3): ?>
+                <div class="book-detail">
+                        <div class="book-heading">
+                                <div class="img-box" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                                        <img src="<?php echo base_url(get_uploaded_file($article->picture)); ?>" alt="<?php echo $article->title ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
+                                        <meta itemprop="url" content="<?php echo base_url(get_uploaded_file($article->picture)); ?>">
+                                        <meta itemprop="width" content="300">
+                                        <meta itemprop="height" content="200">
+                                </div>
+                                <div class="book-info">
+                                        <div class="table-responsive">
+                                             <table class="table table-bordered">
+                                                     <tbody>
+                                                             <tr>
+                                                                     <td><strong>ប្រភេទក្រុម​ឯកសារ</strong></td>
+                                                                     <td><?php echo $article->artcaption; ?></td>
+                                                             </tr>
+                                                             <tr>
+                                                                     <td><strong>កាលបរិច្ឆេតបោះពុម្ភផ្សាយ</strong></td>
+                                                                     <td><span itemprop="dateCreated"><?php echo date('d M Y', strtotime($article->published_on)); ?></span></td>
+                                                             </tr>
+                                                             <tr>
+                                                                     <td><strong>បោះពុម្ភផ្សាយដោយ</strong></td>
+                                                                     <td><span class="source" itemprop="author"><?php echo get_source($article->source); ?></span></td>
+                                                             </tr>
+                                                             <?php if(isset($document) && $document != FALSE): ?>
+                                                             <tr>
+                                                                     <td><strong><?php echo lang('download_document_label'); ?></strong></td>
+                                                                     <td><a <?php echo $this->session->userdata('user_request') == TRUE ? 'href="'.base_url(get_uploaded_file($document->file)).'" download="'.$document->caption.'"' : 'href="#" class="download" data-toggle="modal" data-target="#download" data-src="'.base_url(get_uploaded_file($document->file)).'" data-name="'.$document->caption.'"' ?>><i class="fa fa-download"></i> ចុចទីនេះ</a></td>
+                                                             </tr>
+                                                             <?php endif; ?>
+                                                     </tbody>
+                                            </table>
+                                        </div>
+
+                                         <div class="share text-center">
+                                                 <ul>
+                                                         <li>
+                                                                 <a href="https://twitter.com/share" class="twitter-share-button" data-via="agritodaynews">Tweet</a>
+                                                                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                                                         </li>
+
+                                                         <li>
+                                                                 <!-- Place this tag in your head or just before your close body tag. -->
+                                                                 <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+                                                                 <!-- Place this tag where you want the share button to render. -->
+                                                                 <div class="g-plus" data-action="share" data-annotation="none"></div>
+                                                         </li>
+
+                                                         <li>
+                                                                 <div id="fb-root"></div>
+                                                                 <script>(function(d, s, id) {
+                                   var js, fjs = d.getElementsByTagName(s)[0];
+                                   if (d.getElementById(id)) return;
+                                   js = d.createElement(s); js.id = id;
+                                   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=443032809216230";
+                                   fjs.parentNode.insertBefore(js, fjs);
+                                 }(document, 'script', 'facebook-jssdk'));
+                              </script>
+                                                                 <div class="fb-like" data-href="<?php echo current_url(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                                                         </li>
+                                                 </ul>
+                                         </div>
+                                </div>
+                        </div>
+
+                        <div class="text"><?php echo $article->detail; ?></div>
+                </div><!-- end detail -->
+                <?php else: ?>
                 <p class="date">
-                    <span itemprop="dateCreated"><?php echo date('d M Y', strtotime($article->published_on)); ?></span> 
-                    <span class="source" itemprop="author"><?php echo get_source($article->source); ?></span>
+                        <span itemprop="dateCreated"><?php echo date('d M Y', strtotime($article->published_on)); ?></span> 
+                        <span class="source" itemprop="author"><?php echo get_source($article->source); ?></span>
                 </p>
                 <div class="share">
-                    <ul>
-                        <li>
-                            <a href="https://twitter.com/share" class="twitter-share-button" data-via="agritodaynews">Tweet</a>
-                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                        </li>
-                        
-                        <li>
-                            <!-- Place this tag in your head or just before your close body tag. -->
-                            <script src="https://apis.google.com/js/platform.js" async defer></script>
+                        <ul>
+                                <li>
+                                        <a href="https://twitter.com/share" class="twitter-share-button" data-via="agritodaynews">Tweet</a>
+                                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                                </li>
 
-                            <!-- Place this tag where you want the share button to render. -->
-                            <div class="g-plus" data-action="share" data-annotation="none"></div>
-                        </li>
-                        
-                        <li>
-                            <div id="fb-root"></div>
-                            <script>(function(d, s, id) {
-                              var js, fjs = d.getElementsByTagName(s)[0];
-                              if (d.getElementById(id)) return;
-                              js = d.createElement(s); js.id = id;
-                              js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=443032809216230";
-                              fjs.parentNode.insertBefore(js, fjs);
-                            }(document, 'script', 'facebook-jssdk'));</script>
-                            <div class="fb-like" data-href="<?php echo current_url(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
-                        </li>
-                    </ul>
-                </div>
+                                <li>
+                                        <!-- Place this tag in your head or just before your close body tag. -->
+                                        <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-                <figure itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
-                    <img src="<?php echo base_url(get_uploaded_file($article->picture)); ?>" alt="<?php echo $article->title ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
-                    <meta itemprop="url" content="<?php echo base_url(get_uploaded_file($article->picture)); ?>">
-                    <meta itemprop="width" content="300">
-                    <meta itemprop="height" content="200">
-                    <figcaption>
-                        <?php echo $article->pcaption; ?>
-                    </figcaption>
-                </figure>
-                
-                <?php if(isset($audios) && $audios != FALSE): ?>
-                <fieldset>
-                    <legend><i class="fa fa-bullhorn fa-fw"></i> <?php echo lang('article_audio_label'); ?></legend>
-                    <?php foreach ($audios as $audio):?>
-                    <audio controls>
-                        <source src="<?php echo base_url(get_uploaded_file($audio->file)); ?>" type="audio/mpeg">
-                        <?php echo lang('browser_not_support_label'); ?>
-                    </audio>
-                    <?php endforeach;?>
-                </fieldset>
-                <?php endif; ?><!-- end audio -->
+                                        <!-- Place this tag where you want the share button to render. -->
+                                        <div class="g-plus" data-action="share" data-annotation="none"></div>
+                                </li>
 
-                <div class="a-detail" itemprop="description">
-                    <?php 
-             echo $article->detail;
-             if(isset($details) && $details!= FALSE)
-             {
-                 foreach ($details as $detail)
-                 {
-                     if($detail->picture != FALSE)
-                     {
-         ?>
-                    <figure>
-                        <img src="<?php echo base_url(get_uploaded_file($detail->picture)); ?>" alt="<?php echo $detail->pcaption ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
+                                <li>
+                                        <div id="fb-root"></div>
+                                        <script>(function(d, s, id) {
+                                          var js, fjs = d.getElementsByTagName(s)[0];
+                                          if (d.getElementById(id)) return;
+                                          js = d.createElement(s); js.id = id;
+                                          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=443032809216230";
+                                          fjs.parentNode.insertBefore(js, fjs);
+                                        }(document, 'script', 'facebook-jssdk'));</script>
+                                        <div class="fb-like" data-href="<?php echo current_url(); ?>" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>
+                                </li>
+                        </ul>
+                    </div>
+
+                    <figure itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                        <img src="<?php echo base_url(get_uploaded_file($article->picture)); ?>" alt="<?php echo $article->title ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
+                        <meta itemprop="url" content="<?php echo base_url(get_uploaded_file($article->picture)); ?>">
+                        <meta itemprop="width" content="300">
+                        <meta itemprop="height" content="200">
                         <figcaption>
-                            <?php echo $detail->pcaption; ?>
+                                <?php echo $article->pcaption; ?>
                         </figcaption>
                     </figure>
-                    <?php     
+
+                    <?php if(isset($audios) && $audios != FALSE): ?>
+                    <fieldset>
+                        <legend><i class="fa fa-bullhorn fa-fw"></i> <?php echo lang('article_audio_label'); ?></legend>
+                        <?php foreach ($audios as $audio):?>
+                        <audio controls>
+                            <source src="<?php echo base_url(get_uploaded_file($audio->file)); ?>" type="audio/mpeg">
+                            <?php echo lang('browser_not_support_label'); ?>
+                        </audio>
+                        <?php endforeach;?>
+                    </fieldset>
+                    <?php endif; ?><!-- end audio -->
+
+                    <div class="a-detail" itemprop="description">
+                        <?php 
+                echo $article->detail;
+                if(isset($details) && $details!= FALSE)
+                {
+                    foreach ($details as $detail)
+                    {
+                        if($detail->picture != FALSE)
+                        {
+           ?>
+                        <figure>
+                                <img src="<?php echo base_url(get_uploaded_file($detail->picture)); ?>" alt="<?php echo $detail->pcaption ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
+                                <figcaption>
+                                    <?php echo $detail->pcaption; ?>
+                                </figcaption>
+                        </figure>
+                        <?php     
+                         }
+
+                         if($detail->title != FALSE)
+                         {
+             ?>
+                        <h4><?php echo $detail->title; ?></h4>     
+                        <?php
+                         }
+
+                         //detail
+                         echo $detail->detail;
                      }
-                     
-                     if($detail->title != FALSE)
-                     {
-         ?>
-                    <h4><?php echo $detail->title; ?></h4>     
-                    <?php
-                     }
-                     
-                     //detail
-                     echo $detail->detail;
                  }
-             }
-         ?>
-                 
-                    <span class="more"><?php echo get_source($article->source, FALSE, lang('read_more_label')); ?></span>
-                </div><!-- end detail -->
-                
-                <?php if(isset($documents) && $documents != FALSE): ?>
-                <fieldset>
-                    <legend><i class="fa fa-download fa-fw"></i> <?php echo lang('download_document_label'); ?></legend>
-                    <?php foreach ($documents as $doc): ?>
-                           <a <?php echo $this->session->userdata('user_request') == TRUE ? 'href="'.base_url(get_uploaded_file($doc->file)).'" download="'.$doc->caption.'"' : 'href="#" class="download" data-toggle="modal" data-target="#download" data-src="'.base_url(get_uploaded_file($doc->file)).'" data-name="'.$doc->caption.'"' ?>>
-                            <img src="<?php echo base_url(get_uploaded_file($doc->picture)); ?>" alt="<?php echo $doc->caption ?>" onerror="this.src='<?php echo get_image('no-image.png') ?>'" />
-                                <p><?php echo $doc->caption ?></p>
-                            </a>
-                    <?php endforeach; ?>
-                </fieldset><!-- Download -->
-                <?php endif; ?><!-- end download document -->
-                
-                <?php if(isset($videos) && $videos != FALSE): ?>
-                <fieldset>
-                    <legend><i class="fa fa-film fa-fw"></i> <?php echo lang('watch_video_label'); ?></legend>
-                    <?php foreach ($videos as $video):?>
-                    <div class="thumbnail">
-                        <?php echo get_video($video->file); ?>
-                    </div>
-                    <?php endforeach; ?>
-                </fieldset>
-                <?php endif; ?><!-- end Video -->
+             ?>
+                        <?php if($article->full == FALSE): ?>
+                        <span class="more"><?php echo get_source($article->source, FALSE, lang('read_more_label')); ?></span>
+                        <?php endif; ?>
+                    </div><!-- end detail -->
 
-                <?php if($advertises != FALSE): ?>
-                <ul class="ads">
-                    <?php 
-            $ad_content_bottom = search_array($advertises, 'layout', 'ខាងក្រោម​ព័ត៌មាន​ 505 x 120');
-            if($ad_content_bottom != FALSE):
-         ?>
-                    <li><a href="<?php echo $ad_content_bottom['link']; ?>" target="_blank" <?php echo $ad_content_bottom['class']; ?>><img src="<?php echo base_url(get_uploaded_file($ad_content_bottom['banner'])); ?>" /></a></li>
-                    <?php endif; ?>
-                </ul><!--end ads -->
+                    <?php if(isset($documents) && $documents != FALSE): ?>
+                    <fieldset>
+                        <legend><i class="fa fa-download fa-fw"></i> <?php echo lang('download_document_label'); ?></legend>
+                        <?php foreach ($documents as $doc): ?>
+                               <a <?php echo $this->session->userdata('user_request') == TRUE ? 'href="'.base_url(get_uploaded_file($doc->file)).'" download="'.$doc->caption.'"' : 'href="#" class="download" data-toggle="modal" data-target="#download" data-src="'.base_url(get_uploaded_file($doc->file)).'" data-name="'.$doc->caption.'"' ?>>
+                                <img src="<?php echo base_url(get_uploaded_file($doc->picture)); ?>" alt="<?php echo $doc->caption ?>" onerror="this.src='<?php echo get_image('no-image.png') ?>'" />
+                                        <p><?php echo $doc->caption ?></p>
+                                </a>
+                        <?php endforeach; ?>
+                    </fieldset><!-- Download -->
+                    <?php endif; ?><!-- end download document -->
+
+                    <?php if(isset($videos) && $videos != FALSE): ?>
+                    <fieldset>
+                        <legend><i class="fa fa-film fa-fw"></i> <?php echo lang('watch_video_label'); ?></legend>
+                        <?php foreach ($videos as $video):?>
+                        <div class="thumbnail">
+                                <?php echo get_video($video->file); ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </fieldset>
+                    <?php endif; ?><!-- end Video -->
+
+                    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                            <meta itemprop="url" content="<?php echo get_image('logo.png') ?>">
+                            <meta itemprop="width" content="250">
+                            <meta itemprop="height" content="120">
+                        </div>
+                        <meta itemprop="name" content="<?php echo site_name(); ?>">
+                    </div><!-- Publisher -->
                 <?php endif; ?>
-                
-                <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
-                    <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
-                      <meta itemprop="url" content="<?php echo get_image('logo.png') ?>">
-                      <meta itemprop="width" content="250">
-                      <meta itemprop="height" content="120">
+                    
+                    <?php if($advertises != FALSE): ?>
+                    <ul class="ads">
+                        <?php 
+                $ad_content_bottom = search_array($advertises, 'layout', 'ខាងក្រោម​ព័ត៌មាន​ 505 x 120');
+                if($ad_content_bottom != FALSE):
+             ?>
+                        <li><a href="<?php echo $ad_content_bottom['link']; ?>" target="_blank" <?php echo $ad_content_bottom['class']; ?>><img src="<?php echo base_url(get_uploaded_file($ad_content_bottom['banner'])); ?>" /></a></li>
+                        <?php endif; ?>
+                    </ul><!--end ads -->
+                    <?php endif; ?>
+                    
+                    <div class="clearfix"></div>
+                    <div class="content">
+                        <div class="fb-comments" data-href="<?php echo current_url(); ?>" data-numposts="5" data-width="100%"></div>
                     </div>
-                    <meta itemprop="name" content="<?php echo site_name(); ?>">
-                </div><!-- Publisher -->
+            </div>
 
-            </div><!-- atricle Detail -->
+            
 
             <div class="list">
                 <?php if(isset($related_news) && $related_news != FALSE): ?>
@@ -147,7 +226,7 @@
                     <?php $firstNews = array_shift($related_news); ?>
                     <a href="<?php echo site_url('view/'.$firstNews->id); ?>">
                         <figure>
-                            <img src="<?php echo base_url(get_uploaded_file($firstNews->picture)); ?>" alt="<?php echo $firstNews->title; ?>" onerror="this.src='<?php echo get_image('no-image'); ?>'" />
+                            <img src="<?php echo base_url(get_uploaded_file($firstNews->picture)); ?>" alt="<?php echo $firstNews->title; ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
                             <figcaption><?php echo $firstNews->title ?></figcaption>
                         </figure>
                     </a>
@@ -197,16 +276,15 @@
                             <li>
                                 <span class="p-name"><?php echo $p->social_media == FALSE ? $p->name : anchor(prep_url($p->social_media), $p->name, array('target' => '_blank'));?></span>
                                 <span class="p-position"><?php echo $p->position;?></span>
-                                <span class="p-tel"><?php echo $p->telephone;?></span>
+                                <span class="p-tel"><?php echo click_to_call($p->telephone);?></span>
                             </li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
                 <?php endif; ?><!-- Related People -->
             </div>
-
         </div>​ <!-- atricle box -->
-
+        
         <div class="clearfix"></div>
 
         <?php if($check_related == TRUE): ?>
@@ -241,7 +319,7 @@
                         <?php $firstVideo = array_shift($related_videos); ?>
                         <a href="<?php echo site_url('video-detail/'.$firstVideo->id); ?>">
                             <figure>
-                                <img src="<?php echo base_url(get_uploaded_file($firstVideo->picture)); ?>" alt="<?php echo $firstVideo->title; ?>" onerror="this.src='<?php echo get_image('no-image'); ?>'" />
+                                <img src="<?php echo base_url(get_uploaded_file($firstVideo->picture)); ?>" alt="<?php echo $firstVideo->title; ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
                                 <figcaption><?php echo $firstVideo->title; ?></figcaption>
                             </figure>
                         </a>
@@ -310,9 +388,9 @@
                 <?php if(isset($abs) && $abs != FALSE): ?>
                 <li>
                     <div class="a-list">
-                        <a href="<?php echo site_url('agribook'); ?>" class="a-heading"><h3><?php echo lang('related_organization_label'); ?></h3></a>
+                        <a href="#" class="a-heading"><h3><?php echo lang('related_organization_label'); ?></h3></a>
                         <?php $firstOrganization = array_shift($abs); ?>
-                        <a href="<?php echo site_url('agribook-detail/'.$firstOrganization->agribook_id); ?>">
+                        <a href="<?php echo prep_url($firstOrganization->social_media); ?>" target="_blank">
                             <figure>
                                 <img src="<?php echo base_url(get_uploaded_file($firstOrganization->logo)); ?>" alt="<?php echo $firstOrganization->name == FALSE ? $firstOrganization->name_en : $firstOrganization->name; ?>" onerror="this.src='<?php echo get_image('no-image.png'); ?>'" />
                                 <figcaption><?php echo $firstOrganization->name == FALSE ? $firstOrganization->name_en : $firstOrganization->name; ?></figcaption>
@@ -320,7 +398,7 @@
                         </a>
                         <ul>
                              <?php foreach ($abs as $ab):?>
-                            <li><a href="<?php echo site_url('agribook-detail/'.$ab->agribook_id); ?>"><?php echo $ab->name == FALSE ? $ab->name_en : $ab->name; ?></a></li>
+                            <li><a href="<?php echo prep_url($ab->social_media); ?>" target="_blank"><?php echo $ab->name == FALSE ? $ab->name_en : $ab->name; ?></a></li>
                             <?php endforeach;?>
                         </ul>
                     </div>

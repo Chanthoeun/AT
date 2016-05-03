@@ -22,7 +22,7 @@ class Library_model extends MY_Model {
         array(
             'field' => 'caption',
             'label' => 'lang:form_library_validation_caption_label',
-            'rules' => 'trim|required|is_unique[library.caption]|xss_clean',
+            'rules' => 'trim|required|xss_clean',
             'errors'=> array(
                 'required'  => '%s តម្រូវឲ្យ​មាន',
                 'is_unique' => '%s មាន​រូចហើយ'
@@ -64,10 +64,10 @@ class Library_model extends MY_Model {
         return parent::get_all();
     }
     
-    public function get_like($like)
+    public function get_like($like, $where = FALSE, $condition = 'both')
     {
-        $this->db->like($like);
-        return $this->get_all_records();
+        $this->db->like($like, $condition);
+        return $this->get_all_records($where);
     }
     
     public function get_field($field, $where = FALSE, $array = FALSE)

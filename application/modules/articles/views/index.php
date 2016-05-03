@@ -53,7 +53,7 @@
                                 <td><?php echo $article->artcaption;?></td>
                                 <td><?php echo $article->catcaption;?></td>
                                 <td><?php echo get_source($article->source, '_blank') ?></td>
-                                <td><?php echo $article->view;?></td>
+                                <td class="text-center"><?php echo $article->view;?></td>
                                 <td class="text-center">
                                     <?php echo link_edit("articles/edit/".$article->id);?> | 
                                     <?php echo link_delete('articles/destroy/'.$article->id); ?>

@@ -99,6 +99,11 @@ class Article_model extends MY_Model {
             'field' => 'fbp',
             'label' => 'lang:form_article_validation_fbp_label',
             'rules' => 'trim|xss_clean'
+        ),
+        array(
+            'field' => 'full',
+            'label' => 'lang:form_article_validation_full_label',
+            'rules' => 'trim|xss_clean'
         )
     );
     

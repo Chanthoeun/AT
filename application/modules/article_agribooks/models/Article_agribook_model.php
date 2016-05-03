@@ -22,7 +22,7 @@ class Article_agribook_model extends MY_Model {
     {
         if($get_agribook == TRUE)
         {
-            $this->db->select($this->_table.'.*, agribook.name, agribook.name_en, agribook.contact_person, agribook.telephone, agribook.logo, agribook_group.caption as group');
+            $this->db->select($this->_table.'.*, agribook.name, agribook.name_en, agribook.contact_person, agribook.telephone, agribook.logo, agribook_group.caption as group, agribook.social_media');
             $this->db->join('agribook', $this->_table.'.agribook_id = agribook.id', 'left');
             $this->db->join('agribook_group', 'agribook.agribook_group_id = agribook_group.id', 'left');
         }

@@ -245,6 +245,7 @@ if(!function_exists('send_email')){
         }
         
         $CI->email->subject($subject);
+        
         if ($attach == TRUE) {
             $CI->email->attach($attach);
         }
@@ -1051,6 +1052,32 @@ if(!function_exists('generate_sql_where'))
         }
         
         return $where;
+    }
+}
+
+// article count
+if(!function_exists('get_count'))
+{
+    function get_count($id, $controller, $model)
+    {
+        $CI =& get_instance();
+        $CI->load->model($controller.'/'.$model.'_model', $model);
+        $article = $CI->$model->get($id);
+        
+        $totalCount = (int) $article->view + 1;
+        
+        // update count 
+        $CI->$model->update($id, array('view' => $totalCount), TRUE);
+        return TRUE;
+    }
+}
+
+// remove special character from string
+if(!function_exists('remove_special_character'))
+{
+    function remove_special_character($string)
+    {
+        return  preg_replace("/[^a-zA-Z]+/", "", $string);
     }
 }
 /* End of file general_helper.php */

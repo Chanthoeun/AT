@@ -124,6 +124,7 @@ class Library extends Admin_Controller {
     {
         parent::check_login();
         $articleId = $this->input->post('articleId');
+        $article = Modules::run('articles/get', $articleId);
         $group = trim($this->input->post('group'));
         $slug = str_replace(' ', '-', strtolower(trim($this->input->post('caption'))));
         $url = trim($this->input->post('url'));
@@ -184,6 +185,13 @@ class Library extends Admin_Controller {
                 else
                 {
                     $data['picture'] = $uploaded;
+                }
+            }
+            else
+            {
+                if($article->article_type_id == 3)
+                {
+                    $data['picture'] = $article->picture;
                 }
             }
             
@@ -448,7 +456,7 @@ class Library extends Admin_Controller {
         if($this->form_validation->run() == TRUE)
         {
             $search = trim($this->input->post('search'));
-            $this->data['libraries'] = $this->get_like(array('title' => $search)); 
+            $this->data['libraries'] = $this->get_like(array('library.caption' => $search)); 
         }
         
         // message error
@@ -632,7 +640,7 @@ class Library extends Admin_Controller {
         return $this->library->get_next_order($field, $where);
     }
     
-    public function get_like($like, $order_by = FALSE, $limit = FALSE, $offset = 0)
+    public function get_like($like, $where = FALSE, $condition = 'both', $order_by = FALSE, $limit = FALSE, $offset = 0)
     {
         if($order_by != FALSE)
         {
@@ -644,6 +652,6 @@ class Library extends Admin_Controller {
             $this->library->limit($limit, $offset);
         }
         
-        return $this->library->get_like($like);
+        return $this->library->get_like($like, $where, $condition);
     }
 }

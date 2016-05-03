@@ -34,6 +34,13 @@
                         <p>
                             <?php echo lang('contact_text_label'); ?>
                         </p>
+                        <?php if($message != FALSE){ ?>
+                        <div class="alert alert-warning alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <strong><?php echo $message;?></strong>
+                        </div>
+                        <?php } ?>
+                        
                         <?php echo form_open(current_url()) ?>
                             <div class="form-group">
                                 <div class="input-group">

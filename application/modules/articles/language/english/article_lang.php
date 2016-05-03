@@ -34,6 +34,8 @@ $lang['form_article_sangkat_label']                = lang('sangkat_label').':';
 $lang['form_article_phum_label']                = lang('phum_label').':';
 $lang['form_article_fb_label'] = 'សម្រង់សង្ខេប​លើ​ Facebook:';
 $lang['form_article_fbp_label'] = 'បញ្ចូល​ទៅ​ Facebook:';
+$lang['form_article_full_label'] = 'អត្ថបទពេញ';
+$lang['form_article_full_article_label'] = 'តើ​នេះ​ជា​អត្ថបទ​ពេញ?';
 
 $lang['form_article_validation_title_label']   = $lang['index_article_title_th'];
 $lang['form_article_validation_keyword_label']   = $lang['index_article_keyword_th'];
@@ -49,6 +51,7 @@ $lang['form_article_validation_sangkat_label']                = lang('sangkat_la
 $lang['form_article_validation_phum_label']                = lang('phum_label');
 $lang['form_article_validation_fb_label'] = 'សម្រង់សង្ខេប​លើ​ Facebook';
 $lang['form_article_validation_fbp_label'] = 'បញ្ចូល​ទៅ​ Facebook';
+$lang['form_article_validation_full_label'] = $lang['form_article_full_label'];
 
 
 $lang['form_article_add_picture_label']= 'បញ្ចូល​រូបភាព';

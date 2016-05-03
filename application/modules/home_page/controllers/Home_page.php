@@ -181,7 +181,7 @@ class Home_page extends Front_Controller {
         $this->data['pagination'] = $pagination['v_pagination'];
         $this->data['articles'] = $articles;
         
-        $this->data['categories'] = Modules::run('categories/get_publication_categories', array('category.article' => TRUE), 'order');
+        $this->data['categories'] = Modules::run('categories/get_publication_categories', array('category.document' => TRUE), 'order');
                 
         // process template
         $title =  isset($cat) && $cat != FALSE ? $type->caption.' <i class="fa fa-angle-double-right"></i> <small>'.$cat->caption.'</small>' : $type->caption;
@@ -253,6 +253,14 @@ class Home_page extends Front_Controller {
     public function view($id)
     {
         $article = Modules::run('articles/get_detail', $id);
+        if($article == FALSE)
+        {
+            redirect('page-not-found', 'refresh');
+        }
+        
+        //count view of this article
+        get_count($article->id, 'articles', 'article');        
+        
         $cat = Modules::run('categories/get', $article->category_id);
         if($cat == FALSE)
         {
@@ -263,10 +271,18 @@ class Home_page extends Front_Controller {
             $catid = $cat->id;
         }
         $this->data['article'] = $article;
-        $this->data['details'] = Modules::run('article_details/get_many_by', array('article_id' => $article->id));
-        $this->data['documents'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type());
-        $this->data['audios'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(2));
-        $this->data['videos'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(3));
+        if($article->article_type_id == 3)
+        {
+            $this->data['document'] = Modules::run('article_libraries/get_detail', array('article_id' => $article->id));
+        }
+        else
+        {
+            $this->data['details'] = Modules::run('article_details/get_many_by', array('article_id' => $article->id));
+            $this->data['documents'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type());
+            $this->data['audios'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(2));
+            $this->data['videos'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(3));
+        }
+        
         
         if($article->keyword != FALSE)
         {
@@ -426,6 +442,15 @@ class Home_page extends Front_Controller {
     public function product_detail($id)
     {
         $product = Modules::run('products/get_detail', $id);
+        
+        if($product == FALSE)
+        {
+            redirect('page-not-found', 'refresh');
+        }
+        
+        //count view of this products
+        get_count($product->id, 'products', 'product');  
+        
         $cat = Modules::run('categories/get', $product->category_id);
         $this->data['product'] = $product;
         $this->data['prices'] = Modules::run('product_prices/get_all_records', array('product_id' => $this->data['product']->id));
@@ -555,6 +580,15 @@ class Home_page extends Front_Controller {
     public function land_detail($id)
     {
         $land = Modules::run('real_estates/get_detail', $id);
+        
+        if($land == FALSE)
+        {
+            redirect('page-not-found', 'refresh');
+        }
+        
+        //count view of this real_estates
+        get_count($land->id, 'real_estates', 'real_estate');  
+        
         $cat = Modules::run('categories/get', $land->category_id);
         $this->data['land'] = $land;
         $this->data['pictures'] = Modules::run('real_estate_pictures/get_many_by', array('real_estate_id' => $land->id));
@@ -686,6 +720,12 @@ class Home_page extends Front_Controller {
     public function job_detail($id)
     {
         $job = Modules::run('jobs/get_detail', $id);
+        
+        if($job == FALSE)
+        {
+            redirect('page-not-found', 'refresh');
+        }
+        
         $this->data['job'] = $job;
         
         $this->data['locations'] = Modules::run('locations/get_job_locations');
@@ -797,6 +837,15 @@ class Home_page extends Front_Controller {
     public function video_detail($id)
     {
         $video = Modules::run('videos/get_detail', $id);
+        
+        if($video == FALSE)
+        {
+            redirect('page-not-found', 'refresh');
+        }
+        
+        //count view of this videos
+        get_count($video->id, 'videos', 'video');  
+        
         $cat = Modules::run('categories/get', $video->category_id);
         $this->data['video'] = $video;
 
@@ -1027,7 +1076,7 @@ class Home_page extends Front_Controller {
                 redirect(current_url(), 'refresh');
             }
             
-            $username = strtolower(trim($this->input->post('username')));
+            $username = remove_special_character(strtolower(trim($this->input->post('username'))));
             $email    = strtolower($this->input->post('email'));
             $password = $this->input->post('password');
             $additional_data = array(
@@ -1038,18 +1087,18 @@ class Home_page extends Front_Controller {
                 // set log
                 set_log('Create User', array($username,$email,$password,'Member'), $username);
                 
-                //check people profile
-                $userProfile = Modules::run('people/get_detail', array('email' => $email));
-                if($userProfile == FALSE)
-                {
-                    // insert people profile
-                    Modules::run('people/insert', array('people_group_id' => 1, 'user_id' => $uid), TRUE);
-                }
-                else
-                {
-                    //update people profile
-                    Modules::run('poeple/update', $userProfile->id, array('people_group_id' => 1, 'user_id' => $uid), TRUE);
-                }
+//                //check people profile
+//                $userProfile = Modules::run('people/get_detail', array('email' => $email));
+//                if($userProfile == FALSE)
+//                {
+//                    // insert people profile
+//                    Modules::run('people/insert', array('name' => $username, 'email' => $email, 'people_group_id' => 1, 'user_id' => $uid), TRUE);
+//                }
+//                else
+//                {
+//                    //update people profile
+//                    Modules::run('poeple/update', $userProfile->id, array('people_group_id' => 1, 'user_id' => $uid), TRUE);
+//                }
                 
                 // redirect login
                 if ($this->ion_auth->login($username, $password, FALSE)){  
@@ -1167,7 +1216,7 @@ class Home_page extends Front_Controller {
     
     public function contact_us()
     {
-        $this->form_validation->set_rules('name', $this->lang->line('contact_validation_fullname_label'), 'trim|required|xss_clean');
+        $this->form_validation->set_rules('fullname', $this->lang->line('contact_validation_fullname_label'), 'trim|required|xss_clean');
         $this->form_validation->set_rules('email', $this->lang->line('contact_validation_email_label'), 'trim|required|valid_email|xss_clean');
         $this->form_validation->set_rules('telephone', $this->lang->line('contact_validation_telephone_label'), 'trim|xss_clean');
         $this->form_validation->set_rules('comment', $this->lang->line('contact_validation_comment_label'), 'trim|required|xss_clean');
@@ -1180,13 +1229,13 @@ class Home_page extends Front_Controller {
                 redirect('contact-us', 'refresh');
             }
             
-            $from   = $this->input->post('email', TRUE);
-            $name   = $this->input->post('name', TRUE);
+            $from   = $this->input->post('email');
+            $name   = $this->input->post('fullname');
             $to     = array('info@agritoday.com');
             $bcc    = array('chanthoeun.kim@agritoday.com', 'sovathara.heng@agritoday.com', 'sideth.kang@agritoday.com', 'ctate.chhun@agritoday.com', 'kimhoeun.pann@agritoday.com');
-            $subject= $this->input->post('subject', TRUE);
-            $body   = $this->input->post('comment', TRUE).'<br><br>'
-                    . 'Sender Contact: <br><br>'
+            $subject= 'Send from page contact';
+            $body   = $this->input->post('comment').'<br><br>'
+                    . 'Sender Contact: <br>'
                     . 'Name: '.$name.'<br>'
                     . 'Email: '.$from.'<br>'
                     . 'Telephone: '.$this->input->post('telephone');
@@ -1195,7 +1244,7 @@ class Home_page extends Front_Controller {
             {
                 if(! send_email($from, $name, $to, $subject, $body, FALSE, FALSE, $bcc))
                 {
-                    $this->session->set_flashdata('message', $this->lang->line('home_contact_sent_error') );
+                    $this->session->set_flashdata('message', $this->lang->line('contact_sent_error') );
                     redirect('contact-us', 'refresh');
                 }
             }
@@ -1207,11 +1256,11 @@ class Home_page extends Front_Controller {
         $this->data['message'] = validation_errors() == FALSE ? $this->session->flashdata('message') : validation_errors();
         
         $this->data['name'] = array(
-            'name'  => 'name',
-            'id'    => 'name',
+            'name'  => 'fullname',
+            'id'    => 'fullname',
             'class' => 'form-control',
             'placeholder' => $this->lang->line('contact_validation_fullname_label'),
-            'value' => set_value('name')
+            'value' => set_value('fullname')
         );
         
         $this->data['email'] = array(
@@ -1285,6 +1334,9 @@ class Home_page extends Front_Controller {
     {
         // meta
         return $meta = array(
+            array('name' => 'name', 'content' => strip_tags($title), 'type' => 'itemprop'),
+            array('name' => 'description', 'content' => character_limiter(strip_tags($description == FALSE ? $this->lang->line('home_meta_description') : $description), 150), 'type' => 'itemprop'),
+            array('name' => 'image', 'content' => $image == FALSE ? get_image('logo.png') : $image, 'type' => 'itemprop'),
             array('name' => 'description', 'content' => character_limiter(strip_tags($description == FALSE ? $this->lang->line('home_meta_description') : $description), 150)),
             array('name' => 'keywords', 'content' => $keyword == FALSE ? $this->lang->line('home_meta_keyword') : $keyword),
             array('name' => 'distribution', 'content' => 'global'),

@@ -39,6 +39,7 @@
                                 <th class="text-center"><?php echo lang('index_cagetory_market_th');?></th>
                                 <th class="text-center"><?php echo lang('index_cagetory_real_estate_th');?></th>
                                 <th class="text-center"><?php echo lang('index_cagetory_job_th');?></th>
+                                <th class="text-center"><?php echo lang('index_cagetory_document_th');?></th>
                                 <th class="text-center"><?php echo lang('index_cagetory_order_th');?></th>
                                 <th class="text-center"><?php echo lang('index_cagetory_status_th');?></th>
                                 <th class="col-lg-2 text-center"><?php echo lang('index_cagetory_action_th');?></th>
@@ -54,6 +55,7 @@
                                 <td class="text-center"><?php echo $category->market == 1 ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>';?></td>
                                 <td class="text-center"><?php echo $category->real_estate == 1 ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>';?></td>
                                 <td class="text-center"><?php echo $category->job == 1 ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>';?></td>
+                                <td class="text-center"><?php echo $category->document == 1 ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-times text-danger"></i>';?></td>
                                 <td class="text-center"><?php echo $category->order;?></td>
                                 <td class="text-center"><?php echo $category->status == 1 ? anchor('categories/deactivate/'.$category->id, '<i class="fa fa-check fa-lg text-success"> ដំណើរ​ការ</i>', array('onClick' => "return confirm('តើ​អ្នក​ចង់​បញ្ឈប់​ដំណើរ​ការ​ក្រុម​អត្ថ​បទ​នេះ?')")) : anchor('categories/activate/'.$category->id, '<i class="fa fa-times fa-lg text-danger"> មិន​ដំណើរ​ការ</i>', array('onClick' => "return confirm('តើ​អ្នក​ចង់​អោយ​ក្រុម​​អត្ថបទ​នេះ​ដំណើរ​ការ​ឡើង​វិញ​?')"));?></td>
                                 <td class="text-center"><?php echo link_edit("categories/edit/".$category->id);?> | <?php echo link_delete('categories/destroy/'.$category->id); ?></td>

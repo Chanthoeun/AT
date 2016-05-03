@@ -70,6 +70,13 @@
                                 </label>
                             </div>
                         </li>
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <?php echo form_checkbox($document).' '.  lang('form_cagetory_document_label');?> 
+                                </label>
+                            </div>
+                        </li>
                     </ul>
 
                         <button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>

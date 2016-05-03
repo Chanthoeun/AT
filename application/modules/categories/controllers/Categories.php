@@ -125,6 +125,13 @@ class Categories extends Admin_Controller {
             'checked'       => empty($this->validation_errors['post_data']['job']) ? FALSE : $this->validation_errors['post_data']['job']
         );
         
+        $this->data['document'] = array(
+            'name'          => 'document',
+            'id'            => 'document',
+            'value'         => 1,
+            'checked'       => empty($this->validation_errors['post_data']['document']) ? FALSE : $this->validation_errors['post_data']['document']
+        );
+        
         $this->data['parent'] = form_dropdown('parent', get_dropdown(prepareList($this->get_dropdown()), 'ជ្រើស​ក្រុម'), empty($this->validation_errors['post_data']['parent']) ? $pid : $this->validation_errors['post_data']['parent'], 'class="form-control" id="parent"');
         
         // process template
@@ -170,6 +177,7 @@ class Categories extends Admin_Controller {
             'market'    => trim($this->input->post('market')),
             'real_estate'   => trim($this->input->post('real_estate')),
             'job'       => trim($this->input->post('job')),
+            'document'       => trim($this->input->post('document')),
             'order'     => $this->get_next_order('order', array('parent_id' => trim($this->input->post('parent')))),
             'status'    => 1
         );
@@ -240,6 +248,13 @@ class Categories extends Admin_Controller {
             'checked'       => empty($this->validation_errors['post_data']['job']) ? $category->job : $this->validation_errors['post_data']['job']
         );
         
+        $this->data['document'] = array(
+            'name'          => 'document',
+            'id'            => 'document',
+            'value'         => 1,
+            'checked'       => empty($this->validation_errors['post_data']['document']) ? $category->document : $this->validation_errors['post_data']['document']
+        );
+        
         $this->data['parent'] = form_dropdown('parent', get_dropdown(prepareList($this->get_dropdown()), 'ជ្រើស​ក្រុម'), empty($this->validation_errors['post_data']['parent']) ? $category->parent_id : $this->validation_errors['post_data']['parent'], 'class="form-control" id="parent"');
         
         // process template
@@ -277,7 +292,8 @@ class Categories extends Admin_Controller {
             'article'   => trim($this->input->post('article')),
             'market'    => trim($this->input->post('market')),
             'real_estate'=> trim($this->input->post('real_estate')),
-            'job'       => trim($this->input->post('job'))
+            'job'       => trim($this->input->post('job')),
+            'document'       => trim($this->input->post('document'))
         );
         
         $this->category->validate[0]['rules'] = 'trim|required|xss_clean';
@@ -440,6 +456,25 @@ class Categories extends Admin_Controller {
             }
         }
         
+    }
+    
+    public function get_ajax() {
+        $this->load->helper('menu');
+        $atid = $this->input->post('atid');
+        
+        if($atid == 3)
+        {
+            $categories = get_dropdown(prepareList($this->get_dropdown(array('document' => TRUE), 'order')), 'ជ្រើស​ក្រុមឯកសារ');
+        }
+        else 
+        {
+            $categories = get_dropdown(prepareList($this->get_dropdown(array('article' => TRUE), 'order')), 'ជ្រើស​ក្រុមអត្ថបទ');
+        }
+        
+        $category = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? FALSE : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
+        
+        echo $category;
+        $this->output->enable_profiler(FALSE);
     }
     
     public function get($id, $array = FALSE)

@@ -156,6 +156,15 @@
                     </div>
                 </div>
                 
+                <h4 class="page-header"><i class="fa fa-check fa-fw"></i> <?php echo lang('form_article_full_article_label');?></h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <?php echo form_checkbox($full).' '.lang('form_article_full_label', 'full'); ?>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-lg-12">
                         <button type="submit" class="btn btn-primary"><i class="fa fa-save fa-fw"></i> <?php echo lang('btn_submit_label') ?></button>
@@ -225,6 +234,25 @@
             data: form_data,
             success: function(msg){
                 $('#phum').html(msg);
+            }
+        });
+        
+        return false;
+    });
+    
+    $('#type').change(function(){
+        var form_data = {
+            atid : $('#type').val()
+        }
+        
+        $('#category').prop('selectedIndex',0);
+        
+        $.ajax({
+            url: "<?php echo base_url('categories/get-ajax');?>",
+            type: 'POST',
+            data: form_data,
+            success: function(msg){
+                $('#category').html(msg);
             }
         });
         

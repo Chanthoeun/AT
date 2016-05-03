@@ -101,12 +101,28 @@ class Articles extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['source']) ? NULL : $this->validation_errors['post_data']['source']
         );
         
-        
-        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE), 'order')), 'ជ្រើស​ក្រុមអត្ថបទ');
-        $this->data['category'] = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? FALSE : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
-        
         $articleTypes = get_dropdown(prepareList(Modules::run('article_types/get_dropdown')), 'ជ្រើស​ប្រភេទ​អត្ថបទ');
         $this->data['type'] = form_dropdown('type', $articleTypes, empty($this->validation_errors['post_data']['type']) ? NULL : $this->validation_errors['post_data']['type'], 'class="form-control" id="type"');
+        
+        if(isset($this->validation_errors['post_data']['type']) && $this->validation_errors['post_data']['type'] != FALSE)
+        {
+            if($this->validation_errors['post_data']['type'] == 3)
+            {
+                $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('document' => TRUE), 'order')), 'ជ្រើស​ក្រុមឯកសារ');
+            }
+            else
+            {
+                $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE), 'order')), 'ជ្រើស​ក្រុមអត្ថបទ');
+            }
+            
+            $this->data['category'] = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? FALSE : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
+        }
+        else
+        {
+            $this->data['category'] = form_dropdown('category', array('ជ្រើស​ក្រុមអត្ថបទ'), empty($this->validation_errors['post_data']['category']) ? FALSE : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
+        }       
+        
+        
         
         $this->data['pcaption'] = array(
             'name'  => 'pcaption',
@@ -154,7 +170,15 @@ class Articles extends Admin_Controller {
         $this->data['fbp'] = array(
             'name'  => 'fbp',
             'id'    => 'fbp',
-            'value' => 1
+            'value' => 1,
+            
+        );
+        
+        $this->data['full'] = array(
+            'name'  => 'full',
+            'id'    => 'full',
+            'value' => 1,
+            'checked' => empty($this->validation_errors['post_data']['full']) ? NULL : $this->validation_errors['post_data']['full']
         );
         
         // process template
@@ -227,7 +251,8 @@ class Articles extends Admin_Controller {
             'article_type_id' => $this->input->post('type'),
             'category_id' => $this->input->post('category'),
             'location_id'   => $getLoc,
-            'fb_quote' => trim($this->input->post('fb'))
+            'fb_quote' => trim($this->input->post('fb')),
+            'full' => trim($this->input->post('full'))
         );
         
         // add article picture
@@ -244,6 +269,11 @@ class Articles extends Admin_Controller {
             {
                 $data['picture'] = $uploaded;
             }
+        }
+        
+        if($data['article_type_id'] == 3)
+        {
+            $this->article->validate[2]['rules'] = 'trim|xss_clean';
         }
         
         if(($aid = $this->insert($data)) != FALSE)
@@ -317,11 +347,19 @@ class Articles extends Admin_Controller {
             'value' => empty($this->validation_errors['post_data']['source']) ? utf8_decode($article->source) : $this->validation_errors['post_data']['source']
         );
         
-        $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE), 'order')), 'ជ្រើស​ក្រុមអត្ថបទ');
-        $this->data['category'] = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? $article->category_id : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
-        
         $articleTypes = get_dropdown(prepareList(Modules::run('article_types/get_dropdown')), 'ជ្រើស​ប្រភេទ​អត្ថបទ');
         $this->data['type'] = form_dropdown('type', $articleTypes, empty($this->validation_errors['post_data']['type']) ? $article->article_type_id : $this->validation_errors['post_data']['type'], 'class="form-control" id="type"');
+        
+        if($article->article_type_id == 3)
+        {
+            $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('document' => TRUE), 'order')), 'ជ្រើស​ក្រុមឯកសារ');
+        }
+        else
+        {
+            $categories = get_dropdown(prepareList(Modules::run('categories/get_dropdown', array('article' => TRUE), 'order')), 'ជ្រើស​ក្រុមអត្ថបទ');
+        }
+        
+        $this->data['category'] = form_dropdown('category', $categories, empty($this->validation_errors['post_data']['category']) ? $article->category_id : $this->validation_errors['post_data']['category'], 'class="form-control" id="category"');
         
         $this->data['pcaption'] = array(
             'name'  => 'pcaption',
@@ -406,6 +444,13 @@ class Articles extends Admin_Controller {
             'value' => 1
         );
         
+        $this->data['full'] = array(
+            'name'  => 'full',
+            'id'    => 'full',
+            'value' => 1,
+            'checked' => empty($this->validation_errors['post_data']['full']) ? $article->full : $this->validation_errors['post_data']['full']
+        );
+        
         // process template
         $title = $this->lang->line('form_article_edit_heading');
         $this->data['title'] = $title;
@@ -477,7 +522,8 @@ class Articles extends Admin_Controller {
             'article_type_id' => $this->input->post('type'),
             'category_id' => $this->input->post('category'),
             'location_id' => $getLoc, 
-            'fb_quote' => trim($this->input->post('fb'))
+            'fb_quote' => trim($this->input->post('fb')),
+            'full' => trim($this->input->post('full'))
         );
         
         // add article picture
@@ -494,6 +540,11 @@ class Articles extends Admin_Controller {
             {
                 $data['picture'] = $uploaded;
             }
+        }
+        
+        if($data['article_type_id'] == 3)
+        {
+            $this->article->validate[2]['rules'] = 'trim|xss_clean';
         }
         
         $this->article->validate[0]['rules'] = 'trim|required|xss_clean';

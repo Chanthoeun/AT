@@ -607,32 +607,16 @@ class Auth extends Admin_Controller {
                 'active'    => 1,
             );
             $member_type = $m == FALSE ? 1 : 2;
-            if (($uid = $this->ion_auth->register($username, $password, $email, $additional_data,array($member_type))) != FALSE){
+            
+            $uid = $this->ion_auth->register(remove_special_character($username), $password, $email, $additional_data, array($member_type));
+            
+            if ($uid != FALSE){
                 // set log
-                set_log('Create User', array($username,$email,$password,'Admin',$member_type));
-                
-                if($m != FALSE)
-                {
-                    //check people profile
-                    $userProfile = Modules::run('people/get_detail', array('email' => $email));
-                    if($userProfile == FALSE)
-                    {
-                        // insert people profile
-                        Modules::run('people/insert', array('people_group_id' => $this->input->post('people_group'), 'user_id' => $uid), TRUE);
-                    }
-                    else
-                    {
-                        //update people profile
-                        Modules::run('poeple/update', $userProfile->id, array('people_group_id' => $this->input->post('people_group'), 'user_id' => $uid), TRUE);
-                    }
-                    
-                    $this->session->set_flashdata('message', $this->ion_auth->messages());
-                    redirect("members/".$uid, 'refresh');
-                }
+                set_log('Create User', array($username, $email, $password, $m == FALSE ? 'Admin' : 'Member', $member_type));
                 
                 //redirect them back to the admin page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect("auth", 'refresh');
+                redirect($m == FALSE ? "auth" : "members/".$uid, 'refresh');
             }
         }
         

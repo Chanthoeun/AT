@@ -59,6 +59,13 @@ class Members extends Admin_Controller {
         {
             redirect('members/update-profile/'.$userId, 'refresh');
         }
+        else
+        {
+            if($this->data['people']->name == FALSE)
+            {
+                redirect('members/update-profile/'.$userId, 'refresh');
+            }
+        }
         
         if($this->data['people'] != FALSE && $this->data['people']->organization != FALSE)
         {
@@ -158,6 +165,13 @@ class Members extends Admin_Controller {
         if($this->data['people'] == FALSE)
         {
             redirect('members/update-profile/'.$userId, 'refresh');
+        }
+        else
+        {
+            if($this->data['people']->name == FALSE)
+            {
+                redirect('members/update-profile/'.$userId, 'refresh');
+            }
         }
         
         if($this->data['people'] != FALSE && $this->data['people']->organization != FALSE)

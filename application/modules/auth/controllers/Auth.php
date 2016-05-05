@@ -144,7 +144,7 @@ class Auth extends Admin_Controller {
                 //redirect them back to the home page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
                 
-                $userProfile = Modules::run('people/get_detail', array('user_id' => $this->session->userdata('user_id')));
+                $userProfile = Modules::run('people/get_detail', array('user_id' => $userLoggedIn->id));
                 
                 if($this->ion_auth->is_admin()){
                     
@@ -613,6 +613,22 @@ class Auth extends Admin_Controller {
             if ($uid != FALSE){
                 // set log
                 set_log('Create User', array($username, $email, $password, $m == FALSE ? 'Admin' : 'Member', $member_type));
+                
+                if($m != FALSE)
+                {
+                    //check people profile
+                    $userProfile = Modules::run('people/get_detail', array('email' => $email));
+                    if($userProfile == FALSE)
+                    {
+                        // insert people profile
+                        Modules::run('people/insert', array('email' => $email, 'people_group_id' => $this->input->post('people_group'), 'user_id' => $uid), TRUE);
+                    }
+                    else
+                    {
+                        //update people profile
+                        Modules::run('poeple/update', $userProfile->id, array('people_group_id' => $this->input->post('people_group'), 'user_id' => $uid), TRUE);
+                    }
+                }
                 
                 //redirect them back to the admin page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());

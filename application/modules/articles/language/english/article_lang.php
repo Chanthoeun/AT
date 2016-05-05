@@ -11,6 +11,7 @@ $lang['index_article_type_th']     = 'ប្រភេទ'.$lang['index_article_h
 $lang['index_article_category_th'] = 'ក្រុម'.$lang['index_article_heading'];
 $lang['index_article_location_th'] = 'ទីតាំងកើតហេតុ';
 $lang['index_article_source_th']   = 'ប្រភព';
+$lang['index_article_full_th']   = 'អត្ថបទពេញ';
 $lang['index_article_action_th']   = 'សកម្មភាព';
 $lang['index_article_create_link'] = 'បង្កើត'.$lang['index_article_heading'].'ថ្មី';
 $lang['index_article_preview_link'] = 'មើល​'.$lang['index_article_heading'];
@@ -34,7 +35,7 @@ $lang['form_article_sangkat_label']                = lang('sangkat_label').':';
 $lang['form_article_phum_label']                = lang('phum_label').':';
 $lang['form_article_fb_label'] = 'សម្រង់សង្ខេប​លើ​ Facebook:';
 $lang['form_article_fbp_label'] = 'បញ្ចូល​ទៅ​ Facebook:';
-$lang['form_article_full_label'] = 'អត្ថបទពេញ';
+$lang['form_article_full_label'] = $lang['index_article_full_th'];
 $lang['form_article_full_article_label'] = 'តើ​នេះ​ជា​អត្ថបទ​ពេញ?';
 
 $lang['form_article_validation_title_label']   = $lang['index_article_title_th'];

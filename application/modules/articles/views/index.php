@@ -33,12 +33,13 @@
                         <thead>
                             <tr>
                                 <th class="text-center"><?php echo lang('id_th'); ?></th>
-                                <th class="col-lg-4"><?php echo lang('index_article_title_th');?></th>
+                                <th class="col-lg-3"><?php echo lang('index_article_title_th');?></th>
                                 <th class="col-lg-1 text-center"><?php echo lang('index_article_keyword_th');?></th>
                                 <th><?php echo lang('index_article_publish_th');?></th>
                                 <th><?php echo lang('index_article_type_th');?></th>
                                 <th><?php echo lang('index_article_category_th');?></th>
                                 <th><?php echo lang('index_article_source_th');?></th>
+                                <th class="text-center"><?php echo lang('index_article_full_th');?></th>
                                 <th><?php echo lang('view_th');?></th>
                                 <th class="text-center"><?php echo lang('index_article_action_th');?></th>
                             </tr>
@@ -53,6 +54,7 @@
                                 <td><?php echo $article->artcaption;?></td>
                                 <td><?php echo $article->catcaption;?></td>
                                 <td><?php echo get_source($article->source, '_blank') ?></td>
+                                <td class="text-center"><?php echo $article->full == TRUE ? '<i class="fa fa-check fa-fw text-success"></i>' : '<i class="fa fa-times fa-fw text-danger"></i>';?></td>
                                 <td class="text-center"><?php echo $article->view;?></td>
                                 <td class="text-center">
                                     <?php echo link_edit("articles/edit/".$article->id);?> | 

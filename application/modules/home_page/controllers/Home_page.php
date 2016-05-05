@@ -82,12 +82,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
             $pagination = get_pagination('news/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 2, 4);
-            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.published_on' => 'desc', 'article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
             $pagination = get_pagination('news/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 2, 3);
-            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.published_on' => 'desc', 'article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
@@ -170,12 +170,12 @@ class Home_page extends Front_Controller {
         {
             $cat = Modules::run('categories/get', $cat_id);
             $pagination = get_pagination('publications/'.$cat->id.'/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id))), 22, 2, 4);
-            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id, 'category_id' => $cat->id), array('article.published_on' => 'desc', 'article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         else
         {
             $pagination = get_pagination('publications/page', count(Modules::run('articles/get_all_records', array('article_type_id' => $type->id))), 22, 2, 3);
-            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
+            $articles = Modules::run('articles/get_all_records', array('article_type_id' => $type->id), array('article.published_on' => 'desc', 'article.created_at' => 'desc'), $pagination['per_page'], $this->uri->segment($pagination['uri_segment']));
         }
         
         $this->data['pagination'] = $pagination['v_pagination'];
@@ -283,7 +283,6 @@ class Home_page extends Front_Controller {
             $this->data['videos'] = Modules::run('article_libraries/get_all_records', array('article_id' => $article->id), get_library_type(3));
         }
         
-        
         if($article->keyword != FALSE)
         {
             $keyword_news = Modules::run('articles/get_similar_articles', array('article_type_id' => 1, 'article.id != ' => $article->id), generate_sql_where('title', $article->keyword), array('created_at' => 'random'), 6);
@@ -310,7 +309,7 @@ class Home_page extends Front_Controller {
         $this->data['people'] = Modules::run('article_people/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article_people.id'=> 'asc'), 6);
         $this->data['abs'] = Modules::run('article_agribooks/get_all_records', array('article_id' => $this->data['article']->id), TRUE, array('article.created_at' => 'random'), 6);
         
-        $this->data['check_related'] = check_related_article($this->data['products'], $this->data['real_estates'], $this->data['jobs'], $this->data['people'], $this->data['abs'], $this->data['related_videos']);
+        $this->data['check_related'] = check_related_article($this->data['products'], $this->data['real_estates'], $this->data['jobs'], $this->data['abs']);
         
         //get url
         if($article->article_type_id == 1)
@@ -1087,18 +1086,18 @@ class Home_page extends Front_Controller {
                 // set log
                 set_log('Create User', array($username,$email,$password,'Member'), $username);
                 
-//                //check people profile
-//                $userProfile = Modules::run('people/get_detail', array('email' => $email));
-//                if($userProfile == FALSE)
-//                {
-//                    // insert people profile
-//                    Modules::run('people/insert', array('name' => $username, 'email' => $email, 'people_group_id' => 1, 'user_id' => $uid), TRUE);
-//                }
-//                else
-//                {
-//                    //update people profile
-//                    Modules::run('poeple/update', $userProfile->id, array('people_group_id' => 1, 'user_id' => $uid), TRUE);
-//                }
+                //check people profile
+                $userProfile = Modules::run('people/get_detail', array('email' => $email));
+                if($userProfile == FALSE)
+                {
+                    // insert people profile
+                    Modules::run('people/insert', array('email' => $email, 'people_group_id' => 1, 'user_id' => $uid), TRUE);
+                }
+                else
+                {
+                    //update people profile
+                    Modules::run('poeple/update', $userProfile->id, array('people_group_id' => 1, 'user_id' => $uid), TRUE);
+                }
                 
                 // redirect login
                 if ($this->ion_auth->login($username, $password, FALSE)){  

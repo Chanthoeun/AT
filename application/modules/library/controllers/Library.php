@@ -193,6 +193,10 @@ class Library extends Admin_Controller {
                 {
                     $data['picture'] = $article->picture;
                 }
+                
+//                $data['picture'] = pdf_to_image(base_url(get_uploaded_file($data['file'])), $data['file']);
+//                delete_uploaded_file($data['file']);
+//                echo '<img src="'.base_url(get_uploaded_file($data['picture'])).'" />';
             }
             
         }

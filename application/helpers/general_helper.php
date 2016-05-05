@@ -1080,5 +1080,20 @@ if(!function_exists('remove_special_character'))
         return  preg_replace("/[^a-zA-Z]+/", "", $string);
     }
 }
+
+// convert pdf to image
+if(!function_exists('pdf_to_image'))
+{
+    function pdf_to_image($pdf_file, $file_name, $image_path = './uploaded/image/')
+    {
+        $get_filename = str_replace('.', '', $file_name).'.jpg';
+        $imagick = new Imagick();
+        $imagick->setResolution(150, 150);
+        $imagick->readImage($pdf_file); 
+        $imagick->writeFile($image_path.$get_filename);
+        return $get_filename;
+    }
+}
+
 /* End of file general_helper.php */
 /* Location: ./application/helpers/general_helper.php */

@@ -112,7 +112,7 @@
                         <td><?php echo anchor(base_url(get_uploaded_file($doc->picture)), $doc->caption, 'class="color-box"');?></td>
                         <td><?php echo valid_url($doc->file) == TRUE ? anchor(prep_url($doc->file), lang('view_open_th'), 'target="_blank"') : anchor(base_url(get_uploaded_file($doc->file)), lang('view_open_th'), array('download' => $doc->caption, 'target' => '_blank'));?></td>
                         <td class="text-center">
-                            <?php echo link_edit("library/edit/".$doc->lid.'/'.$doc->id);?> | 
+                            <?php echo link_edit("library/edit/".$doc->lid.'/'.$article->id);?> | 
                             <?php echo link_delete('article-libraries/destroy/'.$doc->id.'/'.$article->id); ?>
                         </td>
                     </tr>
@@ -144,7 +144,7 @@
                             </audio>
                         </td>
                         <td class="text-center">
-                            <?php echo link_edit("library/edit/".$audio->lid.'/'.$audio->id);?> | 
+                            <?php echo link_edit("library/edit/".$audio->lid.'/'.$article->id);?> | 
                             <?php echo link_delete('article-libraries/destroy/'.$audio->id.'/'.$article->id); ?>
                         </td>
                     </tr>
@@ -171,7 +171,7 @@
                         <td><?php echo anchor(base_url(get_uploaded_file($video->picture)), $video->caption, 'class="color-box"');?></td>
                         <td><?php echo valid_url($video->file) == TRUE ? anchor(prep_url($video->file), lang('view_open_th'), 'target="_blank"') : anchor(base_url(get_uploaded_file($video->file)), lang('view_open_th'), array('target' => '_blank'));?></td>
                         <td class="text-center">
-                            <?php echo link_edit("library/edit/".$video->lid.'/'.$video->id);?> | 
+                            <?php echo link_edit("library/edit/".$video->lid.'/'.$article->id);?> | 
                             <?php echo link_delete('article-libraries/destroy/'.$video->id.'/'.$article->id); ?>
                         </td>
                     </tr>

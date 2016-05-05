@@ -34,7 +34,8 @@
                                                              <?php if(isset($document) && $document != FALSE): ?>
                                                              <tr>
                                                                      <td><strong><?php echo lang('download_document_label'); ?></strong></td>
-                                                                     <td><a <?php echo $this->session->userdata('user_request') == TRUE ? 'href="'.base_url(get_uploaded_file($document->file)).'" download="'.$document->caption.'"' : 'href="#" class="download" data-toggle="modal" data-target="#download" data-src="'.base_url(get_uploaded_file($document->file)).'" data-name="'.$document->caption.'"' ?>><i class="fa fa-download"></i> ចុចទីនេះ</a></td>
+                                                                     <!--<td><a <?php //echo $this->session->userdata('user_request') == TRUE ? 'href="'.base_url(get_uploaded_file($document->file)).'" download="'.$document->caption.'"' : 'href="#" class="download" data-toggle="modal" data-target="#download" data-src="'.base_url(get_uploaded_file($document->file)).'" data-name="'.$document->caption.'"' ?>><i class="fa fa-download"></i> ចុចទីនេះ</a></td>-->
+                                                                     <td><?php echo anchor(base_url(get_uploaded_file($document->file)), '<i class="fa fa-download"></i> ចុចទីនេះ', array('class' => 'download', 'download' => $document->caption)); ?></td>
                                                              </tr>
                                                              <?php endif; ?>
                                                      </tbody>
@@ -171,7 +172,8 @@
                     <fieldset>
                         <legend><i class="fa fa-download fa-fw"></i> <?php echo lang('download_document_label'); ?></legend>
                         <?php foreach ($documents as $doc): ?>
-                               <a <?php echo $this->session->userdata('user_request') == TRUE ? 'href="'.base_url(get_uploaded_file($doc->file)).'" download="'.$doc->caption.'"' : 'href="#" class="download" data-toggle="modal" data-target="#download" data-src="'.base_url(get_uploaded_file($doc->file)).'" data-name="'.$doc->caption.'"' ?>>
+                        <?php //echo $this->session->userdata('user_request') == TRUE ? 'href="'.base_url(get_uploaded_file($doc->file)).'" download="'.$doc->caption.'"' : 'href="#" class="download" data-toggle="modal" data-target="#download" data-src="'.base_url(get_uploaded_file($doc->file)).'" data-name="'.$doc->caption.'"' ?>
+                        <a href="<?php echo base_url(get_uploaded_file($doc->file)); ?>" class="download" download="<?php echo $doc->caption; ?>" >
                                 <img src="<?php echo base_url(get_uploaded_file($doc->picture)); ?>" alt="<?php echo $doc->caption ?>" onerror="this.src='<?php echo get_image('no-image.png') ?>'" />
                                         <p><?php echo $doc->caption ?></p>
                                 </a>
@@ -216,8 +218,6 @@
                         <div class="fb-comments" data-href="<?php echo current_url(); ?>" data-numposts="5" data-width="100%"></div>
                     </div>
             </div>
-
-            
 
             <div class="list">
                 <?php if(isset($related_news) && $related_news != FALSE): ?>
@@ -282,18 +282,8 @@
                         </ul>
                     </div>
                 <?php endif; ?><!-- Related People -->
-            </div>
-        </div>​ <!-- atricle box -->
-        
-        <div class="clearfix"></div>
-
-        <?php if($check_related == TRUE): ?>
-        <div class="content">
-            <h3 class="a-title"><?php echo lang('related_label'); ?><span class="title-line">&nbsp;</span></h3>
-
-            <ul class="a-connect">
+                
                 <?php if(isset($related_publications) && $related_publications != FALSE): ?>
-                <li>
                     <div class="a-list">
                         <a href="<?php echo site_url('publications') ?>" class="a-heading"><h3><?php echo lang('related_publication_label'); ?></h3></a>
                         <?php $firstPublication = array_shift($related_publications); ?>
@@ -309,11 +299,9 @@
                             <?php endforeach; ?>
                         </ul>
                     </div>
-                </li>
                 <?php endif; ?><!-- Related Publication -->
                 
                  <?php if(isset($related_videos) && $related_videos != FALSE): ?>
-                <li>
                     <div class="a-list">
                         <a href="<?php echo site_url('video'); ?>" class="a-heading"><h3><?php echo lang('related_video_label'); ?></h3></a>
                         <?php $firstVideo = array_shift($related_videos); ?>
@@ -329,9 +317,17 @@
                             <?php endforeach; ?>
                         </ul>
                     </div>
-                </li>
                 <?php endif; ?><!-- Related Video -->
-                
+            </div>
+        </div>​ <!-- atricle box -->
+        
+        <div class="clearfix"></div>
+
+        <?php if($check_related == TRUE): ?>
+        <div class="content">
+            <h3 class="a-title"><?php echo lang('related_label'); ?><span class="title-line">&nbsp;</span></h3>
+
+            <ul class="a-connect">
                 <?php if(isset($products) && $products != FALSE): ?>
                 <li>
                     <div class="a-list">
@@ -404,7 +400,6 @@
                     </div>
                 </li>
                 <?php endif; ?><!-- Related Organization -->
-
             </ul>
         </div>
         <?php endif; ?>
